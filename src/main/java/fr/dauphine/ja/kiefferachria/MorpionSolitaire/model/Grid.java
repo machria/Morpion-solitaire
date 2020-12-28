@@ -14,6 +14,8 @@ public class Grid {
     private int height;
     private int width;
     private int step;
+    private int center;
+    private ArrayList<Point> tabCross;
     
     public Grid(int h,int w, int step){
     	this.nbLine=(int)w/step;
@@ -22,10 +24,144 @@ public class Grid {
     	this.height=h;
     	this.width=w;
     	this.points = new boolean [nbLine][nbColumn];
+    	this.initiatePoint();
     	this.tabCoordonnee=new ArrayList<Point>();
+    	this.center=(int) nbLine/2;//Same height and width
+    	this.tabCross=new ArrayList<Point>();
+    	
+    	this.generateCross();
     }
     
-    
+    private void initiatePoint() {
+		// TODO Auto-generated method stub
+		for(int i = 0;i<nbLine;i++) {
+			for(int j = 0;j<nbColumn;j++) {
+				this.points[i][j]=false;
+			}
+		}
+	}
+
+	public ArrayList<Point> getTabCross() {
+		return tabCross;
+	}
+
+	public void setTabCross(ArrayList<Point> tabCross) {
+		this.tabCross = tabCross;
+	}
+
+	public void generateCross() {
+		Point c = firstPoint();
+		Point temp=c;
+		for (int i=0;i<4;i++) {
+			c= new Point((int)c.getX(), (int) (c.getY()-(this.step*i)));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX()+(this.step*i), (int) (c.getY()));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX(), (int) (c.getY()+(this.step*i)));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX()+(this.step*i), (int) (c.getY()));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX(), (int) (c.getY()+(this.step*i)));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX()-(this.step*i), (int) (c.getY()));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX(), (int) (c.getY()+(this.step*i)));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX()-(this.step*i), (int) (c.getY()));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX(), (int) (c.getY()-(this.step*i)));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX()-(this.step*i), (int) (c.getY()));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<4;i++) {
+			c= new Point((int)c.getX(), (int) (c.getY()-(this.step*i)));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+		c=this.tabCross.get(this.tabCross.size()-1);
+		temp=c;
+		for (int i=1;i<3;i++) {
+			c= new Point((int)c.getX()+(this.step*i), (int) (c.getY()));
+			this.tabCross.add(c);
+			this.points[((int)c.getY()/this.step)][((int)c.getX()/this.step)]=true;
+			c=temp;
+		}
+	}
+	public Point firstPoint() {
+    	return new Point((this.center-1)*this.step,(this.center-1)*this.step);
+    }
+
+	public int getCenter() {
+		return center;
+	}
+
+
+
+	public void setCenter(int center) {
+		this.center = center;
+	}
+
+
 
 	public int getHeight() {
 		return height;
