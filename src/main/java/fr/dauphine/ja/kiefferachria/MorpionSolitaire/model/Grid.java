@@ -16,6 +16,7 @@ public class Grid {
     private int step;
     private int center;
     private ArrayList<Point> tabCross;
+    private ArrayList<Line> tabLine;
     
     public Grid(int h,int w, int step){
     	this.nbLine=(int)w/step;
@@ -28,8 +29,27 @@ public class Grid {
     	this.tabCoordonnee=new ArrayList<Point>();
     	this.center=(int) nbLine/2;//Same height and width
     	this.tabCross=new ArrayList<Point>();
+    	this.tabLine=new ArrayList<Line>();
     	
     	this.generateCross();
+    }
+    
+    public Point getNeigh(int x,int y) {
+		
+    	Point t = new Point(x,y);
+    	Point res= t;
+    	double dist=Point.distance(t.getX(), t.getY(), this.tabCoordonnee.get(0).getX(), this.tabCoordonnee.get(0).getY());;
+    	double min= dist;
+    	for (int i = 1; i<this.tabCoordonnee.size();i++) {
+    		dist=Point.distance(t.getX(), t.getY(), this.tabCoordonnee.get(i).getX(), this.tabCoordonnee.get(i).getY());
+    		if(dist<min) {
+    			min=dist;
+    			res = this.tabCoordonnee.get(i);
+    		}
+    	}
+    	System.out.println(t);
+    	System.out.println(res);
+    	return res;
     }
     
     private void initiatePoint() {
@@ -242,6 +262,15 @@ public class Grid {
 			}
 			x=0;
 			
+		}
+	}
+
+	public void updateGrid(Point z) {
+		// TODO Auto-generated method stub
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]) {
+			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
+		}else {
+			System.out.println("existe deja");
 		}
 	}
     
