@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.controller.MouseController;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
 
 public class GridView extends JPanel {

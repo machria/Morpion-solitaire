@@ -38,10 +38,10 @@ public class Grid {
 		
     	Point t = new Point(x,y);
     	Point res= t;
-    	double dist=Point.distance(t.getX(), t.getY(), this.tabCoordonnee.get(0).getX(), this.tabCoordonnee.get(0).getY());;
+    	double dist=Point.distanceSq(t.getX(), t.getY()-this.step/2, this.tabCoordonnee.get(0).getX(), this.tabCoordonnee.get(0).getY());;
     	double min= dist;
     	for (int i = 1; i<this.tabCoordonnee.size();i++) {
-    		dist=Point.distance(t.getX(), t.getY(), this.tabCoordonnee.get(i).getX(), this.tabCoordonnee.get(i).getY());
+    		dist=Point.distanceSq(t.getX(), t.getY()-this.step/2, this.tabCoordonnee.get(i).getX(), this.tabCoordonnee.get(i).getY());
     		if(dist<min) {
     			min=dist;
     			res = this.tabCoordonnee.get(i);
