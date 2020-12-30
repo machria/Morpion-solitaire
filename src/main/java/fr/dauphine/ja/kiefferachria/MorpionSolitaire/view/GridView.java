@@ -33,29 +33,14 @@ public class GridView extends JPanel {
 		for(int i=0; i <this.grid.getHeight();i=i+this.grid.getStep())
 			g.drawLine( this.grid.getStep()+i,0, this.grid.getStep()+i,this.grid.getHeight());
 		g.setColor(Color.black);
-		/*
-		g.fillOval((int)this.grid.firstPoint().getX()-5, (int)this.grid.firstPoint().getY()-5, 10, 10);
 		
-		for (Point p:grid.getTabCross()) {
-			g.fillOval((int)p.getX()-5, (int)p.getY()-5, 10, 10);
-
-		}
-		int c=0;
-		for (int i = 0; i < grid.getNbLine(); i++) {
-			for (int j = 0; j < grid.getNbColumn(); j++) {
-				if(grid.getPoints()[i][j])
-					c++;
-			}
-		}
-		System.out.println(c);
-		*/
 		for (int i = 0; i < grid.getNbLine(); i++) {
 			for (int j = 0; j < grid.getNbColumn(); j++) {
 				if(grid.getPoints()[i][j])
 					g.fillOval((int)(i*this.grid.getStep())-5, (int)(j*this.grid.getStep())-5, 10, 10);
 			}
 		}
-		g.setColor(Color.green);
+		g.setColor(Color.RED);
 		for (int i = 0;i < grid.getTabLine().size();i++) {
 			g.drawLine((int)grid.getTabLine().get(i).getP1().getX(), (int)grid.getTabLine().get(i).getP1().getY(), (int)grid.getTabLine().get(i).getP5().getX(), (int)grid.getTabLine().get(i).getP5().getY());
 		}

@@ -282,6 +282,102 @@ public class Grid {
 			System.out.println("existe deja");
 		}
 	}
+	
+	public void checkPossibleMoveHorizontale(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		Line line = new Line(null,null,null,null,null);
+		Point fin = new Point();
+		Point debut = new Point();
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			if(!this.getPoints()[coordX-i][coordY]) {
+				for(int a = 1;a<=4-cpt_gauche;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX+a][coordY]) {
+						System.out.println("Pas de line possible sur l'horizontale");
+						return;
+					}
+					if(cpt_gauche+cpt_droite==4) {
+						a=6;
+						i=6;
+					}
+					
+					else{
+						cpt_droite++;
+					}
+				}
+			}
+			else {
+				cpt_gauche++;
+				if(cpt_gauche==4) {
+					i = 6;
+				}
+				
+			}
+				
+			}
+		if(cpt_gauche+cpt_droite==4) {
+			debut = new Point((coordX-cpt_gauche)*this.step,(coordY*this.step));
+			fin = new Point((coordX+cpt_droite)*this.step,(coordY*this.step));
+			line.setP1(debut);
+			line.setP5(fin);
+			this.tabLine.add(line);
+			System.out.println("Ajout");
+		}
+		System.out.println(cpt_gauche);
+		System.out.println(cpt_droite);
+		
+	}
+	
+	public void checkPossibleMoveVerticale(Point z) {
+		int cpt_haut = 0;
+		int cpt_bas = 0;
+		Line line = new Line(null,null,null,null,null);
+		Point fin = new Point();
+		Point debut = new Point();
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			if(!this.getPoints()[coordX][coordY-i]) {
+				for(int a = 1;a<=4-cpt_haut;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX][coordY+a]) {
+						System.out.println("Pas de line possible sur l'horizontale");
+						return;
+					}
+					if(cpt_haut+cpt_bas==4) {
+						a=6;
+						i=6;
+					}
+					
+					else{
+						cpt_bas++;
+					}
+				}
+			}
+			else {
+				cpt_haut++;
+				if(cpt_haut==4) {
+					i = 6;
+				}
+				
+			}
+				
+			}
+		if(cpt_haut+cpt_bas==4) {
+			debut = new Point((coordX*this.step),(coordY-cpt_haut)*this.step);
+			fin = new Point((coordX*this.step),(coordY+cpt_bas)*this.step);
+			line.setP1(debut);
+			line.setP5(fin);
+			this.tabLine.add(line);
+			System.out.println("Ajout");
+		}
+		System.out.println(cpt_haut);
+		System.out.println(cpt_bas);
+		
+	}
     
     
     		

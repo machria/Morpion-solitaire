@@ -38,7 +38,8 @@ public class Game extends JFrame{
                 
                 Point z=grid.getNeigh(e.getX(), e.getY());
                 grid.updateGrid(z);
-                
+                grid.checkPossibleMoveHorizontale(z);
+                grid.checkPossibleMoveVerticale(z);
                 gridView.repaint();
             }
 		});
