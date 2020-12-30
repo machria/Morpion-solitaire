@@ -34,7 +34,15 @@ public class Grid {
     	this.generateCross();
     }
     
-    public Point getNeigh(int x,int y) {
+    public ArrayList<Line> getTabLine() {
+		return tabLine;
+	}
+
+	public void setTabLine(ArrayList<Line> tabLine) {
+		this.tabLine = tabLine;
+	}
+
+	public Point getNeigh(int x,int y) {
 		
     	Point t = new Point(x,y);
     	Point res= t;
@@ -269,6 +277,7 @@ public class Grid {
 		// TODO Auto-generated method stub
 		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]) {
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
+			
 		}else {
 			System.out.println("existe deja");
 		}

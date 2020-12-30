@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
+import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Line;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView;
 
 public class Game extends JFrame{

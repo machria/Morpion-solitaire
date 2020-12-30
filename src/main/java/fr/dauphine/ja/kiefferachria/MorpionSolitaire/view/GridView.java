@@ -55,7 +55,10 @@ public class GridView extends JPanel {
 					g.fillOval((int)(i*this.grid.getStep())-5, (int)(j*this.grid.getStep())-5, 10, 10);
 			}
 		}
-		
+		g.setColor(Color.green);
+		for (int i = 0;i < grid.getTabLine().size();i++) {
+			g.drawLine((int)grid.getTabLine().get(i).getP1().getX(), (int)grid.getTabLine().get(i).getP1().getY(), (int)grid.getTabLine().get(i).getP5().getX(), (int)grid.getTabLine().get(i).getP5().getY());
+		}
 		
 	}
 	
