@@ -3,6 +3,7 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 
 public class Grid {
@@ -17,6 +18,7 @@ public class Grid {
     private int center;
     private ArrayList<Point> tabCross;
     private ArrayList<Line> tabLine;
+    private HashMap<Point, HashMap<Direction, Boolean>> tabUsed;
     
     public Grid(int h,int w, int step){
     	this.nbLine=(int)w/step;
@@ -25,13 +27,15 @@ public class Grid {
     	this.height=h;
     	this.width=w;
     	this.points = new boolean [nbLine][nbColumn];
-    	this.initiatePoint();
     	this.tabCoordonnee=new ArrayList<Point>();
     	this.center=(int) nbLine/2;//Same height and width
     	this.tabCross=new ArrayList<Point>();
     	this.tabLine=new ArrayList<Line>();
-    	
+    	this.tabUsed = new HashMap<>();
+    	this.initiatePoint();
     	this.generateCross();
+    	
+
     }
     
     public ArrayList<Line> getTabLine() {
@@ -62,9 +66,15 @@ public class Grid {
     
     private void initiatePoint() {
 		// TODO Auto-generated method stub
+    	HashMap<Direction,Boolean> dir = new HashMap<>();
+    	dir.put(Direction.VERTICAL,false);
+    	dir.put(Direction.HORIZONTAL,false);
+    	dir.put(Direction.DIAGLEFT,false);
+    	dir.put(Direction.DIAGRIGHT,false);
 		for(int i = 0;i<nbLine;i++) {
 			for(int j = 0;j<nbColumn;j++) {
 				this.points[i][j]=false;
+				this.tabUsed.put(new Point(i*this.step,j*this.step ),(HashMap<Direction, Boolean>) dir.clone());
 			}
 		}
 	}
@@ -278,6 +288,7 @@ public class Grid {
 		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]) {
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 			
+			
 		}else {
 			System.out.println("existe deja");
 		}
@@ -318,16 +329,32 @@ public class Grid {
 			}
 				
 			}
-		if(cpt_gauche+cpt_droite==4) {
-			debut = new Point((coordX-cpt_gauche)*this.step,(coordY*this.step));
-			fin = new Point((coordX+cpt_droite)*this.step,(coordY*this.step));
-			line.setP1(debut);
-			line.setP5(fin);
-			this.tabLine.add(line);
-			System.out.println("Ajout");
+		if(this.tabUsed.get(z).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false)) {
+
+			if(cpt_gauche+cpt_droite==4) {
+				System.out.println(this.tabUsed.get(z));
+					int tempLeft=1;
+					int tempRight=1;
+					for(int i =tempLeft;i<=cpt_gauche;i++) {
+						Point t= new Point((coordX-i)*this.step,(coordY*this.step));
+						this.tabUsed.get(t).replace(Direction.HORIZONTAL, false, true);
+					}
+					for(int i =tempRight;i<=cpt_droite;i++) {
+						Point t= new Point((coordX+i)*this.step,(coordY*this.step));
+						this.tabUsed.get(t).replace(Direction.HORIZONTAL, false, true);
+					}
+					this.tabUsed.get(z).replace(Direction.HORIZONTAL, false, true);
+					debut = new Point((coordX-cpt_gauche)*this.step,(coordY*this.step));
+					fin = new Point((coordX+cpt_droite)*this.step,(coordY*this.step));
+					line.setP1(debut);
+					line.setP5(fin);
+					this.tabLine.add(line);
+					System.out.println("Ajout");
+			}
+			
+			
 		}
-		System.out.println(cpt_gauche);
-		System.out.println(cpt_droite);
+		
 		
 	}
 	
@@ -344,12 +371,15 @@ public class Grid {
 				for(int a = 1;a<=4-cpt_haut;a++) {
 					//System.out.println(a);
 					if(!this.getPoints()[coordX][coordY+a]) {
-						System.out.println("Pas de line possible sur l'horizontale");
+						System.out.println("Pas de line possible sur la vertical");
 						return;
 					}
 					if(cpt_haut+cpt_bas==4) {
 						a=6;
 						i=6;
+						System.out.println("Je suis dans if");
+						System.out.println("Haut"+cpt_haut);
+						System.out.println("Bas"+cpt_bas);
 					}
 					
 					else{
@@ -361,21 +391,41 @@ public class Grid {
 				cpt_haut++;
 				if(cpt_haut==4) {
 					i = 6;
+					System.out.println("Je suis dans else");
+					System.out.println("Haut"+cpt_haut);
+					System.out.println("Bas"+cpt_bas);
 				}
 				
 			}
 				
 			}
-		if(cpt_haut+cpt_bas==4) {
-			debut = new Point((coordX*this.step),(coordY-cpt_haut)*this.step);
-			fin = new Point((coordX*this.step),(coordY+cpt_bas)*this.step);
-			line.setP1(debut);
-			line.setP5(fin);
-			this.tabLine.add(line);
-			System.out.println("Ajout");
+		if(this.tabUsed.get(z).get(Direction.VERTICAL).equals(false) && this.tabUsed.get(new Point((coordX*this.step),(coordY-cpt_haut)*this.step)).get(Direction.VERTICAL).equals(false) && this.tabUsed.get(new Point((coordX*this.step),(coordY+cpt_bas)*this.step)).get(Direction.VERTICAL).equals(false)) {
+			System.out.println(this.tabUsed.get(z));
+
+			if(cpt_haut+cpt_bas==4) {
+
+			int tempHaut=1;
+			int tempBas=1;
+			for(int i =tempHaut;i<=cpt_haut;i++) {
+				Point t= new Point((coordX)*this.step,((coordY-i)*this.step));
+				this.tabUsed.get(t).replace(Direction.VERTICAL, false, true);
+			}
+			for(int i =tempBas;i<=cpt_bas;i++) {
+				Point t= new Point((coordX)*this.step,((coordY+i)*this.step));
+				this.tabUsed.get(t).replace(Direction.VERTICAL, false, true);
+			}
+			this.tabUsed.get(z).replace(Direction.VERTICAL, false, true);
+				debut = new Point((coordX*this.step),(coordY-cpt_haut)*this.step);
+				fin = new Point((coordX*this.step),(coordY+cpt_bas)*this.step);
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println("Ajout");
+			}
 		}
-		System.out.println(cpt_haut);
-		System.out.println(cpt_bas);
+		
+		System.out.println("Haut"+cpt_haut);
+		System.out.println("Bas"+cpt_bas);
 		
 	}
 	
@@ -422,8 +472,8 @@ public class Grid {
 			this.tabLine.add(line);
 			System.out.println("Ajout");
 		}
-		System.out.println(cpt_gauche);
-		System.out.println(cpt_droite);
+		System.out.println("Gauche "+cpt_gauche);
+		System.out.println(" Droite "+cpt_droite);
 		
 	}
 	
