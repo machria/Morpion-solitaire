@@ -42,6 +42,7 @@ public class Game extends JFrame{
                 grid.checkPossibleMoveVerticale(z);
                 grid.checkPossibleMoveDiagonaleLeft(z);
                 grid.checkPossibleMoveDiagonaleRight(z);
+                grid.updateGrid(z);
                 gridView.repaint();
             }
 		});

@@ -285,6 +285,7 @@ public class Grid {
 
 	public void updateGrid(Point z) {
 		// TODO Auto-generated method stub
+		System.out.println(this.tabUsed.get(z));
 		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]) {
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 			
@@ -527,14 +528,31 @@ public class Grid {
 			}
 				
 			}
-		if(cpt_gauche+cpt_droite==4) {
-			debut = new Point((coordX+cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step));
-			fin = new Point((coordX-cpt_droite)*this.step,((coordY+cpt_droite)*this.step));
-			line.setP1(debut);
-			line.setP5(fin);
-			this.tabLine.add(line);
-			System.out.println("Ajout");
+		if(this.tabUsed.get(z).get(Direction.DIAGRIGHT).equals(false) && this.tabUsed.get(new Point((coordX+cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step))).get(Direction.DIAGRIGHT).equals(false) && this.tabUsed.get(new Point((coordX-cpt_droite)*this.step,((coordY+cpt_droite)*this.step))).get(Direction.DIAGRIGHT).equals(false)) {
+			System.out.println(this.tabUsed.get(z));
+			if(cpt_gauche+cpt_droite==4) {
+				int tempLeft=1;
+				int tempRight=1;
+				for(int i =tempLeft;i<=cpt_gauche;i++) {
+					Point t= new Point((coordX+i)*this.step,((coordY-i)*this.step));
+					this.tabUsed.get(t).replace(Direction.DIAGRIGHT, false, true);
+				}
+				for(int i =tempRight;i<=cpt_droite;i++) {
+					Point t= new Point((coordX-i)*this.step,((coordY+i)*this.step));
+					this.tabUsed.get(t).replace(Direction.DIAGRIGHT, false, true);
+				}
+				this.tabUsed.get(z).replace(Direction.DIAGRIGHT, false, true);
+				debut = new Point((coordX+cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step));
+				fin = new Point((coordX-cpt_droite)*this.step,((coordY+cpt_droite)*this.step));
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println("Ajout");
+			}
+			
 		}
+			
+		
 		System.out.println(cpt_gauche);
 		System.out.println(cpt_droite);
 		
