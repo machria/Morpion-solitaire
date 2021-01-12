@@ -35,14 +35,12 @@ public class Game extends JFrame{
 		frame.addMouseListener(new MouseAdapter() {
 			@Override
             public void mousePressed(MouseEvent e) {
-                
+				grid.pointAvailable();
                 Point z=grid.getNeigh(e.getX(), e.getY());
                 grid.updateGrid(z);
-                grid.checkPossibleMoveHorizontale(z);
-                grid.checkPossibleMoveVerticale(z);
-                grid.checkPossibleMoveDiagonaleLeft(z);
-                grid.checkPossibleMoveDiagonaleRight(z);
+                
                 grid.updateGrid(z);
+                grid.updateIA();
                 gridView.repaint();
             }
 		});

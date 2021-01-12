@@ -2,6 +2,7 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
 
@@ -19,6 +20,7 @@ public class Grid {
     private ArrayList<Point> tabCross;
     private ArrayList<Line> tabLine;
     private HashMap<Point, HashMap<Direction, Boolean>> tabUsed;
+    private ArrayList<Point> potentialMove;
     
     public Grid(int h,int w, int step){
     	this.nbLine=(int)w/step;
@@ -26,6 +28,7 @@ public class Grid {
     	this.step=step;
     	this.height=h;
     	this.width=w;
+    	this.potentialMove = new ArrayList<Point>();
     	this.points = new boolean [nbLine][nbColumn];
     	this.tabCoordonnee=new ArrayList<Point>();
     	this.center=(int) nbLine/2;//Same height and width
@@ -284,18 +287,218 @@ public class Grid {
 	}
 
 	public void updateGrid(Point z) {
-		// TODO Auto-generated method stub
 		System.out.println(this.tabUsed.get(z));
-		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]) {
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleRight(z)) {
+			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
+			this.drawMoveDiagonaleRight(z);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleLeft(z)) {
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
-			
-			
-		}else {
+			this.drawMoveDiagonaleLeft(z);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveHorizontale(z)) {
+			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
+			this.drawMoveHorizontale(z);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveVerticale(z)) {
+			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
+			this.drawMoveVerticale(z);
+		}
+		else {
 			System.out.println("existe deja");
 		}
 	}
 	
-	public void checkPossibleMoveHorizontale(Point z) {
+	public void pointAvailable() {
+		this.potentialMove.clear();
+		for(int i = 0;i<nbLine;i++) {
+			for(int j = 0;j<nbColumn;j++) {
+				Point z = new Point(i*this.step,j*this.step);
+				try {
+					if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && (checkPossibleMoveDiagonaleRight(z)|| checkPossibleMoveDiagonaleLeft(z)|| checkPossibleMoveHorizontale(z)|| checkPossibleMoveVerticale(z))) {
+						this.potentialMove.add(z);
+					}
+				}catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println();
+				}
+				
+			}
+		}
+	}
+	
+	public void updateIA() {
+		Collections.shuffle(this.potentialMove);
+		Point x = this.potentialMove.get(0);
+		this.updateGrid(x);
+	}
+	
+	public boolean checkPossibleMoveHorizontale(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			if(!this.getPoints()[coordX-i][coordY] || this.tabUsed.get(new Point((coordX-i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).equals(true)) {
+				for(int a = 1;a<=4-cpt_gauche;a++) {
+					if(!this.getPoints()[coordX+a][coordY]) {
+						System.out.println("Pas de line possible sur l'horizontale");
+						return false;
+					}
+					else{
+						cpt_droite++;
+						if(cpt_gauche+cpt_droite==4) {
+							a=6;
+							i=6;
+						}
+					}
+				}
+			}
+			else {
+				cpt_gauche++;
+				if(cpt_gauche==4) {
+					i = 6;
+				}
+				
+			}
+		}
+		if(this.tabUsed.get(z).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false)) {
+
+			if(cpt_gauche+cpt_droite==4) {
+				return true;
+			}
+			
+			
+		}
+		
+		return false;	
+	}
+	
+	public boolean checkPossibleMoveVerticale(Point z) {
+		int cpt_haut = 0;
+		int cpt_bas = 0;
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			System.out.println(this.getPoints()[coordX][coordY-i]);
+			if(!this.getPoints()[coordX][coordY-i] || this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL).equals(true)) {
+				for(int a = 1;a<=4-cpt_haut;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX][coordY+a]) {
+						System.out.println("Pas de line possible sur la vertical");
+						return false;
+					}
+					else{
+						cpt_bas++;
+						if(cpt_haut+cpt_bas==4) {
+							a=10;
+							i=10;
+						}
+					}
+				}
+			}
+			else {
+				if(this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL).equals(false)) {
+					cpt_haut++;
+					System.out.println("cpt_haut++");
+					if(cpt_haut==4) {
+						i = 6;
+					}
+				}
+				
+				
+			}
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.VERTICAL).equals(false) && this.tabUsed.get(new Point((coordX*this.step),(coordY-cpt_haut)*this.step)).get(Direction.VERTICAL).equals(false) && this.tabUsed.get(new Point((coordX*this.step),(coordY+cpt_bas)*this.step)).get(Direction.VERTICAL).equals(false)) {
+			if(cpt_haut+cpt_bas==4) {
+				return true;
+			}
+		}
+		return false;
+		
+		
+	}
+	
+	public boolean checkPossibleMoveDiagonaleLeft(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			if(!this.getPoints()[coordX-i][coordY-i] || this.tabUsed.get(new Point((coordX-i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGLEFT).equals(true)) {
+				for(int a = 1;a<=4-cpt_gauche;a++) {
+					if(!this.getPoints()[coordX+a][coordY+a]) {
+						System.out.println("Pas de line possible sur la diagonale gauche");
+						return false;
+					}
+					else{
+						cpt_droite++;
+						if(cpt_gauche+cpt_droite==4) {
+							a=6;
+							i=6;
+						}
+					}
+				}
+			}
+			else {
+				cpt_gauche++;
+				if(cpt_gauche==4) {
+					i = 6;
+				}
+				
+			}
+				
+			}
+		if(this.tabUsed.get(z).get(Direction.DIAGLEFT).equals(false) && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step))).get(Direction.DIAGLEFT).equals(false) && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,((coordY+cpt_droite)*this.step))).get(Direction.DIAGLEFT).equals(false)) {
+			if(cpt_gauche+cpt_droite==4) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean checkPossibleMoveDiagonaleRight(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			if(!this.getPoints()[coordX+i][coordY-i] || this.tabUsed.get(new Point((coordX+i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGRIGHT).equals(true)) {
+				for(int a = 1;a<=4-cpt_gauche;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX-a][coordY+a]) {
+						System.out.println("Pas de line possible sur la diagonale droite");
+						return false;
+					}
+					else{
+						cpt_droite++;
+						if(cpt_gauche+cpt_droite==4) {
+							a=6;
+							i=6;
+						}
+					}
+				}
+			}
+			else {
+				cpt_gauche++;
+				if(cpt_gauche==4) {
+					i = 6;
+				}
+				
+			}
+				
+			}
+		if(this.tabUsed.get(z).get(Direction.DIAGRIGHT).equals(false) && this.tabUsed.get(new Point((coordX+cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step))).get(Direction.DIAGRIGHT).equals(false) && this.tabUsed.get(new Point((coordX-cpt_droite)*this.step,((coordY+cpt_droite)*this.step))).get(Direction.DIAGRIGHT).equals(false)) {
+			if(cpt_gauche+cpt_droite==4) {
+				return true;
+			}
+			
+		}
+		return false;		
+	}
+    
+	
+	public void drawMoveHorizontale(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		Line line = new Line(null,null,null,null,null);
@@ -304,7 +507,7 @@ public class Grid {
 		int coordX=((int)z.getX()/this.getStep());
 		int coordY=((int)z.getY()/this.getStep());
 		for(int i =1; i<=4;i++) {
-			if(!this.getPoints()[coordX-i][coordY]) {
+			if(!this.getPoints()[coordX-i][coordY] || this.tabUsed.get(new Point((coordX-i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).equals(true)) {
 				for(int a = 1;a<=4-cpt_gauche;a++) {
 					if(!this.getPoints()[coordX+a][coordY]) {
 						System.out.println("Pas de line possible sur l'horizontale");
@@ -326,7 +529,6 @@ public class Grid {
 				}
 				
 			}
-				
 		}
 		if(this.tabUsed.get(z).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false)) {
 
@@ -353,11 +555,9 @@ public class Grid {
 			
 			
 		}
-		
-		
 	}
 	
-	public void checkPossibleMoveVerticale(Point z) {
+	public void drawMoveVerticale(Point z) {
 		int cpt_haut = 0;
 		int cpt_bas = 0;
 		Line line = new Line(null,null,null,null,null);
@@ -367,7 +567,7 @@ public class Grid {
 		int coordY=((int)z.getY()/this.getStep());
 		for(int i =1; i<=4;i++) {
 			System.out.println(this.getPoints()[coordX][coordY-i]);
-			if(!this.getPoints()[coordX][coordY-i]) {
+			if(!this.getPoints()[coordX][coordY-i] || this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL).equals(true)) {
 				for(int a = 1;a<=4-cpt_haut;a++) {
 					//System.out.println(a);
 					if(!this.getPoints()[coordX][coordY+a]) {
@@ -389,14 +589,17 @@ public class Grid {
 				}
 			}
 			else {
-				cpt_haut++;
-				System.out.println("cpt_haut++");
-				if(cpt_haut==4) {
-					i = 6;
-					System.out.println("Je suis dans else");
-					System.out.println("Haut"+cpt_haut);
-					System.out.println("Bas"+cpt_bas);
+				if(this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL).equals(false)) {
+					cpt_haut++;
+					System.out.println("cpt_haut++");
+					if(cpt_haut==4) {
+						i = 6;
+						System.out.println("Je suis dans else");
+						System.out.println("Haut"+cpt_haut);
+						System.out.println("Bas"+cpt_bas);
+					}
 				}
+				
 				
 			}
 				
@@ -426,13 +629,11 @@ public class Grid {
 				System.out.println("Ajout");
 			}
 		}
-		
 		System.out.println("Haut"+cpt_haut);
 		System.out.println("Bas"+cpt_bas);
-		
 	}
 	
-	public void checkPossibleMoveDiagonaleLeft(Point z) {
+	public void drawMoveDiagonaleLeft(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		Line line = new Line(null,null,null,null,null);
@@ -441,7 +642,7 @@ public class Grid {
 		int coordX=((int)z.getX()/this.getStep());
 		int coordY=((int)z.getY()/this.getStep());
 		for(int i =1; i<=4;i++) {
-			if(!this.getPoints()[coordX-i][coordY-i]) {
+			if(!this.getPoints()[coordX-i][coordY-i] || this.tabUsed.get(new Point((coordX-i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGLEFT).equals(true)) {
 				for(int a = 1;a<=4-cpt_gauche;a++) {
 					if(!this.getPoints()[coordX+a][coordY+a]) {
 						System.out.println("Pas de line possible sur la diagonale gauche");
@@ -484,6 +685,7 @@ public class Grid {
 				line.setP1(debut);
 				line.setP5(fin);
 				this.tabLine.add(line);
+				
 				System.out.println("Ajout");
 			}
 		}
@@ -491,10 +693,9 @@ public class Grid {
 		
 		System.out.println("Gauche "+cpt_gauche);
 		System.out.println(" Droite "+cpt_droite);
-		
 	}
 	
-	public void checkPossibleMoveDiagonaleRight(Point z) {
+	public void drawMoveDiagonaleRight(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		Line line = new Line(null,null,null,null,null);
@@ -503,7 +704,7 @@ public class Grid {
 		int coordX=((int)z.getX()/this.getStep());
 		int coordY=((int)z.getY()/this.getStep());
 		for(int i =1; i<=4;i++) {
-			if(!this.getPoints()[coordX+i][coordY-i]) {
+			if(!this.getPoints()[coordX+i][coordY-i] || this.tabUsed.get(new Point((coordX+i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGRIGHT).equals(true)) {
 				for(int a = 1;a<=4-cpt_gauche;a++) {
 					//System.out.println(a);
 					if(!this.getPoints()[coordX-a][coordY+a]) {
@@ -551,13 +752,10 @@ public class Grid {
 			}
 			
 		}
-			
-		
 		System.out.println(cpt_gauche);
 		System.out.println(cpt_droite);
-		
+				
 	}
-    
     
     		
     		
