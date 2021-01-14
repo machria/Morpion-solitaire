@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
@@ -29,8 +30,9 @@ public class Game extends JFrame{
 		System.out.println((int)grid.getNbColumn()/2);
 		GridView d = new GridView(grid);
 		this.gridView=d;
-		frame.add(d);
 		
+		frame.add(d);
+
 		frame.setVisible(true);
 		frame.addMouseListener(new MouseAdapter() {
 			@Override
