@@ -21,6 +21,7 @@ public class Grid {
     private ArrayList<Line> tabLine;
     private HashMap<Point, HashMap<Direction, Boolean>> tabUsed;
     private ArrayList<Point> potentialMove;
+    private ArrayList<Point> pointUser;
     
     public Grid(int h,int w, int step){
     	this.nbLine=(int)w/step;
@@ -37,7 +38,7 @@ public class Grid {
     	this.tabUsed = new HashMap<Point, HashMap<Direction, Boolean>>();
     	this.initiatePoint();
     	this.generateCross();
-    	
+    	this.pointUser= new ArrayList<>();
 
     }
     
@@ -285,24 +286,36 @@ public class Grid {
 			
 		}
 	}
+	
+	public ArrayList<Point> getPointUser() {
+		return pointUser;
+	}
+
+	public void setPointUser(ArrayList<Point> pointUser) {
+		this.pointUser = pointUser;
+	}
 
 	public void updateGrid(Point z) {
 		System.out.println(this.tabUsed.get(z));
 		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleRight(z)) {
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
 			this.drawMoveDiagonaleRight(z);
+			this.pointUser.add(z);
 		}
 		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleLeft(z)) {
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 			this.drawMoveDiagonaleLeft(z);
+			this.pointUser.add(z);
 		}
 		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveHorizontale(z)) {
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 			this.drawMoveHorizontale(z);
+			this.pointUser.add(z);
 		}
 		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveVerticale(z)) {
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 			this.drawMoveVerticale(z);
+			this.pointUser.add(z);
 		}
 		else {
 			System.out.println("existe deja");
