@@ -32,9 +32,8 @@ public class GridView extends JPanel {
 		for(int i=0; i <this.grid.getWidth();i=i+this.grid.getStep())
 			g.drawLine(0, this.grid.getStep()+i, this.grid.getWidth(), this.grid.getStep()+i);
 		for(int i=0; i <this.grid.getHeight();i=i+this.grid.getStep())
-			g.drawLine( this.grid.getStep()+i,0, this.grid.getStep()+i,this.grid.getHeight());
+			g.drawLine( this.grid.getStep()+i,this.grid.getStep(), this.grid.getStep()+i,this.grid.getHeight());
 		g.setColor(Color.black);
-		
 		for (int i = 0; i < grid.getNbLine(); i++) {
 			for (int j = 0; j < grid.getNbColumn(); j++) {
 				if(grid.getPoints()[i][j])
