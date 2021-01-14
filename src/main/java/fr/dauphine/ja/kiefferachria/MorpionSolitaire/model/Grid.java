@@ -45,7 +45,7 @@ public class Grid {
     	this.initiatePoint();
     	this.generateCross();
     	this.catchCoordonnee();
-    	this.pointUser= new ArrayList<>();
+    	this.pointUser= new ArrayList<Point>();
 	}
     public ArrayList<Line> getTabLine() {
 		return tabLine;
