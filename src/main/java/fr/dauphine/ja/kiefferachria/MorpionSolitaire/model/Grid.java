@@ -22,8 +22,10 @@ public class Grid {
     private HashMap<Point, HashMap<Direction, Boolean>> tabUsed;
     private ArrayList<Point> potentialMove;
     private ArrayList<Point> pointUser;
+    private Score score;
     
-    public Grid(int h,int w, int step){
+    
+	public Grid(int h,int w, int step){
     	
     	this.step=step;
     	this.height=h;
@@ -31,7 +33,7 @@ public class Grid {
     	this.reset();
 
     }
-    private void reset() {
+    public void reset() {
 		// TODO Auto-generated method stub
     	this.nbLine=(int)width/step;
     	this.nbColumn=(int)height/step;
@@ -46,6 +48,7 @@ public class Grid {
     	this.generateCross();
     	this.catchCoordonnee();
     	this.pointUser= new ArrayList<Point>();
+    	this.score = new Score();
 	}
     public ArrayList<Line> getTabLine() {
 		return tabLine;
@@ -300,7 +303,7 @@ public class Grid {
 		this.pointUser = pointUser;
 	}
 
-	public void updateGrid(Point z) {
+	public void updateGrid(Point z,String s) {
 		int coordX=((int)z.getX()/this.getStep());
 		int coordY=((int)z.getY()/this.getStep());
 			System.out.println(this.tabUsed.get(z));
@@ -308,27 +311,42 @@ public class Grid {
 				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
 				this.drawMoveDiagonaleRight(z);
 				this.pointUser.add(z);
+				this.incrementeScore(s);
 			}
 			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleLeft(z)) {
 				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 				this.drawMoveDiagonaleLeft(z);
 				this.pointUser.add(z);
+				this.incrementeScore(s);
 			}
 			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveHorizontale(z)) {
 				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 				this.drawMoveHorizontale(z);
 				this.pointUser.add(z);
+				this.incrementeScore(s);
 			}
 			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveVerticale(z)) {
 				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 				this.drawMoveVerticale(z);
 				this.pointUser.add(z);
+				this.incrementeScore(s);
 			}
 			else {
 				System.out.println("existe deja");
 			}
 		
 		
+	}
+	
+	public void incrementeScore(String s) {
+		if(s.equals("IA")) {
+			this.score.setScore_computeur(this.score.getScore_computeur()+1);
+			System.out.println("score ordi: "+this.score.getScore_computeur());
+		}
+		else {
+			this.score.setScore_joueur(this.score.getScore_joueur()+1);
+			System.out.println("score joueur: "+this.score.getScore_joueur());
+		}
 	}
 	
 	public void pointAvailable() {
@@ -352,10 +370,9 @@ public class Grid {
 		Collections.shuffle(this.potentialMove);
 		if(!this.potentialMove.isEmpty()) {
 			Point x = this.potentialMove.get(0);
-			this.updateGrid(x);
+			this.updateGrid(x,"IA");
 		}else {
 			System.out.println("No solution");
-			this.reset();
 		}
 		
 	}
@@ -815,6 +832,13 @@ public class Grid {
 		System.out.println(cpt_gauche);
 		System.out.println(cpt_droite);
 				
+	}
+	
+	public Score getScore() {
+		return score;
+	}
+	public void setScore(Score score) {
+		this.score = score;
 	}
     
     		
