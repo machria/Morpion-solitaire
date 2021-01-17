@@ -20,6 +20,7 @@ public class Grid {
     private ArrayList<Point> tabCross;
     private ArrayList<Line> tabLine;
     private HashMap<Point, HashMap<Direction, Boolean>> tabUsed;
+
     private ArrayList<Point> potentialMove;
     private ArrayList<Point> pointUser;
     private Score score;
