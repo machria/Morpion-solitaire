@@ -1,3 +1,5 @@
+
+
 package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
 import java.awt.Point;
@@ -18,7 +20,7 @@ public class Grid5T {
 	private int center;
 	private ArrayList<Point> tabCross;
 	private ArrayList<Line> tabLine;
-	private HashMap<Point, HashMap<Direction, List<Boolean>>> tabUsed;
+	private HashMap<Point, HashMap<Direction, Integer>> tabUsed;
 
 	private ArrayList<Point> potentialMove;
 	private ArrayList<Point> pointUser;
@@ -43,7 +45,7 @@ public class Grid5T {
 		this.center = (int) nbLine / 2;// Same height and width
 		this.tabCross = new ArrayList<Point>();
 		this.tabLine = new ArrayList<Line>();
-		this.tabUsed = new HashMap<Point, HashMap<Direction, List<Boolean>>>();
+		this.tabUsed = new HashMap<Point, HashMap<Direction, Integer>>();
 		this.initiatePoint();
 		this.generateCross();
 		this.catchCoordonnee();
@@ -82,19 +84,15 @@ public class Grid5T {
 
 	private void initiatePoint() {
 		// TODO Auto-generated method stub
-		HashMap<Direction, List<Boolean>> dir = new HashMap<Direction, List<Boolean>>();
-		List<Boolean> b = new ArrayList<>();
-		b.add(false);
-		b.add(false);
-		dir.put(Direction.VERTICAL, new ArrayList<>(b));
-		dir.put(Direction.HORIZONTAL, new ArrayList<>(b));
-		dir.put(Direction.DIAGLEFT, new ArrayList<>(b));
-		dir.put(Direction.DIAGRIGHT, new ArrayList<>(b));
-		for (int i = 0; i < nbLine; i++) {
-			for (int j = 0; j < nbColumn; j++) {
-				this.points[i][j] = false;
-				this.tabUsed.put(new Point(i * this.step, j * this.step),
-						(HashMap<Direction, List<Boolean>>) dir.clone());
+		HashMap<Direction,Integer> dir = new HashMap<Direction, Integer>();
+    	dir.put(Direction.VERTICAL,0);
+    	dir.put(Direction.HORIZONTAL,0);
+    	dir.put(Direction.DIAGLEFT,0);
+    	dir.put(Direction.DIAGRIGHT,0);
+		for(int i = 0;i<nbLine;i++) {
+			for(int j = 0;j<nbColumn;j++) {
+				this.points[i][j]=false;
+				this.tabUsed.put(new Point(i*this.step,j*this.step ),(HashMap<Direction, Integer>) dir.clone());
 			}
 		}
 	}
@@ -300,22 +298,14 @@ public class Grid5T {
 		int coordX = ((int) z.getX() / this.getStep());
 		int coordY = ((int) z.getY() / this.getStep());
 		System.out.println(this.tabUsed.get(z));
-		/*
-		 * if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.
-		 * getStep()] && checkPossibleMoveDiagonaleRight(z)) {
-		 * this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()
-		 * ]=true; this.drawMoveDiagonaleRight(z); this.pointUser.add(z);
-		 * this.incrementeScore(s); }
-		 * if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.
-		 * getStep()] && checkPossibleMoveDiagonaleLeft(z)) {
-		 * this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()
-		 * ]=true; this.drawMoveDiagonaleLeft(z); this.pointUser.add(z);
-		 * this.incrementeScore(s); }
-		 */
+		
+		  
+		 
 		if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
-				&& checkPossibleMoveHorizontale(z)) {
+				) {
 			this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()] = true;
 			this.drawMoveHorizontale(z);
+			this.drawMoveVerticale(z);
 			this.pointUser.add(z);
 
 			this.incrementeScore(s);
@@ -324,13 +314,7 @@ public class Grid5T {
 		}		
 		System.out.println(this.tabUsed.get(z));
 
-		/*
-		 * if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.
-		 * getStep()] && checkPossibleMoveVerticale(z)) {
-		 * this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()
-		 * ]=true; this.drawMoveVerticale(z); this.pointUser.add(z);
-		 * this.incrementeScore(s); }
-		 */
+		
 
 	}
 
@@ -351,7 +335,7 @@ public class Grid5T {
 				Point z = new Point(i * this.step, j * this.step);
 				// try {
 				if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
-						&& (
+						&& (checkPossibleMoveVerticale(z)||
 								checkPossibleMoveHorizontale(z) )) {
 					this.potentialMove.add(z);
 				}
@@ -373,7 +357,90 @@ public class Grid5T {
 		}
 
 	}
+	
+/*
+	public boolean checkPossibleMoveHorizontale2(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		int coordX = ((int) z.getX() / this.getStep());
+		int coordY = ((int) z.getY() / this.getStep());
+		if(coordX-1>=0&&coordX+1<this.nbColumn) {
+			if (this.tabUsed.get(new Point((coordX - 1) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isOne()==true&& this.tabUsed.get(new Point((coordX - 1) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isTwo()==false) {
+				cpt_gauche++;
+				
+				for (int a = 0; a <= 4 - cpt_gauche; a++) {
+					if(coordX-a>=0&&coordY>=0) {
+						if (this.getPoints()[coordX + a][coordY]&&  this.tabUsed.get(new Point((coordX + a) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isTwo()==false) {
+							cpt_droite++;
+							if (cpt_droite + cpt_gauche == 4) {
+								a = 6;
+							}
+						} 
+						else {
+							return false;
+						}
+					}
 
+					
+				}
+			} else if (this.tabUsed.get(new Point((coordX + 1) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isOne()==true && this.tabUsed.get(new Point((coordX + 1) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isTwo()==false) {
+				cpt_droite++;
+				for (int a = 0; a <= 4 - cpt_droite; a++) {
+					if(coordX-a>=0&&coordY>=0) {
+						if (this.getPoints()[coordX - a][coordY]&& this.tabUsed.get(new Point((coordX - a) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isTwo()==false) {
+							cpt_gauche++;
+							if (cpt_droite + cpt_gauche == 4) {
+								a = 6;
+							}
+						} 
+						else {
+							return false;
+						}
+					}
+
+					
+				}
+			} 
+			else {
+				for (int i = 0; i <= 4; i++) {
+					if(coordX-i>=0&&coordY>=0) {
+						if(!this.getPoints()[coordX-i][coordY] || (this.tabUsed.get(new Point((coordX-i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).isOne()==true && this.tabUsed.get(new Point((coordX-i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).isTwo()==true)) {
+							for(int a = 0;a<=4-cpt_gauche;a++) {
+								if (coordX + a < this.nbColumn && coordY >= 0) {
+									if(!this.getPoints()[coordX+i][coordY] || (this.tabUsed.get(new Point((coordX+i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).isOne()==true && this.tabUsed.get(new Point((coordX+i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).isTwo()==true)) {
+										System.out.println("Ligne horizontale impossible");
+										return false;
+									}
+									else {
+										cpt_droite++;
+										if(cpt_droite+cpt_gauche==4) {
+											a = 6;
+											i = 6;
+										}
+									}
+								}
+							}
+						}
+						else {
+							cpt_gauche++;
+							if (cpt_gauche == 4) {
+								i = 6;
+							}
+						}
+					}
+					}
+					
+		}
+		
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.HORIZONTAL).isOne()==false && this.tabUsed.get(z).get(Direction.HORIZONTAL).isTwo()==false) {
+			if(cpt_gauche+cpt_droite == 4) {
+				return true;
+			}
+		}
+		return false;
+	}*/
 	public boolean checkPossibleMoveHorizontale(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -382,11 +449,10 @@ public class Grid5T {
 		for (int i = 1; i <= 4; i++) {
 			if (coordX - i >= 0 && coordY >= 0) {
 				if (!this.getPoints()[coordX - i][coordY]
-						|| this.tabUsed.get(new Point((coordX - i) * this.step, coordY * this.step))
-								.get(Direction.HORIZONTAL).get(1).equals(true)) {
+						|| this.tabUsed.get(new Point((coordX - i) * this.step, coordY * this.step)).get(Direction.HORIZONTAL)==2) {
 					for (int a = 1; a <= 4 - cpt_gauche; a++) {
 						if (coordX + a < this.nbColumn && coordY >= 0) {
-							if (!this.getPoints()[coordX + a][coordY]) {
+							if (!this.getPoints()[coordX + a][coordY]||this.tabUsed.get(new Point((coordX +a) * this.step, coordY * this.step)).get(Direction.HORIZONTAL)==2) {
 								System.out.println("Pas de line possible sur l'horizontale");
 								return false;
 							} else {
@@ -409,11 +475,11 @@ public class Grid5T {
 			}
 
 		}
-		if (this.tabUsed.get(z).get(Direction.HORIZONTAL).get(1).equals(false)
+		if (this.tabUsed.get(z).get(Direction.HORIZONTAL)<2
 				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY * this.step)))
-						.get(Direction.HORIZONTAL).get(1).equals(false)
+						.get(Direction.HORIZONTAL)<2
 				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY * this.step)))
-						.get(Direction.HORIZONTAL).get(1).equals(false)) {
+						.get(Direction.HORIZONTAL)<2) {
 
 			if (cpt_gauche + cpt_droite == 4) {
 				return true;
@@ -423,94 +489,107 @@ public class Grid5T {
 
 		return false;
 	}
-
 	public void drawMoveHorizontale(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
-		Line line = new Line(null, null, null, null, null);
-		Point fin = new Point();
-		Point debut = new Point();
 		int coordX = ((int) z.getX() / this.getStep());
 		int coordY = ((int) z.getY() / this.getStep());
+		Point debut;
+		Point fin;
+		Line line = new Line(null,null,null,null,null);
+		
+		
 		for (int i = 1; i <= 4; i++) {
-			if (!this.getPoints()[coordX - i][coordY]
-					|| this.tabUsed.get(new Point((coordX - i) * this.step, coordY * this.step))
-							.get(Direction.HORIZONTAL).get(1).equals(true)) {
-				for (int a = 1; a <= 4 - cpt_gauche; a++) {
-					if (!this.getPoints()[coordX + a][coordY]) {
-						System.out.println("Pas de line possible sur l'horizontale");
-						return;
-					} else {
-						cpt_droite++;
-						if (cpt_gauche + cpt_droite == 4) {
-							a = 6;
-							i = 6;
+			if (coordX - i >= 0 && coordY >= 0) {
+				if (!this.getPoints()[coordX - i][coordY]
+						|| this.tabUsed.get(new Point((coordX - i) * this.step, coordY * this.step)).get(Direction.HORIZONTAL)==2) {
+					for (int a = 1; a <= 4 - cpt_gauche; a++) {
+						if (coordX + a < this.nbColumn && coordY >= 0) {
+							if (!this.getPoints()[coordX + a][coordY]||this.tabUsed.get(new Point((coordX +a) * this.step, coordY * this.step)).get(Direction.HORIZONTAL)==2) {
+								System.out.println("Pas de line possible sur l'horizontale");
+								return;
+							} else {
+								cpt_droite++;
+								if (cpt_gauche + cpt_droite == 4) {
+									a = 6;
+									i = 6;
+								}
+							}
 						}
+
 					}
-				}
-			} else {
-				cpt_gauche++;
-				if (cpt_gauche == 4) {
-					i = 6;
-				}
+				} else {
+					cpt_gauche++;
+					if (cpt_gauche == 4) {
+						i = 6;
+					}
 
+				}
 			}
-		}
-		if (this.tabUsed.get(z).get(Direction.HORIZONTAL).get(1).equals(false)
-				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY * this.step)))
-						.get(Direction.HORIZONTAL).get(1).equals(false)
-				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY * this.step)))
-						.get(Direction.HORIZONTAL).get(1).equals(false)) {
 
-			if (cpt_gauche + cpt_droite == 4) {
+		}
+		if (this.tabUsed.get(z).get(Direction.HORIZONTAL)<2
+				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY * this.step)))
+						.get(Direction.HORIZONTAL)<2
+				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY * this.step)))
+						.get(Direction.HORIZONTAL)<2) {
+
+			
+			if(cpt_gauche+cpt_droite == 4) {
 				System.out.println(this.tabUsed.get(z));
 				int tempLeft = 1;
 				int tempRight = 1;
-				List<Boolean> b = new ArrayList<>();
-				b.add(true);
-				b.add(true);
-				List<Boolean> c = new ArrayList<>();
-				c.add(true);
-				c.add(false);
 				debut = new Point((coordX - cpt_gauche) * this.step, (coordY * this.step));
 				fin = new Point((coordX + cpt_droite) * this.step, (coordY * this.step));
-				if (this.tabUsed.get(debut).get(Direction.HORIZONTAL).contains(true)) {
-					this.tabUsed.get(debut).get(Direction.HORIZONTAL).clear();
-					this.tabUsed.get(debut).get(Direction.HORIZONTAL).add(0,true);
-					this.tabUsed.get(debut).get(Direction.HORIZONTAL).add(1,true);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before if");
+				if (this.tabUsed.get(debut).get(Direction.HORIZONTAL)==1) {
+					this.tabUsed.get(debut).replace(Direction.HORIZONTAL, 1, 2);
 
 				} else {
-					this.tabUsed.get(debut).get(Direction.HORIZONTAL).clear();
-					this.tabUsed.get(debut).get(Direction.HORIZONTAL).add(0,true);
-					this.tabUsed.get(debut).get(Direction.HORIZONTAL).add(1,false);
+					this.tabUsed.get(debut).replace(Direction.HORIZONTAL, 0, 1);
 					}
-				if (this.tabUsed.get(fin).get(Direction.HORIZONTAL).contains(true)) {
-					this.tabUsed.get(fin).get(Direction.HORIZONTAL).clear();
-					this.tabUsed.get(fin).get(Direction.HORIZONTAL).add(0,true);
-					this.tabUsed.get(fin).get(Direction.HORIZONTAL).add(1,true);
+				if (this.tabUsed.get(fin).get(Direction.HORIZONTAL)==1) {
+					this.tabUsed.get(fin).replace(Direction.HORIZONTAL, 1, 2);
 					} else {
-					this.tabUsed.get(fin).get(Direction.HORIZONTAL).clear();
+						this.tabUsed.get(fin).replace(Direction.HORIZONTAL, 0, 1);
 
-					this.tabUsed.get(fin).get(Direction.HORIZONTAL).add(0,true);
-					this.tabUsed.get(fin).get(Direction.HORIZONTAL).add(1,false);				}
-
+					}
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before for");
 				for (int i = tempLeft; i <= cpt_gauche; i++) {
 					Point t = new Point((coordX - i) * this.step, (coordY * this.step));
-					if (!t.equals(debut) && !t.equals(fin)) {
-						this.tabUsed.get(t).get(Direction.HORIZONTAL).clear();
-						this.tabUsed.get(t).get(Direction.HORIZONTAL).addAll(b);
-					}
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré left");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.HORIZONTAL, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}
 				}
+				System.out.println("^-------------------------------------------------------");
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("After for");
 				for (int i = tempRight; i <= cpt_droite; i++) {
 					Point t = new Point((coordX + i) * this.step, (coordY * this.step));
-					if (!t.equals(debut) && !t.equals(fin)) {
-						this.tabUsed.get(t).get(Direction.HORIZONTAL).clear();
-						this.tabUsed.get(t).get(Direction.HORIZONTAL).addAll(b);
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré right");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.HORIZONTAL, 0, 2);
+						
 					}
 
 				}
-				if (!z.equals(debut) && !z.equals(fin)) {
-					this.tabUsed.get(z).replace(Direction.HORIZONTAL, this.tabUsed.get(z).get(Direction.HORIZONTAL), b);
+				if ((!z.equals(debut) && !z.equals(fin))) {
+					System.out.println("entré z");
+					System.out.println(z.equals(debut));
+					System.out.println(z.equals(fin));
+					this.tabUsed.get(z).replace(Direction.HORIZONTAL, 0, 2);
 				}
 
 				line.setP1(debut);
@@ -520,10 +599,178 @@ public class Grid5T {
 				System.out.println(this.tabUsed.get(fin));
 				System.out.println("Ajout");
 			}
-
+		}
+		for(int v = 0;v<this.tabCoordonnee.size();v++) {
+			System.out.println(this.tabUsed.get(tabCoordonnee.get(v)));
 		}
 	}
+	public boolean checkPossibleMoveVerticale(Point z) {
+		int cpt_haut = 0;
+		int cpt_bas = 0;
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			if(coordX>=0&&coordY-i>=0) {
+				System.out.println(this.getPoints()[coordX][coordY-i]);
+				if(!this.getPoints()[coordX][coordY-i] || this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL)==2) {
+					for(int a = 1;a<=4-cpt_haut;a++) {
+						//System.out.println(a);
+						if(coordX>=0&&coordY+a<this.nbColumn) {
+							if(!this.getPoints()[coordX][coordY+a]) {
+								System.out.println("Pas de line possible sur la vertical");
+								return false;
+							}
+							else{
+								cpt_bas++;
+								if(cpt_haut+cpt_bas==4) {
+									a=10;
+									i=10;
+								}
+							}
+						}
 
+						
+					}
+				}
+				else {
+					if(this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL)<2) {
+						cpt_haut++;
+						System.out.println("cpt_haut++");
+						if(cpt_haut==4) {
+							i = 6;
+						}
+					}
+					
+					
+				}
+			}
+
+			
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.VERTICAL)<2 && this.tabUsed.get(new Point((coordX*this.step),(coordY-cpt_haut)*this.step)).get(Direction.VERTICAL)<2 && this.tabUsed.get(new Point((coordX*this.step),(coordY+cpt_bas)*this.step)).get(Direction.VERTICAL)<2) {
+			if(cpt_haut+cpt_bas==4) {
+				return true;
+			}
+		}
+		return false;
+		
+		
+	}
+	public void drawMoveVerticale(Point z) {
+		int cpt_haut = 0;
+		int cpt_bas = 0;
+		Line line = new Line(null,null,null,null,null);
+		Point fin = new Point();
+		Point debut = new Point();
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			System.out.println(this.getPoints()[coordX][coordY-i]);
+			if(!this.getPoints()[coordX][coordY-i] || this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL)==2) {
+				for(int a = 1;a<=4-cpt_haut;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX][coordY+a]) {
+						System.out.println("Pas de line possible sur la vertical");
+						return;
+					}
+					else{
+						cpt_bas++;
+						if(cpt_haut+cpt_bas==4) {
+							a=10;
+							i=10;
+							System.out.println("Je suis dans if");
+							System.out.println("Haut"+cpt_haut);
+							System.out.println("Bas"+cpt_bas);
+						}
+						System.out.println("cpt_bas++");
+						System.out.println(cpt_haut+cpt_bas);
+					}
+				}
+			}
+			else {
+				if(this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL)<2) {
+					cpt_haut++;
+					System.out.println("cpt_haut++");
+					if(cpt_haut==4) {
+						i = 6;
+						System.out.println("Je suis dans else");
+						System.out.println("Haut"+cpt_haut);
+						System.out.println("Bas"+cpt_bas);
+					}
+				}
+				
+				
+			}
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.VERTICAL)<2 && this.tabUsed.get(new Point((coordX*this.step),(coordY-cpt_haut)*this.step)).get(Direction.VERTICAL)<2 && this.tabUsed.get(new Point((coordX*this.step),(coordY+cpt_bas)*this.step)).get(Direction.VERTICAL)<2) {
+			
+			System.out.println(this.tabUsed.get(z));
+
+			if(cpt_haut+cpt_bas==4) {
+
+				int tempHaut=1;
+				int tempBas=1;
+				debut = new Point((coordX*this.step),(coordY-cpt_haut)*this.step);
+				fin = new Point((coordX*this.step),(coordY+cpt_bas)*this.step);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before if");
+				if (this.tabUsed.get(debut).get(Direction.VERTICAL)==1) {
+					this.tabUsed.get(debut).replace(Direction.VERTICAL, 1, 2);
+
+				} else {
+					this.tabUsed.get(debut).replace(Direction.VERTICAL, 0, 1);
+					}
+				if (this.tabUsed.get(fin).get(Direction.VERTICAL)==1) {
+					this.tabUsed.get(fin).replace(Direction.VERTICAL, 1, 2);
+					} else {
+						this.tabUsed.get(fin).replace(Direction.VERTICAL, 0, 1);
+
+					}
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before for");
+				for(int i =tempHaut;i<=cpt_haut;i++) {
+					Point t= new Point((coordX)*this.step,((coordY-i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré haut");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.VERTICAL, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				for(int i =tempBas;i<=cpt_bas;i++) {
+					Point t= new Point((coordX)*this.step,((coordY+i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré bas");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.VERTICAL, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				if ((!z.equals(debut) && !z.equals(fin))) {
+					System.out.println("entré z");
+					System.out.println(z.equals(debut));
+					System.out.println(z.equals(fin));
+					this.tabUsed.get(z).replace(Direction.VERTICAL, 0, 2);
+				}
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Ajout");
+			}
+		}
+		System.out.println("Haut"+cpt_haut);
+		System.out.println("Bas"+cpt_bas);
+	}
+	
+	
 	public Score getScore() {
 		return score;
 	}
@@ -531,5 +778,4 @@ public class Grid5T {
 	public void setScore(Score score) {
 		this.score = score;
 	}
-
 }
