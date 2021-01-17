@@ -40,6 +40,7 @@ public class MouseController {
 		GridView5T d = new GridView5T(grid);
 		this.gridView=d;
 		
+		
 		c.gridx=0;
 		c.gridy=0;
 		c.fill = GridBagConstraints.BOTH;
