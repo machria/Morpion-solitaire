@@ -316,11 +316,9 @@ public class Grid5T {
 				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 				if((Math.random()*1)<0.5) {
 					this.drawMoveDiagonaleLeft(z);
-					System.out.println("toucher");
 				}
 				else {
 					this.drawMoveDiagonalLeft2(z);
-					System.out.println("Disjoint");
 				}
 				
 				this.pointUser.add(z);
