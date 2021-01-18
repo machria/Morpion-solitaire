@@ -293,30 +293,69 @@ public class Grid5T {
 	public void setPointUser(ArrayList<Point> pointUser) {
 		this.pointUser = pointUser;
 	}
+	
+	
 
-	public void updateGrid(Point z, String s) {
-		int coordX = ((int) z.getX() / this.getStep());
-		int coordY = ((int) z.getY() / this.getStep());
-		System.out.println(this.tabUsed.get(z));
+	public void updateGrid(Point z,String s) {
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+			System.out.println(this.tabUsed.get(z));
+			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleRight(z)) {
+				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
+				this.drawMoveDiagonaleRight(z);
+				if((Math.random()*1)<0.5) {
+					this.drawMoveDiagonaleRight(z);
+				}
+				else {
+					this.drawMoveDiagonaleRight2(z);
+				}
+				this.pointUser.add(z);
+				this.incrementeScore(s);
+			}
+			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleLeft(z)) {
+				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
+				if((Math.random()*1)<0.5) {
+					this.drawMoveDiagonaleLeft(z);
+					System.out.println("toucher");
+				}
+				else {
+					this.drawMoveDiagonalLeft2(z);
+					System.out.println("Disjoint");
+				}
+				
+				this.pointUser.add(z);
+				this.incrementeScore(s);
+			}
+			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveHorizontale(z)) {
+				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
+				if((Math.random()*1)<0.5) {
+					this.drawMoveHorizontale(z);
+				}
+				else {
+					this.drawMoveHorizontale2(z);
+				}
+				this.pointUser.add(z);
+				this.incrementeScore(s);
+			}
+			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveVerticale(z)) {
+				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
+				if((Math.random()*1)<0.5) {
+					this.drawMoveVerticale(z);
+				}
+				else {
+					this.drawMoveVerticale2(z);
+				}
+				this.pointUser.add(z);
+				this.incrementeScore(s);
+			}
+			else {
+				System.out.println("existe deja");
+			}
 		
-		  
-		 
-		if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
-				) {
-			this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()] = true;
-			this.drawMoveHorizontale(z);
-			this.drawMoveVerticale(z);
-			this.pointUser.add(z);
-
-			this.incrementeScore(s);
-		} else {
-			System.out.println("existe deja");
-		}		
-		System.out.println(this.tabUsed.get(z));
-
 		
-
 	}
+
+
 
 	public void incrementeScore(String s) {
 		if (s.equals("IA")) {
@@ -336,7 +375,7 @@ public class Grid5T {
 				// try {
 				if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
 						&& (checkPossibleMoveVerticale(z)||
-								checkPossibleMoveHorizontale(z) )) {
+								checkPossibleMoveHorizontale(z) || checkPossibleMoveDiagonaleLeft(z) || checkPossibleMoveDiagonaleRight(z) )) {
 					this.potentialMove.add(z);
 				}
 				// }catch(ArrayIndexOutOfBoundsException e) {
@@ -358,89 +397,7 @@ public class Grid5T {
 
 	}
 	
-/*
-	public boolean checkPossibleMoveHorizontale2(Point z) {
-		int cpt_gauche = 0;
-		int cpt_droite = 0;
-		int coordX = ((int) z.getX() / this.getStep());
-		int coordY = ((int) z.getY() / this.getStep());
-		if(coordX-1>=0&&coordX+1<this.nbColumn) {
-			if (this.tabUsed.get(new Point((coordX - 1) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isOne()==true&& this.tabUsed.get(new Point((coordX - 1) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isTwo()==false) {
-				cpt_gauche++;
-				
-				for (int a = 0; a <= 4 - cpt_gauche; a++) {
-					if(coordX-a>=0&&coordY>=0) {
-						if (this.getPoints()[coordX + a][coordY]&&  this.tabUsed.get(new Point((coordX + a) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isTwo()==false) {
-							cpt_droite++;
-							if (cpt_droite + cpt_gauche == 4) {
-								a = 6;
-							}
-						} 
-						else {
-							return false;
-						}
-					}
 
-					
-				}
-			} else if (this.tabUsed.get(new Point((coordX + 1) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isOne()==true && this.tabUsed.get(new Point((coordX + 1) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isTwo()==false) {
-				cpt_droite++;
-				for (int a = 0; a <= 4 - cpt_droite; a++) {
-					if(coordX-a>=0&&coordY>=0) {
-						if (this.getPoints()[coordX - a][coordY]&& this.tabUsed.get(new Point((coordX - a) * this.step, coordY * this.step)).get(Direction.HORIZONTAL).isTwo()==false) {
-							cpt_gauche++;
-							if (cpt_droite + cpt_gauche == 4) {
-								a = 6;
-							}
-						} 
-						else {
-							return false;
-						}
-					}
-
-					
-				}
-			} 
-			else {
-				for (int i = 0; i <= 4; i++) {
-					if(coordX-i>=0&&coordY>=0) {
-						if(!this.getPoints()[coordX-i][coordY] || (this.tabUsed.get(new Point((coordX-i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).isOne()==true && this.tabUsed.get(new Point((coordX-i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).isTwo()==true)) {
-							for(int a = 0;a<=4-cpt_gauche;a++) {
-								if (coordX + a < this.nbColumn && coordY >= 0) {
-									if(!this.getPoints()[coordX+i][coordY] || (this.tabUsed.get(new Point((coordX+i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).isOne()==true && this.tabUsed.get(new Point((coordX+i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).isTwo()==true)) {
-										System.out.println("Ligne horizontale impossible");
-										return false;
-									}
-									else {
-										cpt_droite++;
-										if(cpt_droite+cpt_gauche==4) {
-											a = 6;
-											i = 6;
-										}
-									}
-								}
-							}
-						}
-						else {
-							cpt_gauche++;
-							if (cpt_gauche == 4) {
-								i = 6;
-							}
-						}
-					}
-					}
-					
-		}
-		
-				
-		}
-		if(this.tabUsed.get(z).get(Direction.HORIZONTAL).isOne()==false && this.tabUsed.get(z).get(Direction.HORIZONTAL).isTwo()==false) {
-			if(cpt_gauche+cpt_droite == 4) {
-				return true;
-			}
-		}
-		return false;
-	}*/
 	public boolean checkPossibleMoveHorizontale(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -770,6 +727,796 @@ public class Grid5T {
 		System.out.println("Bas"+cpt_bas);
 	}
 	
+	public boolean checkPossibleMoveDiagonaleLeft(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			if(coordX-i>=0&&coordY-i>=0) {
+				System.out.println(this.getPoints()[coordX-i][coordY-i]);
+				if(!this.getPoints()[coordX-i][coordY-i] || this.tabUsed.get(new Point((coordX-i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGLEFT)==2) {
+					for(int a = 1;a<=4-cpt_gauche;a++) {
+						//System.out.println(a);
+						if(coordX+a<this.nbColumn&&coordY+a<this.nbColumn) {
+							if(!this.getPoints()[coordX+a][coordY+a]) {
+								System.out.println("Pas de line possible sur la vertical");
+								return false;
+							}
+							else{
+								cpt_droite++;
+								if(cpt_gauche+cpt_droite==4) {
+									a=10;
+									i=10;
+								}
+							}
+						}
+
+						
+					}
+				}
+				else {
+					if(this.tabUsed.get(new Point((coordX-i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGLEFT)<2) {
+						cpt_gauche++;
+						System.out.println("cpt_gauche++");
+						if(cpt_gauche==4) {
+							i = 6;
+						}
+					}
+					
+					
+				}
+			}
+
+			
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.DIAGLEFT)<2 && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step)).get(Direction.DIAGLEFT)<2 && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,(coordY+cpt_droite)*this.step)).get(Direction.DIAGLEFT)<2) {
+			if(cpt_gauche+cpt_droite==4) {
+				return true;
+			}
+		}
+		return false;
+		
+		
+	}
+	public void drawMoveDiagonaleLeft(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		Line line = new Line(null,null,null,null,null);
+		Point fin = new Point();
+		Point debut = new Point();
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			System.out.println(this.getPoints()[coordX-i][coordY-i]);
+			if(!this.getPoints()[coordX-i][coordY-i] || this.tabUsed.get(new Point((coordX-i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGLEFT)==2) {
+				for(int a = 1;a<=4-cpt_gauche;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX+a][coordY+a]) {
+						System.out.println("Pas de line possible sur la vertical");
+						return;
+					}
+					else{
+						cpt_droite++;
+						if(cpt_gauche+cpt_droite==4) {
+							a=10;
+							i=10;
+							System.out.println("Je suis dans if");
+							System.out.println("Gauche"+cpt_gauche);
+							System.out.println("Droite"+cpt_droite);
+						}
+						System.out.println("cpt_droite++");
+						System.out.println(cpt_gauche+cpt_droite);
+					}
+				}
+			}
+			else {
+				if(this.tabUsed.get(new Point((coordX-i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGLEFT)<2) {
+					cpt_gauche++;
+					System.out.println("cpt_gauche++");
+					if(cpt_gauche==4) {
+						i = 6;
+						System.out.println("Je suis dans else");
+						System.out.println("Haut"+cpt_gauche);
+						System.out.println("Bas"+cpt_droite);
+					}
+				}
+				
+				
+			}
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.DIAGLEFT)<2 && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step)).get(Direction.DIAGLEFT)<2 && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,(coordY+cpt_droite)*this.step)).get(Direction.DIAGLEFT)<2) {
+			
+			System.out.println(this.tabUsed.get(z));
+
+			if(cpt_gauche+cpt_droite==4) {
+
+				int tempHaut=1;
+				int tempBas=1;
+				debut = new Point((coordX-cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step);
+				fin = new Point((coordX+cpt_droite)*this.step,(coordY+cpt_droite)*this.step);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before if");
+				if (this.tabUsed.get(debut).get(Direction.DIAGLEFT)==1) {
+					this.tabUsed.get(debut).replace(Direction.DIAGLEFT, 1, 2);
+
+				} else {
+					this.tabUsed.get(debut).replace(Direction.DIAGLEFT, 0, 1);
+					}
+				if (this.tabUsed.get(fin).get(Direction.DIAGLEFT)==1) {
+					this.tabUsed.get(fin).replace(Direction.DIAGLEFT, 1, 2);
+					} else {
+						this.tabUsed.get(fin).replace(Direction.DIAGLEFT, 0, 1);
+
+					}
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before for");
+				for(int i =tempHaut;i<=cpt_gauche;i++) {
+					Point t= new Point((coordX-i)*this.step,((coordY-i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré haut");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.DIAGLEFT, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				for(int i =tempBas;i<=cpt_droite;i++) {
+					Point t= new Point((coordX+i)*this.step,((coordY+i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré bas");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.DIAGLEFT, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				if ((!z.equals(debut) && !z.equals(fin))) {
+					System.out.println("entré z");
+					System.out.println(z.equals(debut));
+					System.out.println(z.equals(fin));
+					this.tabUsed.get(z).replace(Direction.DIAGLEFT, 0, 2);
+				}
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Ajout");
+			}
+		}
+		System.out.println("Gauche"+cpt_gauche);
+		System.out.println("Droite"+cpt_droite);
+	}
+	
+	public boolean checkPossibleMoveDiagonaleRight(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			if(coordX+i<this.nbColumn&&coordY-i>=0) {
+				System.out.println(this.getPoints()[coordX+i][coordY-i]);
+				if(!this.getPoints()[coordX+i][coordY-i] || this.tabUsed.get(new Point((coordX+i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGRIGHT)==2) {
+					for(int a = 1;a<=4-cpt_gauche;a++) {
+						//System.out.println(a);
+						if(coordX-a>=0&&coordY+a<this.nbColumn) {
+							if(!this.getPoints()[coordX-a][coordY+a]) {
+								System.out.println("Pas de line possible sur la vertical");
+								return false;
+							}
+							else{
+								cpt_droite++;
+								if(cpt_gauche+cpt_droite==4) {
+									a=10;
+									i=10;
+								}
+							}
+						}
+
+						
+					}
+				}
+				else {
+					if(this.tabUsed.get(new Point((coordX+i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGRIGHT)<2) {
+						cpt_gauche++;
+						System.out.println("cpt_gauche++");
+						if(cpt_gauche==4) {
+							i = 6;
+						}
+					}
+					
+					
+				}
+			}
+
+			
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.DIAGRIGHT)<2 && this.tabUsed.get(new Point((coordX+cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step)).get(Direction.DIAGRIGHT)<2 && this.tabUsed.get(new Point((coordX-cpt_droite)*this.step,(coordY+cpt_droite)*this.step)).get(Direction.DIAGRIGHT)<2) {
+			if(cpt_gauche+cpt_droite==4) {
+				return true;
+			}
+		}
+		return false;
+		
+		
+	}
+	public void drawMoveDiagonaleRight(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		Line line = new Line(null,null,null,null,null);
+		Point fin = new Point();
+		Point debut = new Point();
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			System.out.println(this.getPoints()[coordX+i][coordY-i]);
+			if(!this.getPoints()[coordX+i][coordY-i] || this.tabUsed.get(new Point((coordX+i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGRIGHT)==2) {
+				for(int a = 1;a<=4-cpt_gauche;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX-a][coordY+a]) {
+						System.out.println("Pas de line possible sur la vertical");
+						return;
+					}
+					else{
+						cpt_droite++;
+						if(cpt_gauche+cpt_droite==4) {
+							a=10;
+							i=10;
+							System.out.println("Je suis dans if");
+							System.out.println("Gauche"+cpt_gauche);
+							System.out.println("Droite"+cpt_droite);
+						}
+						System.out.println("cpt_droite++");
+						System.out.println(cpt_gauche+cpt_droite);
+					}
+				}
+			}
+			else {
+				if(this.tabUsed.get(new Point((coordX+i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGRIGHT)<2) {
+					cpt_gauche++;
+					System.out.println("cpt_gauche++");
+					if(cpt_gauche==4) {
+						i = 6;
+						System.out.println("Je suis dans else");
+						System.out.println("Haut"+cpt_gauche);
+						System.out.println("Bas"+cpt_droite);
+					}
+				}
+				
+				
+			}
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.DIAGRIGHT)<2 && this.tabUsed.get(new Point((coordX+cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step)).get(Direction.DIAGRIGHT)<2 && this.tabUsed.get(new Point((coordX-cpt_droite)*this.step,(coordY+cpt_droite)*this.step)).get(Direction.DIAGRIGHT)<2) {
+			
+			System.out.println(this.tabUsed.get(z));
+
+			if(cpt_gauche+cpt_droite==4) {
+
+				int tempHaut=1;
+				int tempBas=1;
+				debut = new Point((coordX+cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step);
+				fin = new Point((coordX-cpt_droite)*this.step,(coordY+cpt_droite)*this.step);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before if");
+				if (this.tabUsed.get(debut).get(Direction.DIAGRIGHT)==1) {
+					this.tabUsed.get(debut).replace(Direction.DIAGRIGHT, 1, 2);
+
+				} else {
+					this.tabUsed.get(debut).replace(Direction.DIAGRIGHT, 0, 1);
+					}
+				if (this.tabUsed.get(fin).get(Direction.DIAGRIGHT)==1) {
+					this.tabUsed.get(fin).replace(Direction.DIAGRIGHT, 1, 2);
+					} else {
+						this.tabUsed.get(fin).replace(Direction.DIAGRIGHT, 0, 1);
+
+					}
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before for");
+				for(int i =tempHaut;i<=cpt_gauche;i++) {
+					Point t= new Point((coordX+i)*this.step,((coordY-i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré haut");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.DIAGRIGHT, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				for(int i =tempBas;i<=cpt_droite;i++) {
+					Point t= new Point((coordX-i)*this.step,((coordY+i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré bas");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.DIAGRIGHT, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				if ((!z.equals(debut) && !z.equals(fin))) {
+					System.out.println("entré z");
+					System.out.println(z.equals(debut));
+					System.out.println(z.equals(fin));
+					this.tabUsed.get(z).replace(Direction.DIAGRIGHT, 0, 2);
+				}
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Ajout");
+			}
+		}
+		System.out.println("Gauche"+cpt_gauche);
+		System.out.println("Droite"+cpt_droite);
+	}
+	
+	
+	public void drawMoveDiagonalLeft2(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		Line line = new Line(null,null,null,null,null);
+		Point fin = new Point();
+		Point debut = new Point();
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			System.out.println(this.getPoints()[coordX+i][coordY+i]);
+			if(!this.getPoints()[coordX+i][coordY+i] || this.tabUsed.get(new Point((coordX+i)*this.step,(coordY+i)*this.step)).get(Direction.DIAGLEFT)==2) {
+				for(int a = 1;a<=4-cpt_droite;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX-a][coordY-a]) {
+						System.out.println("Pas de line possible sur la vertical");
+						return;
+					}
+					else{
+						cpt_gauche++;
+						if(cpt_gauche+cpt_droite==4) {
+							a=10;
+							i=10;
+							System.out.println("Je suis dans if");
+							System.out.println("Gauche"+cpt_gauche);
+							System.out.println("Droite"+cpt_droite);
+						}
+						System.out.println("cpt_droite++");
+						System.out.println(cpt_gauche+cpt_droite);
+					}
+				}
+			}
+			else {
+				if(this.tabUsed.get(new Point((coordX+i)*this.step,(coordY+i)*this.step)).get(Direction.DIAGLEFT)<2) {
+					cpt_droite++;
+					System.out.println("cpt_gauche++");
+					if(cpt_droite==4) {
+						i = 6;
+						System.out.println("Je suis dans else");
+						System.out.println("Haut"+cpt_gauche);
+						System.out.println("Bas"+cpt_droite);
+					}
+				}
+				
+				
+			}
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.DIAGLEFT)<2 && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,(coordY+cpt_droite)*this.step)).get(Direction.DIAGLEFT)<2 && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step)).get(Direction.DIAGLEFT)<2) {
+			
+			System.out.println(this.tabUsed.get(z));
+
+			if(cpt_gauche+cpt_droite==4) {
+
+				int tempHaut=1;
+				int tempBas=1;
+				debut = new Point((coordX+cpt_droite)*this.step,(coordY+cpt_droite)*this.step);
+				fin = new Point((coordX-cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before if");
+				if (this.tabUsed.get(debut).get(Direction.DIAGLEFT)==1) {
+					this.tabUsed.get(debut).replace(Direction.DIAGLEFT, 1, 2);
+
+				} else {
+					this.tabUsed.get(debut).replace(Direction.DIAGLEFT, 0, 1);
+					}
+				if (this.tabUsed.get(fin).get(Direction.DIAGLEFT)==1) {
+					this.tabUsed.get(fin).replace(Direction.DIAGLEFT, 1, 2);
+					} else {
+						this.tabUsed.get(fin).replace(Direction.DIAGLEFT, 0, 1);
+
+					}
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before for");
+				for(int i =tempHaut;i<=cpt_gauche;i++) {
+					Point t= new Point((coordX-i)*this.step,((coordY-i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré haut");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.DIAGLEFT, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				for(int i =tempBas;i<=cpt_droite;i++) {
+					Point t= new Point((coordX+i)*this.step,((coordY+i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré bas");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.DIAGLEFT, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				if ((!z.equals(debut) && !z.equals(fin))) {
+					System.out.println("entré z");
+					System.out.println(z.equals(debut));
+					System.out.println(z.equals(fin));
+					this.tabUsed.get(z).replace(Direction.DIAGLEFT, 0, 2);
+				}
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Ajout");
+			}
+		}
+		System.out.println("Gauche"+cpt_gauche);
+		System.out.println("Droite"+cpt_droite);
+		
+	}
+	
+	public void drawMoveDiagonaleRight2(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		Line line = new Line(null,null,null,null,null);
+		Point fin = new Point();
+		Point debut = new Point();
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			System.out.println(this.getPoints()[coordX-i][coordY+i]);
+			if(!this.getPoints()[coordX-i][coordY+i] || this.tabUsed.get(new Point((coordX-i)*this.step,(coordY+i)*this.step)).get(Direction.DIAGRIGHT)==2) {
+				for(int a = 1;a<=4-cpt_droite;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX+a][coordY-a]) {
+						System.out.println("Pas de line possible sur la vertical");
+						return;
+					}
+					else{
+						cpt_gauche++;
+						if(cpt_gauche+cpt_droite==4) {
+							a=10;
+							i=10;
+							System.out.println("Je suis dans if");
+							System.out.println("Gauche"+cpt_gauche);
+							System.out.println("Droite"+cpt_droite);
+						}
+						System.out.println("cpt_droite++");
+						System.out.println(cpt_gauche+cpt_droite);
+					}
+				}
+			}
+			else {
+				if(this.tabUsed.get(new Point((coordX-i)*this.step,(coordY+i)*this.step)).get(Direction.DIAGRIGHT)<2) {
+					cpt_droite++;
+					System.out.println("cpt_droite++");
+					if(cpt_droite==4) {
+						i = 6;
+						System.out.println("Je suis dans else");
+						System.out.println("Gauche"+cpt_gauche);
+						System.out.println("Droite"+cpt_droite);
+					}
+				}
+				
+				
+			}
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.DIAGRIGHT)<2 && this.tabUsed.get(new Point((coordX-cpt_droite)*this.step,(coordY+cpt_droite)*this.step)).get(Direction.DIAGRIGHT)<2 && this.tabUsed.get(new Point((coordX+cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step)).get(Direction.DIAGRIGHT)<2) {
+			
+			System.out.println(this.tabUsed.get(z));
+
+			if(cpt_gauche+cpt_droite==4) {
+
+				int tempHaut=1;
+				int tempBas=1;
+				debut = new Point((coordX-cpt_droite)*this.step,(coordY+cpt_droite)*this.step);
+				fin = new Point((coordX+cpt_gauche)*this.step,(coordY-cpt_gauche)*this.step);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before if");
+				if (this.tabUsed.get(debut).get(Direction.DIAGRIGHT)==1) {
+					this.tabUsed.get(debut).replace(Direction.DIAGRIGHT, 1, 2);
+
+				} else {
+					this.tabUsed.get(debut).replace(Direction.DIAGRIGHT, 0, 1);
+					}
+				if (this.tabUsed.get(fin).get(Direction.DIAGRIGHT)==1) {
+					this.tabUsed.get(fin).replace(Direction.DIAGRIGHT, 1, 2);
+					} else {
+						this.tabUsed.get(fin).replace(Direction.DIAGRIGHT, 0, 1);
+
+					}
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before for");
+				for(int i =tempHaut;i<=cpt_gauche;i++) {
+					Point t= new Point((coordX+i)*this.step,((coordY-i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré haut");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.DIAGRIGHT, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				for(int i =tempBas;i<=cpt_droite;i++) {
+					Point t= new Point((coordX-i)*this.step,((coordY+i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré bas");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.DIAGRIGHT, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				if ((!z.equals(debut) && !z.equals(fin))) {
+					System.out.println("entré z");
+					System.out.println(z.equals(debut));
+					System.out.println(z.equals(fin));
+					this.tabUsed.get(z).replace(Direction.DIAGRIGHT, 0, 2);
+				}
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Ajout");
+			}
+		}
+		System.out.println("Gauche"+cpt_gauche);
+		System.out.println("Droite"+cpt_droite);
+		
+	}
+
+	public void drawMoveVerticale2(Point z) {
+		int cpt_haut = 0;
+		int cpt_bas = 0;
+		Line line = new Line(null,null,null,null,null);
+		Point fin = new Point();
+		Point debut = new Point();
+		int coordX=((int)z.getX()/this.getStep());
+		int coordY=((int)z.getY()/this.getStep());
+		for(int i =1; i<=4;i++) {
+			System.out.println(this.getPoints()[coordX][coordY+i]);
+			if(!this.getPoints()[coordX][coordY+i] || this.tabUsed.get(new Point(coordX*this.step,(coordY+i)*this.step)).get(Direction.VERTICAL)==2) {
+				for(int a = 1;a<=4-cpt_bas;a++) {
+					//System.out.println(a);
+					if(!this.getPoints()[coordX][coordY-a]) {
+						System.out.println("Pas de line possible sur la vertical");
+						return;
+					}
+					else{
+						cpt_haut++;
+						if(cpt_haut+cpt_bas==4) {
+							a=10;
+							i=10;
+							System.out.println("Je suis dans if");
+							System.out.println("Haut"+cpt_haut);
+							System.out.println("Bas"+cpt_bas);
+						}
+						System.out.println("cpt_bas++");
+						System.out.println(cpt_haut+cpt_bas);
+					}
+				}
+			}
+			else {
+				if(this.tabUsed.get(new Point(coordX*this.step,(coordY+i)*this.step)).get(Direction.VERTICAL)<2) {
+					cpt_bas++;
+					System.out.println("cpt_haut++");
+					if(cpt_bas==4) {
+						i = 6;
+						System.out.println("Je suis dans else");
+						System.out.println("Haut"+cpt_haut);
+						System.out.println("Bas"+cpt_bas);
+					}
+				}
+				
+				
+			}
+				
+		}
+		if(this.tabUsed.get(z).get(Direction.VERTICAL)<2 && this.tabUsed.get(new Point((coordX*this.step),(coordY+cpt_bas)*this.step)).get(Direction.VERTICAL)<2 && this.tabUsed.get(new Point((coordX*this.step),(coordY-cpt_haut)*this.step)).get(Direction.VERTICAL)<2) {
+			
+			System.out.println(this.tabUsed.get(z));
+
+			if(cpt_haut+cpt_bas==4) {
+
+				int tempHaut=1;
+				int tempBas=1;
+				debut = new Point((coordX*this.step),(coordY+cpt_bas)*this.step);
+				fin = new Point((coordX*this.step),(coordY-cpt_haut)*this.step);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before if");
+				if (this.tabUsed.get(debut).get(Direction.VERTICAL)==1) {
+					this.tabUsed.get(debut).replace(Direction.VERTICAL, 1, 2);
+
+				} else {
+					this.tabUsed.get(debut).replace(Direction.VERTICAL, 0, 1);
+					}
+				if (this.tabUsed.get(fin).get(Direction.VERTICAL)==1) {
+					this.tabUsed.get(fin).replace(Direction.VERTICAL, 1, 2);
+					} else {
+						this.tabUsed.get(fin).replace(Direction.VERTICAL, 0, 1);
+
+					}
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before for");
+				for(int i =tempHaut;i<=cpt_haut;i++) {
+					Point t= new Point((coordX)*this.step,((coordY-i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré haut");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.VERTICAL, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				for(int i =tempBas;i<=cpt_bas;i++) {
+					Point t= new Point((coordX)*this.step,((coordY+i)*this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré bas");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.VERTICAL, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}				}
+				if ((!z.equals(debut) && !z.equals(fin))) {
+					System.out.println("entré z");
+					System.out.println(z.equals(debut));
+					System.out.println(z.equals(fin));
+					this.tabUsed.get(z).replace(Direction.VERTICAL, 0, 2);
+				}
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Ajout");
+			}
+		}
+		System.out.println("Haut"+cpt_haut);
+		System.out.println("Bas"+cpt_bas);
+	}
+
+	public void drawMoveHorizontale2(Point z) {
+		int cpt_gauche = 0;
+		int cpt_droite = 0;
+		int coordX = ((int) z.getX() / this.getStep());
+		int coordY = ((int) z.getY() / this.getStep());
+		Point debut;
+		Point fin;
+		Line line = new Line(null,null,null,null,null);
+		
+		
+		for (int i = 1; i <= 4; i++) {
+			if (coordX + i < this.nbColumn && coordY >= 0) {
+				if (!this.getPoints()[coordX + i][coordY]
+						|| this.tabUsed.get(new Point((coordX + i) * this.step, coordY * this.step)).get(Direction.HORIZONTAL)==2) {
+					for (int a = 1; a <= 4 - cpt_droite; a++) {
+						if (coordX + a < this.nbColumn && coordY >= 0) {
+							if (!this.getPoints()[coordX - a][coordY]||this.tabUsed.get(new Point((coordX -a) * this.step, coordY * this.step)).get(Direction.HORIZONTAL)==2) {
+								System.out.println("Pas de line possible sur l'horizontale");
+								return;
+							} else {
+								cpt_gauche++;
+								if (cpt_gauche + cpt_droite == 4) {
+									a = 6;
+									i = 6;
+								}
+							}
+						}
+
+					}
+				} else {
+					cpt_droite++;
+					if (cpt_droite == 4) {
+						i = 6;
+					}
+
+				}
+			}
+
+		}
+		if (this.tabUsed.get(z).get(Direction.HORIZONTAL)<2
+				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY * this.step)))
+						.get(Direction.HORIZONTAL)<2
+				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY * this.step)))
+						.get(Direction.HORIZONTAL)<2) {
+
+			
+			if(cpt_gauche+cpt_droite == 4) {
+				System.out.println(this.tabUsed.get(z));
+				int tempLeft = 1;
+				int tempRight = 1;
+				debut = new Point((coordX + cpt_droite) * this.step, (coordY * this.step));
+				fin = new Point((coordX - cpt_gauche) * this.step, (coordY * this.step));
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before if");
+				if (this.tabUsed.get(debut).get(Direction.HORIZONTAL)==1) {
+					this.tabUsed.get(debut).replace(Direction.HORIZONTAL, 1, 2);
+
+				} else {
+					this.tabUsed.get(debut).replace(Direction.HORIZONTAL, 0, 1);
+					}
+				if (this.tabUsed.get(fin).get(Direction.HORIZONTAL)==1) {
+					this.tabUsed.get(fin).replace(Direction.HORIZONTAL, 1, 2);
+					} else {
+						this.tabUsed.get(fin).replace(Direction.HORIZONTAL, 0, 1);
+
+					}
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Before for");
+				for (int i = tempLeft; i <= cpt_gauche; i++) {
+					Point t = new Point((coordX - i) * this.step, (coordY * this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré left");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.HORIZONTAL, 0, 2);
+						System.out.println(this.tabUsed.get(t));
+
+						}
+				}
+				System.out.println("^-------------------------------------------------------");
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("After for");
+				for (int i = tempRight; i <= cpt_droite; i++) {
+					Point t = new Point((coordX + i) * this.step, (coordY * this.step));
+					if ((!t.equals(debut) && !t.equals(fin))) {
+						System.out.println("entré right");
+						System.out.println(t.equals(debut));
+						System.out.println(t.equals(fin));
+						this.tabUsed.get(t).replace(Direction.HORIZONTAL, 0, 2);
+						
+					}
+
+				}
+				if ((!z.equals(debut) && !z.equals(fin))) {
+					System.out.println("entré z");
+					System.out.println(z.equals(debut));
+					System.out.println(z.equals(fin));
+					this.tabUsed.get(z).replace(Direction.HORIZONTAL, 0, 2);
+				}
+
+				line.setP1(debut);
+				line.setP5(fin);
+				this.tabLine.add(line);
+				System.out.println(this.tabUsed.get(debut));
+				System.out.println(this.tabUsed.get(fin));
+				System.out.println("Ajout");
+			}
+		}
+		for(int v = 0;v<this.tabCoordonnee.size();v++) {
+			System.out.println(this.tabUsed.get(tabCoordonnee.get(v)));
+		}
+		
+	}
 	
 	public Score getScore() {
 		return score;

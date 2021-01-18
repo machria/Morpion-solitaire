@@ -19,13 +19,13 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView5T;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.ScoreView;
 
-public class MouseController {
+public class Game5T {
 
 	private Grid5T grid;
 	private GridView5T gridView;
 	private ScoreView scoreView;
 	
-	public MouseController() {
+	public Game5T() {
 		JFrame frame = new JFrame("Morpion Solitaire");
 		frame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -92,7 +92,7 @@ public class MouseController {
 	}
 	
 	public static void main(String[] args) {
-		MouseController g = new MouseController();
+		Game5T g = new Game5T();
 	}
 	
 
