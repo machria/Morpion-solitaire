@@ -83,7 +83,6 @@ public class Game5T {
                 //grid.updateGrid(z,"player");
                 //grid.updateIA();
                 gridView.repaint();
-                System.out.println("Retire le Majid");
                 
                 scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
                 scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
