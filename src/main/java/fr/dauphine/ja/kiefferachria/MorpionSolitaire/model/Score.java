@@ -5,6 +5,7 @@ public class Score {
 	private int score_computeur;
 	private int score_joueur;
 	
+	
 	public Score() {
 		this.score_computeur=0;
 		this.score_joueur=0;

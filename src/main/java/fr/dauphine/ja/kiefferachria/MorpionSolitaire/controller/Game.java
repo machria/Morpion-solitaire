@@ -61,6 +61,30 @@ public class Game extends JFrame{
 			}
 			
 		});
+		this.scoreView.getHelp().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				grid.NMCS();
+				grid.pointAvailable();
+                gridView.repaint();
+                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
+                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+
+			}
+			
+		});
+		this.scoreView.getSolution().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while(!grid.getPotentialMove().isEmpty()) {
+					grid.NMCS();
+					grid.pointAvailable();
+	                gridView.repaint();
+	                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
+	                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+				}
+				
+			}
+			
+		});
 		
 		
 		c.gridx=1;
@@ -78,10 +102,8 @@ public class Game extends JFrame{
             public void mousePressed(MouseEvent e) {
 				grid.pointAvailable();
                 Point z=grid.getNeigh(e.getX(), e.getY());
-                grid.updateGrid(z,"player");
-                
-                grid.updateGrid(z,"player");
-                grid.updateIA();
+                grid.updateGrid(z, "player");
+                //grid.NMCS();
                 gridView.repaint();
                 
                 scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");

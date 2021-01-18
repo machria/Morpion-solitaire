@@ -20,7 +20,7 @@ public class Grid {
     private ArrayList<Point> tabCross;
     private ArrayList<Line> tabLine;
     private HashMap<Point, HashMap<Direction, Boolean>> tabUsed;
-
+    private ArrayList<Point> potentialMoveNext;
     private ArrayList<Point> potentialMove;
     private ArrayList<Point> pointUser;
     private Score score;
@@ -39,6 +39,8 @@ public class Grid {
     	this.nbLine=(int)width/step;
     	this.nbColumn=(int)height/step;
     	this.potentialMove = new ArrayList<Point>();
+    	this.potentialMoveNext = new ArrayList<Point>();
+
     	this.points = new boolean [nbLine][nbColumn];
     	this.tabCoordonnee=new ArrayList<Point>();
     	this.center=(int) nbLine/2;//Same height and width
@@ -367,10 +369,60 @@ public class Grid {
 		}
 	}
 	
-	public void updateIA() {
+	public int pointAvailableNext(Point b) {
+		this.potentialMoveNext.clear();
+		boolean test=false;
+		if (this.getPoints()[((int)b.getX()/this.getStep())][(int)b.getY()/this.getStep()]==false) {
+			this.getPoints()[((int)b.getX()/this.getStep())][(int)b.getY()/this.getStep()]=true;	
+			test = true;
+		}
+		for(int i = 0;i<nbLine;i++) {
+			for(int j = 0;j<nbColumn;j++) {
+				Point z = new Point(i*this.step,j*this.step);
+				//try {
+					if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && (checkPossibleMoveDiagonaleRight(z)|| checkPossibleMoveDiagonaleLeft(z)|| checkPossibleMoveHorizontale(z)|| checkPossibleMoveVerticale(z))) {
+						this.potentialMoveNext.add(z);
+					}
+				//}catch(ArrayIndexOutOfBoundsException e) {
+				//	System.out.println();
+				//}
+				
+			}
+			
+		}
+		if (test) {
+			this.getPoints()[((int)b.getX()/this.getStep())][(int)b.getY()/this.getStep()]=false;
+		}
+		return this.potentialMoveNext.size();
+
+	}
+	
+	
+	public void updateIANaive() {
 		Collections.shuffle(this.potentialMove);
 		if(!this.potentialMove.isEmpty()) {
 			Point x = this.potentialMove.get(0);
+			this.updateGrid(x,"IA");
+		}else {
+			System.out.println("No solution");
+		}
+		
+	}
+	
+	public void NMCS() {
+		int max=-1;
+		int indice=-1;
+		Collections.shuffle(this.potentialMove);
+		for (int i=0;i<this.potentialMove.size();i++) {
+			int x=this.pointAvailableNext(this.potentialMove.get(i));
+			if(x>max) {
+				max=x;
+				indice = i;
+			}
+		}
+		
+		if(!this.potentialMove.isEmpty()) {
+			Point x = this.potentialMove.get(indice);
 			this.updateGrid(x,"IA");
 		}else {
 			System.out.println("No solution");
@@ -840,6 +892,10 @@ public class Grid {
 	}
 	public void setScore(Score score) {
 		this.score = score;
+	}
+	public ArrayList<Point> getPotentialMove() {
+		// TODO Auto-generated method stub
+		return this.potentialMove;
 	}
     
     		

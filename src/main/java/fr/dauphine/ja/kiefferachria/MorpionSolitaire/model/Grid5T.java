@@ -21,7 +21,7 @@ public class Grid5T {
 	private ArrayList<Point> tabCross;
 	private ArrayList<Line> tabLine;
 	private HashMap<Point, HashMap<Direction, Integer>> tabUsed;
-
+    private ArrayList<Point> potentialMoveNext;
 	private ArrayList<Point> potentialMove;
 	private ArrayList<Point> pointUser;
 	private Score score;
@@ -51,6 +51,16 @@ public class Grid5T {
 		this.catchCoordonnee();
 		this.pointUser = new ArrayList<Point>();
 		this.score = new Score();
+    	this.potentialMoveNext = new ArrayList<Point>();
+	}
+
+	
+	public ArrayList<Point> getPotentialMove() {
+		return potentialMove;
+	}
+
+	public void setPotentialMove(ArrayList<Point> potentialMove) {
+		this.potentialMove = potentialMove;
 	}
 
 	public ArrayList<Line> getTabLine() {
@@ -336,6 +346,7 @@ public class Grid5T {
 				this.incrementeScore(s);
 			}
 			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveVerticale(z)) {
+				
 				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
 				if((Math.random()*1)<0.5) {
 					this.drawMoveVerticale(z);
@@ -384,6 +395,53 @@ public class Grid5T {
 		}
 	}
 
+	public int pointAvailableNext(Point b) {
+		this.potentialMoveNext.clear();
+		boolean test=false;
+		if (this.getPoints()[((int)b.getX()/this.getStep())][(int)b.getY()/this.getStep()]==false) {
+			this.getPoints()[((int)b.getX()/this.getStep())][(int)b.getY()/this.getStep()]=true;	
+			test = true;
+		}
+		for(int i = 0;i<nbLine;i++) {
+			for(int j = 0;j<nbColumn;j++) {
+				Point z = new Point(i*this.step,j*this.step);
+				//try {
+					if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && (checkPossibleMoveDiagonaleRight(z)|| checkPossibleMoveDiagonaleLeft(z)|| checkPossibleMoveHorizontale(z)|| checkPossibleMoveVerticale(z))) {
+						this.potentialMoveNext.add(z);
+					}
+				//}catch(ArrayIndexOutOfBoundsException e) {
+				//	System.out.println();
+				//}
+				
+			}
+			
+		}
+		if (test) {
+			this.getPoints()[((int)b.getX()/this.getStep())][(int)b.getY()/this.getStep()]=false;
+		}
+		return this.potentialMoveNext.size();
+
+	}
+	public void NMCS() {
+		int max=-1;
+		int indice=-1;
+		Collections.shuffle(this.potentialMove);
+		for (int i=0;i<this.potentialMove.size();i++) {
+			int x=this.pointAvailableNext(this.potentialMove.get(i));
+			if(x>max) {
+				max=x;
+				indice = i;
+			}
+		}
+		
+		if(!this.potentialMove.isEmpty()) {
+			Point x = this.potentialMove.get(indice);
+			this.updateGrid(x,"IA");
+		}else {
+			System.out.println("No solution");
+		}
+		
+	}
 	public void updateIA() {
 		Collections.shuffle(this.potentialMove);
 		if (!this.potentialMove.isEmpty()) {

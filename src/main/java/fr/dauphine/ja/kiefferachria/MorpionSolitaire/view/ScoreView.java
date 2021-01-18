@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,8 +22,8 @@ public class ScoreView extends JPanel {
 	private JLabel score_joueur;
 	private JLabel score_computeur;
 	private JButton reset;
-	private JButton five_D;
-	private JButton five_T;
+	private JButton help;
+	private JButton solution;
 	
 	public ScoreView(Score score) {
 		super();
@@ -85,16 +86,16 @@ public class ScoreView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.125;
 		c.weighty = 0.125;
-		this.five_D = new JButton("5D");
-		this.add(this.five_D ,c);
+		this.help = new JButton("HELP");
+		this.add(this.help ,c);
 		c.gridx=0;
 		c.gridy=7;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth=1;
 		c.weightx = 0.125;
 		c.weighty = 0.125;
-		this.five_T = new JButton("5T");
-		this.add(this.five_T ,c);
+		this.solution = new JButton("SOLUTION");
+		this.add(this.solution ,c);
 		this.setBackground(Color.CYAN);
 		
 	}
@@ -110,18 +111,8 @@ public class ScoreView extends JPanel {
 	public void setReset(JButton reset) {
 		this.reset = reset;
 	}
-	public JButton getFive_D() {
-		return five_D;
-	}
-	public void setFive_D(JButton five_D) {
-		this.five_D = five_D;
-	}
-	public JButton getFive_T() {
-		return five_T;
-	}
-	public void setFive_T(JButton five_T) {
-		this.five_T = five_T;
-	}
+	
+	
 	public JLabel getScore_joueur() {
 		return score_joueur;
 	}
@@ -133,6 +124,16 @@ public class ScoreView extends JPanel {
 	}
 	public void setScore_computeur(JLabel score_computeur) {
 		this.score_computeur = score_computeur;
+	}
+
+	public JButton getHelp() {
+		// TODO Auto-generated method stub
+		return this.help;
+	}
+
+	public JButton getSolution() {
+		// TODO Auto-generated method stub
+		return this.solution;
 	}
 	
 	

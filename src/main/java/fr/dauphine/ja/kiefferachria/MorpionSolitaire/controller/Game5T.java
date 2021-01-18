@@ -62,6 +62,31 @@ public class Game5T {
 			
 		});
 		
+		this.scoreView.getHelp().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				grid.NMCS();
+				grid.pointAvailable();
+                gridView.repaint();
+                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
+                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+
+			}
+			
+		});
+		this.scoreView.getSolution().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while(!grid.getPotentialMove().isEmpty()) {
+					grid.NMCS();
+					grid.pointAvailable();
+	                gridView.repaint();
+	                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
+	                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+				}
+				
+			}
+			
+		});
+		
 		
 		c.gridx=1;
 		c.gridy=0;
@@ -79,8 +104,9 @@ public class Game5T {
 				grid.pointAvailable();
                 Point z=grid.getNeigh(e.getX(), e.getY());
                 grid.updateGrid(z,"player");
-                
-                //grid.updateGrid(z,"player");
+                gridView.repaint();
+
+                //grid.NMCS();
                 //grid.updateIA();
                 gridView.repaint();
                 
