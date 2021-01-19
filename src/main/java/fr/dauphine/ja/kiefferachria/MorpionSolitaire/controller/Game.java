@@ -9,10 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Line;
@@ -27,7 +35,7 @@ public class Game extends JFrame{
 	private ScoreView scoreView;
 	
 	public Game() {
-		JFrame frame = new JFrame("Morpion Solitaire");
+		final JFrame frame = new JFrame("Morpion Solitaire");
 		frame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		frame.setSize(new Dimension(1000, 800));
@@ -39,16 +47,8 @@ public class Game extends JFrame{
 		}
 		System.out.println((int)grid.getNbColumn()/2);
 		GridView d = new GridView(grid);
-		this.gridView=d;
-		
-		c.gridx=0;
-		c.gridy=0;
-		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth=1;
-		c.weightx = 0.99;
-		c.weighty =0.99;
-		frame.add(d,c);
-		
+		this.gridView=d;	
+	
 		
 		this.scoreView = new ScoreView(grid.getScore());
 		this.scoreView.getReset().addActionListener(new ActionListener() {
@@ -86,6 +86,30 @@ public class Game extends JFrame{
 			
 		});
 		
+		scoreView.getSauvegarder().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				fc.showSaveDialog(frame);
+				File f = fc.getSelectedFile();
+				try {
+					FileWriter fw = new FileWriter(f);
+					for(int i = 0;i<grid.getNbLine();i++) {
+						for(int j = 0; j<grid.getNbColumn();j++) {
+							if(grid.getPoints()[i][j]==true) {
+								String s = "("+i*grid.getStep()+";"+j*grid.getStep()+")";
+								fw.write(s);
+							}
+						}
+					}
+					fw.close();
+					
+				}
+				catch(IOException e1) {
+					System.out.println(e1);
+				}
+			}
+			
+		});
 		
 		c.gridx=1;
 		c.gridy=0;
@@ -94,6 +118,14 @@ public class Game extends JFrame{
 		c.weightx = 0.01;
 		c.weighty = 0.01;
 		frame.add(scoreView,c);
+		
+		c.gridx=0;
+		c.gridy=0;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridwidth=1;
+		c.weightx = 0.99;
+		c.weighty =0.99;
+		frame.add(d,c);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -111,10 +143,8 @@ public class Game extends JFrame{
                 
             }
 		});
-	}
-	
-	public static void main(String[] args) {
-		Game g = new Game();
+		
+		
 	}
 	
 }

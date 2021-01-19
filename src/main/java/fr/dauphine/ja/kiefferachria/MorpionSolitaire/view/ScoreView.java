@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractButton;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +25,7 @@ public class ScoreView extends JPanel {
 	private JButton reset;
 	private JButton help;
 	private JButton solution;
-	private JButton five_d;
+	private JButton sauvegarder;
 	private JButton five_t;
 	private JLabel title;
 	
@@ -105,8 +106,8 @@ public class ScoreView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.five_d = new JButton("Jouer en 5D");
-		this.add(this.five_d  ,c);
+		this.sauvegarder = new JButton("Save",new ImageIcon("save2.png"));
+		this.add(this.sauvegarder  ,c);
 		c.gridx=0;
 		c.gridy=9;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -145,15 +146,31 @@ public class ScoreView extends JPanel {
 		this.score_computeur = score_computeur;
 	}
 
+	public JButton getSauvegarder() {
+		return sauvegarder;
+	}
+
+	public void setSauvegarder(JButton sauvegarder) {
+		this.sauvegarder = sauvegarder;
+	}
+
 	public JButton getHelp() {
-		// TODO Auto-generated method stub
-		return this.help;
+		return help;
+	}
+
+	public void setHelp(JButton help) {
+		this.help = help;
 	}
 
 	public JButton getSolution() {
-		// TODO Auto-generated method stub
-		return this.solution;
+		return solution;
 	}
+
+	public void setSolution(JButton solution) {
+		this.solution = solution;
+	}
+
+	
 	
 	
 

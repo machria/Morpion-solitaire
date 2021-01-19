@@ -10,8 +10,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5T;
@@ -26,7 +34,7 @@ public class Game5T {
 	private ScoreView scoreView;
 	
 	public Game5T() {
-		JFrame frame = new JFrame("Morpion Solitaire");
+		final JFrame frame = new JFrame("Morpion Solitaire");
 		frame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		frame.setSize(new Dimension(1000, 800));
@@ -96,6 +104,30 @@ public class Game5T {
 		c.weighty = 0.01;
 		frame.add(scoreView,c);
 		
+		scoreView.getSauvegarder().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				fc.showSaveDialog(frame);
+				File f = fc.getSelectedFile();
+				try {
+					FileWriter fw = new FileWriter(f);
+					for(int i = 0;i<grid.getNbLine();i++) {
+						for(int j = 0; j<grid.getNbColumn();j++) {
+							if(grid.getPoints()[i][j]==true) {
+								String s = "("+i*grid.getStep()+";"+j*grid.getStep()+")";
+								fw.write(s);
+							}
+						}
+					}
+					fw.close();
+					
+				}
+				catch(IOException e1) {
+					System.out.println(e1);
+				}
+			}
+			
+		});
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.addMouseListener(new MouseAdapter() {
@@ -117,9 +149,4 @@ public class Game5T {
 		});
 	}
 	
-	public static void main(String[] args) {
-		Game5T g = new Game5T();
-	}
-	
-
 }
