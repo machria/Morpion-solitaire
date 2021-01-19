@@ -83,14 +83,14 @@ public class ScoreView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.add(this.reset = new JButton("RESET"),c);
+		this.add(this.reset = new JButton("RESET",new ImageIcon("reset.png")),c);
 		c.gridx=0;
 		c.gridy=6;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.help = new JButton("HELP");
+		this.help = new JButton("HELP",new ImageIcon("help.png"));
 		this.add(this.help ,c);
 		c.gridx=0;
 		c.gridy=7;
@@ -98,7 +98,7 @@ public class ScoreView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.solution = new JButton("SOLUTION");
+		this.solution = new JButton("SOLUTION",new ImageIcon("solution.png"));
 		this.add(this.solution ,c);
 		c.gridx=0;
 		c.gridy=8;
@@ -106,7 +106,7 @@ public class ScoreView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.sauvegarder = new JButton("Save",new ImageIcon("save2.png"));
+		this.sauvegarder = new JButton("SAVE",new ImageIcon("save2.png"));
 		this.add(this.sauvegarder  ,c);
 		c.gridx=0;
 		c.gridy=9;
