@@ -143,6 +143,8 @@ public class Game5T {
 				        Point x = new Point((int)Double.parseDouble(data.split(";")[0]),(int)Double.parseDouble(data.split(";")[1]));
 				        grid.pointAvailable();
 				        grid.updateGrid(x, "player");
+				        scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
+		                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
 				    }
 					myReader.close();
 				}
