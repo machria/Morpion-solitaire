@@ -34,33 +34,77 @@ public class Grid {
     	this.reset();
 
     }
-    public void reset() {
-		// TODO Auto-generated method stub
-    	this.nbLine=(int)width/step;
-    	this.nbColumn=(int)height/step;
-    	this.potentialMove = new ArrayList<Point>();
-    	this.potentialMoveNext = new ArrayList<Point>();
-
-    	this.points = new boolean [nbLine][nbColumn];
-    	this.tabCoordonnee=new ArrayList<Point>();
-    	this.center=(int) nbLine/2;//Same height and width
-    	this.tabCross=new ArrayList<Point>();
-    	this.tabLine=new ArrayList<Line>();
-    	this.tabUsed = new HashMap<Point, HashMap<Direction, Boolean>>();
-    	this.initiatePoint();
-    	this.generateCross();
-    	this.catchCoordonnee();
-    	this.pointUser= new ArrayList<Point>();
-    	this.score = new Score();
-	}
+	
+//GETTERS ET SETTERS
     public ArrayList<Line> getTabLine() {
 		return tabLine;
 	}
-
 	public void setTabLine(ArrayList<Line> tabLine) {
 		this.tabLine = tabLine;
 	}
-
+	public Score getScore() {
+		return score;
+	}
+	public void setScore(Score score) {
+		this.score = score;
+	}
+	public ArrayList<Point> getPotentialMove() {
+		return this.potentialMove;
+	}
+	public ArrayList<Point> getTabCross() {
+		return tabCross;
+	}
+	public void setTabCross(ArrayList<Point> tabCross) {
+		this.tabCross = tabCross;
+	}
+	public int getCenter() {
+		return center;
+	}
+	public void setCenter(int center) {
+		this.center = center;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	public boolean[][] getPoints() {
+		return points;
+	}
+	public void setPoints(boolean[][] points) {
+		this.points = points;
+	}
+	public int getNbLine() {
+		return nbLine;
+	}
+	public void setNbLine(int nbLine) {
+		this.nbLine = nbLine;
+	}
+	public int getNbColumn() {
+		return nbColumn;
+	}
+	public void setNbColumn(int nbColumn) {
+		this.nbColumn = nbColumn;
+	}
+	public int getStep() {
+		return step;
+	}
+	public void setStep(int step) {
+		this.step = step;
+	}
+	public ArrayList<Point> getTabCoordonnee() {
+		return tabCoordonnee;
+	}
+	public void setTabCoordonnee(ArrayList<Point> tabCoordonnee) {
+		this.tabCoordonnee = tabCoordonnee;
+	}
 	public Point getNeigh(int x,int y) {
 		
     	Point t = new Point(x,y);
@@ -78,7 +122,14 @@ public class Grid {
     	System.out.println(res);
     	return res;
     }
-    
+	public ArrayList<Point> getPointUser() {
+		return pointUser;
+	}
+	public void setPointUser(ArrayList<Point> pointUser) {
+		this.pointUser = pointUser;
+	}
+
+//Mise en place du jeu et gestion du jeu
     private void initiatePoint() {
 		// TODO Auto-generated method stub
     	HashMap<Direction,Boolean> dir = new HashMap<Direction, Boolean>();
@@ -94,15 +145,7 @@ public class Grid {
 		}
 	}
 
-	public ArrayList<Point> getTabCross() {
-		return tabCross;
-	}
-
-	public void setTabCross(ArrayList<Point> tabCross) {
-		this.tabCross = tabCross;
-	}
-
-	public void generateCross() {
+    public void generateCross() {
 		Point c = firstPoint();
 		Point temp=c;
 		for (int i=0;i<4;i++) {
@@ -200,90 +243,31 @@ public class Grid {
 			c=temp;
 		}
 	}
+    
 	public Point firstPoint() {
     	return new Point((this.center-1)*this.step,(this.center-1)*this.step);
     }
 
-	public int getCenter() {
-		return center;
+	public void reset() {
+		// TODO Auto-generated method stub
+    	this.nbLine=(int)width/step;
+    	this.nbColumn=(int)height/step;
+    	this.potentialMove = new ArrayList<Point>();
+    	this.potentialMoveNext = new ArrayList<Point>();
+
+    	this.points = new boolean [nbLine][nbColumn];
+    	this.tabCoordonnee=new ArrayList<Point>();
+    	this.center=(int) nbLine/2;//Same height and width
+    	this.tabCross=new ArrayList<Point>();
+    	this.tabLine=new ArrayList<Line>();
+    	this.tabUsed = new HashMap<Point, HashMap<Direction, Boolean>>();
+    	this.initiatePoint();
+    	this.generateCross();
+    	this.catchCoordonnee();
+    	this.pointUser= new ArrayList<Point>();
+    	this.score = new Score();
 	}
 
-
-
-	public void setCenter(int center) {
-		this.center = center;
-	}
-
-
-
-	public int getHeight() {
-		return height;
-	}
-
-
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-
-
-	public int getWidth() {
-		return width;
-	}
-
-
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-
-
-	public boolean[][] getPoints() {
-		return points;
-	}
-
-	public void setPoints(boolean[][] points) {
-		this.points = points;
-	}
-
-	public int getNbLine() {
-		return nbLine;
-	}
-
-	public void setNbLine(int nbLine) {
-		this.nbLine = nbLine;
-	}
-
-	public int getNbColumn() {
-		return nbColumn;
-	}
-
-	public void setNbColumn(int nbColumn) {
-		this.nbColumn = nbColumn;
-	}
-
-	public int getStep() {
-		return step;
-	}
-
-	public void setStep(int step) {
-		this.step = step;
-	}
-
-
-
-	public ArrayList<Point> getTabCoordonnee() {
-		return tabCoordonnee;
-	}
-
-
-
-	public void setTabCoordonnee(ArrayList<Point> tabCoordonnee) {
-		this.tabCoordonnee = tabCoordonnee;
-	}
-	
 	public void catchCoordonnee() {
 		int x=0;
 		int y=0;
@@ -298,14 +282,8 @@ public class Grid {
 		}
 	}
 	
-	public ArrayList<Point> getPointUser() {
-		return pointUser;
-	}
-
-	public void setPointUser(ArrayList<Point> pointUser) {
-		this.pointUser = pointUser;
-	}
-
+	
+//Fonctions UPDATE
 	public void updateGrid(Point z,String s) {
 		int coordX=((int)z.getX()/this.getStep());
 		int coordY=((int)z.getY()/this.getStep());
@@ -341,6 +319,17 @@ public class Grid {
 		
 	}
 	
+	public void updateIANaive() {
+		Collections.shuffle(this.potentialMove);
+		if(!this.potentialMove.isEmpty()) {
+			Point x = this.potentialMove.get(0);
+			this.updateGrid(x,"IA");
+		}else {
+			System.out.println("No solution");
+		}
+		
+	}
+	
 	public void incrementeScore(String s) {
 		if(s.equals("IA")) {
 			this.score.setScore_computeur(this.score.getScore_computeur()+1);
@@ -351,7 +340,8 @@ public class Grid {
 			System.out.println("score joueur: "+this.score.getScore_joueur());
 		}
 	}
-	
+
+// Fonctions qui permettent de capter les points possibles et de capter aussi les points possibles par rapport à un point
 	public void pointAvailable() {
 		this.potentialMove.clear();
 		for(int i = 0;i<nbLine;i++) {
@@ -397,18 +387,6 @@ public class Grid {
 
 	}
 	
-	
-	public void updateIANaive() {
-		Collections.shuffle(this.potentialMove);
-		if(!this.potentialMove.isEmpty()) {
-			Point x = this.potentialMove.get(0);
-			this.updateGrid(x,"IA");
-		}else {
-			System.out.println("No solution");
-		}
-		
-	}
-	
 	public void NMCS() {
 		int max=-1;
 		int indice=-1;
@@ -431,7 +409,7 @@ public class Grid {
 	}
 	
 	
-
+//Fonctions de vérification
 	public boolean checkPossibleMoveHorizontale(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -627,7 +605,7 @@ public class Grid {
 		return false;		
 	}
     
-	
+//Fonctions qui permettent de dessiner les lignes lorsqu'elle sont correctes	
 	public void drawMoveHorizontale(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -886,20 +864,5 @@ public class Grid {
 		System.out.println(cpt_droite);
 				
 	}
-	
-	public Score getScore() {
-		return score;
-	}
-	public void setScore(Score score) {
-		this.score = score;
-	}
-	public ArrayList<Point> getPotentialMove() {
-		// TODO Auto-generated method stub
-		return this.potentialMove;
-	}
-    
-    		
-    		
-    
-    
+	   
 }
