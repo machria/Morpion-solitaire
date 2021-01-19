@@ -58,6 +58,7 @@ public class Choice extends JFrame {
 	
 	public static void main(String[] args) {
 		Choice c = new Choice();
+		System.out.println("A virer");
 	}
 	
 }
