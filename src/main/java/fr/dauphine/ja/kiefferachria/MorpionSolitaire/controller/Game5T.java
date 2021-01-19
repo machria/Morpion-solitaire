@@ -11,8 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -112,13 +115,10 @@ public class Game5T {
 				File f = fc.getSelectedFile();
 				try {
 					FileWriter fw = new FileWriter(f);
-					for(int i = 0;i<grid.getNbLine();i++) {
-						for(int j = 0; j<grid.getNbColumn();j++) {
-							if(grid.getPoints()[i][j]==true) {
-								String s = "("+i*grid.getStep()+";"+j*grid.getStep()+")";
-								fw.write(s);
-							}
-						}
+					for(int i = 0;i<grid.getPointUser().size();i++) {
+							String s = ""+grid.getPointUser().get(i).getX()+";"+grid.getPointUser().get(i).getY()+"\n";
+							fw.write(s);
+						
 					}
 					fw.close();
 					
@@ -129,6 +129,30 @@ public class Game5T {
 			}
 			
 		});
+		
+		this.scoreView.getImporter().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				grid.reset();
+				JFileChooser fc = new JFileChooser();
+				fc.showOpenDialog(frame);
+				File f = fc.getSelectedFile();
+				try {
+					Scanner myReader = new Scanner(f);
+				    while (myReader.hasNextLine()) {
+				        String data = myReader.nextLine();
+				        Point x = new Point((int)Double.parseDouble(data.split(";")[0]),(int)Double.parseDouble(data.split(";")[1]));
+				        grid.pointAvailable();
+				        grid.updateGrid(x, "player");
+				    }
+					myReader.close();
+				}
+				catch(IOException e1) {
+					System.out.println(e1);
+				}
+			}
+			
+		});
+		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.addMouseListener(new MouseAdapter() {

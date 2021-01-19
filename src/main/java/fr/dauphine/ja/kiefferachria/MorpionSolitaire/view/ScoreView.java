@@ -26,7 +26,7 @@ public class ScoreView extends JPanel {
 	private JButton help;
 	private JButton solution;
 	private JButton sauvegarder;
-	private JButton five_t;
+	private JButton importer;
 	private JLabel title;
 	
 	public ScoreView(Score score) {
@@ -114,8 +114,8 @@ public class ScoreView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.five_t = new JButton("Jouer en 5T");
-		this.add(this.five_t ,c);
+		this.importer = new JButton("IMPORT",new ImageIcon("import.png") );
+		this.add(this.importer ,c);
 		this.setBackground(Color.CYAN);
 		
 	}
@@ -170,6 +170,15 @@ public class ScoreView extends JPanel {
 		this.solution = solution;
 	}
 
+	public JButton getImporter() {
+		return importer;
+	}
+
+	public void setImporter(JButton importer) {
+		this.importer = importer;
+	}
+	
+	
 	
 	
 	
