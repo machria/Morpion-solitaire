@@ -95,7 +95,7 @@ public class Game extends JFrame{
 		c.weighty = 0.01;
 		frame.add(scoreView,c);
 		
-		
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.addMouseListener(new MouseAdapter() {
 			@Override
