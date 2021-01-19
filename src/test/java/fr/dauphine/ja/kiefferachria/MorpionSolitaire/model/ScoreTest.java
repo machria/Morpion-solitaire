@@ -63,7 +63,7 @@ public class ScoreTest extends TestCase {
 
     }
     /**
-     * Test the incrementation of the score for player on 5D
+     * Test the incrementation of the score for player on 5T
      */
     public void testplayerIncrement5T()
     {
@@ -73,7 +73,7 @@ public class ScoreTest extends TestCase {
     	assertTrue(grid.getScore().getScore_joueur()==1);
     }
     /**
-     * Test the not incrementation of the score for player who try a point impossible according to rule on 5D
+     * Test the not incrementation of the score for player who try a point impossible according to rule on 5T
      */
     public void testplayernoIncrement5T()
     {
@@ -83,7 +83,7 @@ public class ScoreTest extends TestCase {
     	assertTrue(grid.getScore().getScore_joueur()==0);
     }
     /**
-     * Test the incrementation of the score for player on 5D
+     * Test the incrementation of the score for player on 5T
      */
     public void testcomputerIncrement5T()
     {
