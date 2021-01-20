@@ -167,7 +167,7 @@ public class ScoreView extends JPanel {
 	}
 
 	public void setSolution(JButton solution) {
-		this.solution = solution;
+		this .solution = solution;
 	}
 
 	public JButton getImporter() {
