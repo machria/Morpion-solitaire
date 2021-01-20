@@ -136,6 +136,12 @@ public class Game extends JFrame{
 			}
 			
 		});
+		this.scoreView.getScoreDistrib().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Distribution(grid.getScoreHistory());
+			}
+			
+		});
 		
 		c.gridx=1;
 		c.gridy=0;

@@ -24,6 +24,8 @@ public class Grid5T {
     private ArrayList<Point> potentialMoveNext;
 	private ArrayList<Point> potentialMove;
 	private ArrayList<Point> pointUser;
+    private ArrayList<Integer> scoreHistory;
+
 	private Score score;
 
 	public Grid5T(int h, int w, int step) {
@@ -31,6 +33,7 @@ public class Grid5T {
 		this.step = step;
 		this.height = h;
 		this.width = w;
+    	this.scoreHistory = new ArrayList<Integer>();
 		this.reset();
 
 	}
@@ -130,6 +133,13 @@ public class Grid5T {
 
 	public void setPointUser(ArrayList<Point> pointUser) {
 		this.pointUser = pointUser;
+	}
+	public ArrayList<Integer> getScoreHistory() {
+		return scoreHistory;
+	}
+
+	public void setScoreHistory(ArrayList<Integer> scoreHistory) {
+		this.scoreHistory = scoreHistory;
 	}
 	
 	public Point getNeigh(int x, int y) {
@@ -294,6 +304,8 @@ public class Grid5T {
 		// TODO Auto-generated method stub
 		this.nbLine = (int) width / step;
 		this.nbColumn = (int) height / step;
+		if(!(this.pointUser==null))
+    		this.scoreHistory.add(this.pointUser.size());
 		this.potentialMove = new ArrayList<Point>();
 		this.points = new boolean[nbLine][nbColumn];
 		this.tabCoordonnee = new ArrayList<Point>();

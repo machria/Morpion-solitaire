@@ -28,6 +28,7 @@ public class ScoreView extends JPanel {
 	private JButton sauvegarder;
 	private JButton importer;
 	private JLabel title;
+	private JButton scoreDistrib;
 	
 	public ScoreView(Score score) {
 		super();
@@ -116,6 +117,15 @@ public class ScoreView extends JPanel {
 		c.weighty = 0.1;
 		this.importer = new JButton("IMPORT",new ImageIcon("import.png") );
 		this.add(this.importer ,c);
+
+		c.gridx=0;
+		c.gridy=10;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth=1;
+		c.weightx = 0.1;
+		c.weighty = 0.1;
+		this.scoreDistrib = new JButton("DISTRIBUTION" );
+		this.add(this.scoreDistrib,c);
 		this.setBackground(Color.CYAN);
 		
 	}
@@ -176,6 +186,14 @@ public class ScoreView extends JPanel {
 
 	public void setImporter(JButton importer) {
 		this.importer = importer;
+	}
+
+	public JButton getScoreDistrib() {
+		return scoreDistrib;
+	}
+
+	public void setScoreDistrib(JButton scoreDistrib) {
+		this.scoreDistrib = scoreDistrib;
 	}
 	
 	

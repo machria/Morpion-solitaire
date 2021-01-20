@@ -154,6 +154,12 @@ public class Game5T {
 			}
 			
 		});
+		this.scoreView.getScoreDistrib().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Distribution(grid.getScoreHistory());
+			}
+			
+		});
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

@@ -17,7 +17,7 @@ public class Graph {
 		m=max;
 		max = max*2;
 		for(int i = 0;i<toplot.size();i++) {
-			point.add(new Point((i*10)+5,max-toplot.get(i)));
+			point.add(new Point((i*20)+5,max-toplot.get(i)));
 		}
 	}
 
