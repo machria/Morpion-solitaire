@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 public class Grid {
@@ -36,7 +37,7 @@ public class Grid {
     private HashMap<Point, HashMap<Direction, Boolean>> tabUsed;
     private ArrayList<Point> potentialMoveNext;
     private ArrayList<Point> potentialMove;
-    private ArrayList<Point> pointUser;
+    private HashMap<Point,Direction> pointUser;
     private ArrayList<Integer> scoreHistory;
     private Score score;
     private HashMap<Direction,Boolean> possibleDirection;
@@ -148,12 +149,10 @@ public class Grid {
     	System.out.println(res);
     	return res;
     }
-	public ArrayList<Point> getPointUser() {
+	public HashMap<Point, Direction> getPointUser() {
 		return pointUser;
 	}
-	public void setPointUser(ArrayList<Point> pointUser) {
-		this.pointUser = pointUser;
-	}
+	
 
 //Mise en place du jeu et gestion du jeu
     private void initiatePoint() {
@@ -297,7 +296,7 @@ public class Grid {
     	this.initiatePoint();
     	this.generateCross();
     	this.catchCoordonnee();
-    	this.pointUser= new ArrayList<Point>();
+    	this.pointUser= new LinkedHashMap();
     	this.score = new Score();
 	}
 
@@ -341,15 +340,22 @@ public class Grid {
 					public void actionPerformed(ActionEvent e) {
 						if(tmp.get(a)==Direction.VERTICAL) {
 							drawMoveVerticale(z);
+							getPointUser().put(z,Direction.VERTICAL);
 						}
 						if(tmp.get(a)==Direction.HORIZONTAL) {
 							drawMoveHorizontale(z);
+							getPointUser().put(z,Direction.HORIZONTAL);
+
 						}
 						if(tmp.get(a)==Direction.DIAGLEFT) {
 							drawMoveDiagonaleLeft(z);
+							getPointUser().put(z,Direction.DIAGLEFT);
+
 						}
 						if(tmp.get(a)==Direction.DIAGRIGHT) {
 							drawMoveDiagonaleRight(z);
+							getPointUser().put(z,Direction.DIAGRIGHT);
+
 						}
 						choix.dispose();
 					}
@@ -360,42 +366,56 @@ public class Grid {
 			
 			choix.setVisible(true);
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
-			this.getPointUser().add(z);
 			this.incrementeScore(s);
 		}
 		else if(tmp.size()>1 && s == "IA") {
 			Collections.shuffle(tmp);
 			if(tmp.get(0)==Direction.VERTICAL) {
 				this.drawMoveVerticale(z);
+				getPointUser().put(z,Direction.VERTICAL);
+
 			}
 			if(tmp.get(0)==Direction.HORIZONTAL) {
 				this.drawMoveHorizontale(z);
+				getPointUser().put(z,Direction.HORIZONTAL);
+
 			}
 			if(tmp.get(0)==Direction.DIAGLEFT) {
 				this.drawMoveDiagonaleLeft(z);
+				getPointUser().put(z,Direction.DIAGLEFT);
+
 			}
 			if(tmp.get(0)==Direction.DIAGRIGHT) {
 				this.drawMoveDiagonaleRight(z);
+				getPointUser().put(z,Direction.DIAGRIGHT);
+
 			}
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
-			this.getPointUser().add(z);
 			this.incrementeScore(s);
 		}
 		else if(tmp.size()==1) {
 			if(tmp.get(0)==Direction.VERTICAL) {
 				this.drawMoveVerticale(z);
+				getPointUser().put(z,Direction.VERTICAL);
+
 			}
 			if(tmp.get(0)==Direction.HORIZONTAL) {
 				this.drawMoveHorizontale(z);
+				getPointUser().put(z,Direction.HORIZONTAL);
+
 			}
 			if(tmp.get(0)==Direction.DIAGLEFT) {
 				this.drawMoveDiagonaleLeft(z);
+				getPointUser().put(z,Direction.DIAGLEFT);
+
 			}
 			if(tmp.get(0)==Direction.DIAGRIGHT) {
 				this.drawMoveDiagonaleRight(z);
+				getPointUser().put(z,Direction.DIAGRIGHT);
+
 			}
 			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
-			this.getPointUser().add(z);
+
 			this.incrementeScore(s);
 			
 		}
@@ -404,6 +424,32 @@ public class Grid {
 		}
 		
 		
+	}
+	
+	public void updateGrid(Point z,Direction d) {
+		if(d==Direction.VERTICAL) {
+			this.drawMoveVerticale(z);
+			getPointUser().put(z,Direction.VERTICAL);
+
+		}
+		if(d==Direction.HORIZONTAL) {
+			this.drawMoveHorizontale(z);
+			getPointUser().put(z,Direction.HORIZONTAL);
+
+		}
+		if(d==Direction.DIAGLEFT) {
+			this.drawMoveDiagonaleLeft(z);
+			getPointUser().put(z,Direction.DIAGLEFT);
+
+		}
+		if(d==Direction.DIAGRIGHT) {
+			this.drawMoveDiagonaleRight(z);
+			getPointUser().put(z,Direction.DIAGRIGHT);
+
+		}
+		this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
+
+		this.incrementeScore("player");
 	}
 	
 	public void updateIANaive() {

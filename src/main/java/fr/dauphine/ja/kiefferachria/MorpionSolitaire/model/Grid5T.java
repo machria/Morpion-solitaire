@@ -25,6 +25,7 @@ public class Grid5T {
 	private ArrayList<Point> potentialMove;
 	private ArrayList<Point> pointUser;
     private ArrayList<Integer> scoreHistory;
+    private HashMap<Direction,Boolean> possibleDirection;
 
 	private Score score;
 
@@ -179,12 +180,26 @@ public class Grid5T {
     	dir.put(Direction.HORIZONTAL,0);
     	dir.put(Direction.DIAGLEFT,0);
     	dir.put(Direction.DIAGRIGHT,0);
+    	this.possibleDirection.put(Direction.VERTICAL_BOTTOM,false);
+    	this.possibleDirection.put(Direction.VERTICAL_TOP,false);
+
+    	this.possibleDirection.put(Direction.HORIZONTAL_LEFT,false);
+    	this.possibleDirection.put(Direction.HORIZONTAL_RIGHT,false);
+
+    	
+    	this.possibleDirection.put(Direction.DIAGLEFT_TOPLEFT,false);
+    	this.possibleDirection.put(Direction.DIAGLEFT_BOTTOMRIGHT,false);
+
+    	this.possibleDirection.put(Direction.DIAGRIGHT_BOTTOMLEFT,false);
+    	this.possibleDirection.put(Direction.DIAGRIGHT_TOPRIGHT,false);
+
 		for(int i = 0;i<nbLine;i++) {
 			for(int j = 0;j<nbColumn;j++) {
 				this.points[i][j]=false;
 				this.tabUsed.put(new Point(i*this.step,j*this.step ),(HashMap<Direction, Integer>) dir.clone());
 			}
 		}
+		
 	}
 
 	public void generateCross() {
@@ -306,6 +321,7 @@ public class Grid5T {
 		this.nbColumn = (int) height / step;
 		if(!(this.pointUser==null))
     		this.scoreHistory.add(this.pointUser.size());
+		this.possibleDirection = new HashMap<Direction,Boolean>();
 		this.potentialMove = new ArrayList<Point>();
 		this.points = new boolean[nbLine][nbColumn];
 		this.tabCoordonnee = new ArrayList<Point>();
@@ -1600,5 +1616,26 @@ public class Grid5T {
 		}
 		
 	}
-	
+	public void possibleDirectionOnClick(Point z) {
+		this.possibleDirection.replace(Direction.VERTICAL,false);
+    	this.possibleDirection.replace(Direction.HORIZONTAL,false);
+    	this.possibleDirection.replace(Direction.DIAGLEFT,false);
+    	this.possibleDirection.replace(Direction.DIAGRIGHT,false);
+    	
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleLeft(z)==true) {
+			int coordX = ((int) z.getX() / this.getStep());
+			int coordY = ((int) z.getY() / this.getStep());
+			if(this.tabUsed.get(new Point((coordX) * this.step, (coordY) * this.step)).get(Direction.HORIZONTAL)==1)
+			this.possibleDirection.replace(Direction.DIAGLEFT, true);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleRight(z)==true) {
+			this.possibleDirection.replace(Direction.DIAGRIGHT, true);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveHorizontale(z)==true) {
+			this.possibleDirection.replace(Direction.HORIZONTAL, true);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveVerticale(z)==true) {
+			this.possibleDirection.replace(Direction.VERTICAL, true);
+		}
+	}
 }
