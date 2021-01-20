@@ -1,9 +1,23 @@
 package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.util.HashMap;
 
 
@@ -25,6 +39,7 @@ public class Grid {
     private ArrayList<Point> pointUser;
     private ArrayList<Integer> scoreHistory;
     private Score score;
+    private HashMap<Direction,Boolean> possibleDirection;
     
     
 	public Grid(int h,int w, int step){
@@ -148,6 +163,10 @@ public class Grid {
     	dir.put(Direction.HORIZONTAL,false);
     	dir.put(Direction.DIAGLEFT,false);
     	dir.put(Direction.DIAGRIGHT,false);
+    	this.possibleDirection.put(Direction.VERTICAL,false);
+    	this.possibleDirection.put(Direction.HORIZONTAL,false);
+    	this.possibleDirection.put(Direction.DIAGLEFT,false);
+    	this.possibleDirection.put(Direction.DIAGRIGHT,false);
 		for(int i = 0;i<nbLine;i++) {
 			for(int j = 0;j<nbColumn;j++) {
 				this.points[i][j]=false;
@@ -267,6 +286,7 @@ public class Grid {
     		this.scoreHistory.add(this.pointUser.size());
     	this.potentialMove = new ArrayList<Point>();
     	this.potentialMoveNext = new ArrayList<Point>();
+    	this.possibleDirection = new HashMap<Direction,Boolean>(4);
 
     	this.points = new boolean [nbLine][nbColumn];
     	this.tabCoordonnee=new ArrayList<Point>();
@@ -300,34 +320,88 @@ public class Grid {
 	public void updateGrid(Point z,String s) {
 		int coordX=((int)z.getX()/this.getStep());
 		int coordY=((int)z.getY()/this.getStep());
-			System.out.println(this.tabUsed.get(z));
-			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleLeft(z)) {
-				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
-				this.drawMoveDiagonaleLeft(z);
-				this.pointUser.add(z);
-				this.incrementeScore(s);
+		this.possibleDirectionOnClick(z);
+		ArrayList<Direction> tmp = new ArrayList<Direction>(this.possibleDirection.entrySet().stream().filter(entry -> Objects.equals(entry.getValue(), true)).map(Map.Entry::getKey).collect(Collectors.toList())); 
+		if(tmp.size()>1 && s != "IA") {
+			JFrame choix = new JFrame("Choix direction");
+			choix.setLayout(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			choix.setSize(new Dimension(200, 200));
+			choix.setLocationRelativeTo(null);
+			for(int i = 0 ; i<tmp.size();i++) {
+				final int a = new Integer(i);
+				c.gridx=0;
+				c.gridy=i;
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.gridwidth=1;
+				c.weightx = 1/tmp.size();
+				c.weighty = 1/tmp.size();
+				JButton b = new JButton(tmp.get(i).toString());
+				b.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(tmp.get(a)==Direction.VERTICAL) {
+							drawMoveVerticale(z);
+						}
+						if(tmp.get(a)==Direction.HORIZONTAL) {
+							drawMoveHorizontale(z);
+						}
+						if(tmp.get(a)==Direction.DIAGLEFT) {
+							drawMoveDiagonaleLeft(z);
+						}
+						if(tmp.get(a)==Direction.DIAGRIGHT) {
+							drawMoveDiagonaleRight(z);
+						}
+						choix.dispose();
+					}
+					
+				});
+				choix.add(b ,c);
 			}
-			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleRight(z)) {
-				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
-				this.drawMoveDiagonaleRight(z);
-				this.pointUser.add(z);
-				this.incrementeScore(s);
-			}
-			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveHorizontale(z)) {
-				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
-				this.drawMoveHorizontale(z);
-				this.pointUser.add(z);
-				this.incrementeScore(s);
-			}
-			if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveVerticale(z)) {
-				this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;
+			
+			choix.setVisible(true);
+			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
+			this.getPointUser().add(z);
+			this.incrementeScore(s);
+		}
+		else if(tmp.size()>1 && s == "IA") {
+			Collections.shuffle(tmp);
+			if(tmp.get(0)==Direction.VERTICAL) {
 				this.drawMoveVerticale(z);
-				this.pointUser.add(z);
-				this.incrementeScore(s);
 			}
-			else {
-				System.out.println("existe deja");
+			if(tmp.get(0)==Direction.HORIZONTAL) {
+				this.drawMoveHorizontale(z);
 			}
+			if(tmp.get(0)==Direction.DIAGLEFT) {
+				this.drawMoveDiagonaleLeft(z);
+			}
+			if(tmp.get(0)==Direction.DIAGRIGHT) {
+				this.drawMoveDiagonaleRight(z);
+			}
+			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
+			this.getPointUser().add(z);
+			this.incrementeScore(s);
+		}
+		else if(tmp.size()==1) {
+			if(tmp.get(0)==Direction.VERTICAL) {
+				this.drawMoveVerticale(z);
+			}
+			if(tmp.get(0)==Direction.HORIZONTAL) {
+				this.drawMoveHorizontale(z);
+			}
+			if(tmp.get(0)==Direction.DIAGLEFT) {
+				this.drawMoveDiagonaleLeft(z);
+			}
+			if(tmp.get(0)==Direction.DIAGRIGHT) {
+				this.drawMoveDiagonaleRight(z);
+			}
+			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
+			this.getPointUser().add(z);
+			this.incrementeScore(s);
+			
+		}
+		else {
+			System.out.println("Pas de mouvement possible");
+		}
 		
 		
 	}
@@ -1185,6 +1259,26 @@ public class Grid {
 		System.out.println(cpt_gauche);
 		System.out.println(cpt_droite);
 				
+	}
+	
+	public void possibleDirectionOnClick(Point z) {
+		this.possibleDirection.replace(Direction.VERTICAL,false);
+    	this.possibleDirection.replace(Direction.HORIZONTAL,false);
+    	this.possibleDirection.replace(Direction.DIAGLEFT,false);
+    	this.possibleDirection.replace(Direction.DIAGRIGHT,false);
+    	
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleLeft(z)==true) {
+			this.possibleDirection.replace(Direction.DIAGLEFT, true);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveDiagonaleRight(z)==true) {
+			this.possibleDirection.replace(Direction.DIAGRIGHT, true);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveHorizontale(z)==true) {
+			this.possibleDirection.replace(Direction.HORIZONTAL, true);
+		}
+		if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && checkPossibleMoveVerticale(z)==true) {
+			this.possibleDirection.replace(Direction.VERTICAL, true);
+		}
 	}
 	   
 }
