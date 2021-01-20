@@ -166,7 +166,9 @@ public class Game extends JFrame{
                 
                 scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
                 scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
-                
+                for(int i=0;i<grid.getScoreHistory().size();i++) {
+                	System.out.println(grid.getScoreHistory().get(i));
+                }
             }
 		});
 		

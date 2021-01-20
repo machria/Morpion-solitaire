@@ -23,6 +23,7 @@ public class Grid {
     private ArrayList<Point> potentialMoveNext;
     private ArrayList<Point> potentialMove;
     private ArrayList<Point> pointUser;
+    private ArrayList<Integer> scoreHistory;
     private Score score;
     
     
@@ -31,6 +32,7 @@ public class Grid {
     	this.step=step;
     	this.height=h;
     	this.width=w;
+    	this.scoreHistory = new ArrayList<Integer>();
     	this.reset();
 
     }
@@ -105,6 +107,15 @@ public class Grid {
 	public void setTabCoordonnee(ArrayList<Point> tabCoordonnee) {
 		this.tabCoordonnee = tabCoordonnee;
 	}
+	
+	public ArrayList<Integer> getScoreHistory() {
+		return scoreHistory;
+	}
+
+	public void setScoreHistory(ArrayList<Integer> scoreHistory) {
+		this.scoreHistory = scoreHistory;
+	}
+
 	public Point getNeigh(int x,int y) {
 		
     	Point t = new Point(x,y);
@@ -252,6 +263,8 @@ public class Grid {
 		// TODO Auto-generated method stub
     	this.nbLine=(int)width/step;
     	this.nbColumn=(int)height/step;
+    	if(!(this.pointUser==null))
+    		this.scoreHistory.add(this.pointUser.size());
     	this.potentialMove = new ArrayList<Point>();
     	this.potentialMoveNext = new ArrayList<Point>();
 
