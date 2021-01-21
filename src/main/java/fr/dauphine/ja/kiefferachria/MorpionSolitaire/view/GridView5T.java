@@ -3,6 +3,8 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -41,9 +43,12 @@ private Grid5T grid;
 		g.setColor(Color.white);
 		int co=0;
 		this.setFont(new Font("default", Font.BOLD, 12));
-		for( int i=0;i<grid.getPointUser().size();i++) {
+		ArrayList<Point> listP = new ArrayList<Point>();
+		listP.addAll(grid.getPointUser().keySet());
+		
+		for( int i=0;i<listP.size();i++) {
 			co=i+1;
-			g.drawString(""+co, grid.getPointUser().get(i).x-7, grid.getPointUser().get(i).y+7);
+			g.drawString(""+co, listP.get(i).x-7, listP.get(i).y+7);
 		}
 		
 	}

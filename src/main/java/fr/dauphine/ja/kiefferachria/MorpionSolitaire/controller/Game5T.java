@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -24,6 +25,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Direction;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5T;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView;
@@ -93,8 +95,9 @@ public class Game5T {
 	                gridView.repaint();
 	                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
 	                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+	                
 				}
-				
+				System.out.println(grid.getTabLine().size());
 			}
 			
 		});
@@ -115,8 +118,10 @@ public class Game5T {
 				File f = fc.getSelectedFile();
 				try {
 					FileWriter fw = new FileWriter(f);
-					for(int i = 0;i<grid.getPointUser().size();i++) {
-							String s = ""+grid.getPointUser().get(i).getX()+";"+grid.getPointUser().get(i).getY()+"\n";
+					ArrayList<Point> listP = new ArrayList<Point>();
+					listP.addAll(grid.getPointUser().keySet());
+					for(int i = 0;i<listP.size();i++) {
+							String s = ""+listP.get(i).getX()+";"+listP.get(i).getY()+";"+grid.getPointUser().get(listP.get(i))+"\n";
 							fw.write(s);
 						
 					}
@@ -141,8 +146,9 @@ public class Game5T {
 				    while (myReader.hasNextLine()) {
 				        String data = myReader.nextLine();
 				        Point x = new Point((int)Double.parseDouble(data.split(";")[0]),(int)Double.parseDouble(data.split(";")[1]));
+				        Direction d = Direction.valueOf(data.split(";")[2]);
 				        grid.pointAvailable();
-				        grid.updateGrid(x, "player");
+				        grid.updateGrid(x,d);
 				        scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
 		                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
 				    }
