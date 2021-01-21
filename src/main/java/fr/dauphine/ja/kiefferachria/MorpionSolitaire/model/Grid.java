@@ -553,12 +553,12 @@ public class Grid {
 			}
 		}
 		Point best;
-		if(tmp.size()>2) {
+		if(choice.size()>1) {
 			Collections.shuffle(choice);
 			best = choice.get(0);
 		}
 		else {
-			best = tmp.get(0);
+			best = choice.get(0);
 		}
 		
 		

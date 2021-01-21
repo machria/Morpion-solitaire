@@ -151,4 +151,54 @@ public class Grid5TTest extends TestCase {
 		assertTrue(grid.getPotentialMove().contains(new Point(240,400)));
 
     }
+    
+    /**
+     * Test our algorithm which generate solution ten times and print the best score
+     */
+    public void test10NMCS()
+    {
+    	final Grid5T grid = new Grid5T(880,880,40);
+    	for(int i=0;i<10;i++) {
+        	grid.pointAvailable();
+    		while(!grid.getPotentialMove().isEmpty()) {
+
+    			grid.NMCS();
+    			grid.pointAvailable();
+                
+    		}
+    		grid.reset();
+    	}
+    	int max=0;
+    	for(int i=0;i<grid.getScoreHistory().size();i++) {
+    		if(max<grid.getScoreHistory().get(i))
+    			max=grid.getScoreHistory().get(i);
+    	}
+    	System.out.println(max);
+
+    }
+    
+    /**
+     * Test algorithm who take a random point which generate solution ten times and print the best score
+     */
+    public void test10IA()
+    {
+    	final Grid5T grid = new Grid5T(880,880,40);
+    	for(int i=0;i<10;i++) {
+        	grid.pointAvailable();
+    		while(!grid.getPotentialMove().isEmpty()) {
+
+    			grid.updateIA();
+    			grid.pointAvailable();
+                
+    		}
+    		grid.reset();
+    	}
+    	int max=0;
+    	for(int i=0;i<grid.getScoreHistory().size();i++) {
+    		if(max<grid.getScoreHistory().get(i))
+    			max=grid.getScoreHistory().get(i);
+    	}
+    	System.out.println(max);
+
+    }
 }
