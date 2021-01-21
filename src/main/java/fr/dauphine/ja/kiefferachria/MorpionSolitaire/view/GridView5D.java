@@ -6,25 +6,25 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
+import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5D;
 
 /**
  * This class is used to create the grid view 5D.
  * @author floryan
  *
  */
-public class GridView extends JPanel {
+public class GridView5D extends JPanel {
 
 	/**
 	 * 5D game board instance.
 	 */
-	private Grid grid;
+	private Grid5D grid;
 	
 	/**
 	 * Constructor by copy.
 	 * @param grid
 	 */
-	public GridView(Grid grid) {
+	public GridView5D(Grid5D grid) {
 		this.grid = grid;
 		
 		}

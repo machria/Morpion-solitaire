@@ -16,9 +16,9 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Direction;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.ScoreView;
+import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5D;
+import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView5D;
+import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.MenuView;
 
 
 /**
@@ -26,41 +26,41 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.ScoreView;
  * @author floryan
  *
  */
-public class Game extends JFrame{
+public class Game5D extends JFrame{
 
 	/**
 	 * 5D game board instance.
 	 */
-	private Grid grid;
+	private Grid5D grid;
 	/**
 	 * View of the 5T grid.
 	 */
-	private GridView gridView;
+	private GridView5D gridView;
 	/**
 	 * View of score (also contains buttons)
 	 */
-	private ScoreView scoreView;
+	private MenuView scoreView;
 	
 	/**
 	 * Creation of the window that will allow you to play the game and use the associated features.
 	 */
-	public Game() {
+	public Game5D() {
 		final JFrame frame = new JFrame("Morpion Solitaire");
 		frame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		frame.setSize(new Dimension(1000, 800));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		final Grid grid = new Grid(880,880,40);
+		final Grid5D grid = new Grid5D(880,880,40);
 		grid.catchCoordonnee();
 		for(int i = 0 ; i<grid.getTabCoordonnee().size();i++) {
 			System.out.println(grid.getTabCoordonnee().get(i));
 		}
 		System.out.println((int)grid.getNbColumn()/2);
-		GridView d = new GridView(grid);
+		GridView5D d = new GridView5D(grid);
 		this.gridView=d;	
 	
 		
-		this.scoreView = new ScoreView(grid.getScore());
+		this.scoreView = new MenuView(grid.getScore());
 		this.scoreView.getReset().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				grid.reset();

@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Direction;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5T;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView5T;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.ScoreView;
+import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.MenuView;
 
 
 /**
@@ -39,7 +39,7 @@ public class Game5T {
 	/**
 	 * View of score (also contains buttons)
 	 */
-	private ScoreView scoreView;
+	private MenuView scoreView;
 	
 	/**
 	 * Creation of the window that will allow you to play the game and use the associated features.
@@ -69,7 +69,7 @@ public class Game5T {
 		frame.add(d,c);
 		
 		
-		this.scoreView = new ScoreView(grid.getScore());
+		this.scoreView = new MenuView(grid.getScore());
 		this.scoreView.getReset().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				grid.reset();

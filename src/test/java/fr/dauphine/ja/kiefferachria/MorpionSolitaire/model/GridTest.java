@@ -31,7 +31,7 @@ public class GridTest extends TestCase {
      */
     public void testInitCross()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	int count=0;
 		for(int i = 0;i<grid.getNbLine();i++) {
 			for(int j = 0;j<grid.getNbColumn();j++) {
@@ -54,7 +54,7 @@ public class GridTest extends TestCase {
      */
     public void testUpdateGridGood()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	grid.updateGrid(new Point(240,400), "player");
 		assertTrue(grid.getPointUser().size()==1);
 		int count=0;
@@ -79,7 +79,7 @@ public class GridTest extends TestCase {
      */
     public void testUpdateGridBad()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	grid.updateGrid(new Point(0,0), "player");
 		assertTrue(grid.getPointUser().size()==0);
 		int count=0;
@@ -104,9 +104,9 @@ public class GridTest extends TestCase {
      */
     public void testcheckHorizontal()
     {
-    	final Grid grid = new Grid(880,880,40);
-		assertTrue(grid.checkPossibleMoveHorizontale(new Point(240,400)));
-		assertFalse(grid.checkPossibleMoveHorizontale(new Point(0,0)));
+    	final Grid5D grid = new Grid5D(880,880,40);
+		assertTrue(grid.checkPossibleMoveHorizontal(new Point(240,400)));
+		assertFalse(grid.checkPossibleMoveHorizontal(new Point(0,0)));
 
     }
     
@@ -115,9 +115,9 @@ public class GridTest extends TestCase {
      */
     public void testcheckVertical()
     {
-    	final Grid grid = new Grid(880,880,40);
-		assertTrue(grid.checkPossibleMoveVerticale(new Point(400,240)));
-		assertFalse(grid.checkPossibleMoveVerticale(new Point(0,0)));
+    	final Grid5D grid = new Grid5D(880,880,40);
+		assertTrue(grid.checkPossibleMoveVertical(new Point(400,240)));
+		assertFalse(grid.checkPossibleMoveVertical(new Point(0,0)));
 
     }
     
@@ -126,9 +126,9 @@ public class GridTest extends TestCase {
      */
     public void testcheckLeft()
     {
-    	final Grid grid = new Grid(880,880,40);
-		assertTrue(grid.checkPossibleMoveDiagonaleLeft(new Point(560,360)));
-		assertFalse(grid.checkPossibleMoveDiagonaleLeft(new Point(0,0)));
+    	final Grid5D grid = new Grid5D(880,880,40);
+		assertTrue(grid.checkPossibleMoveDiagonalLeft(new Point(560,360)));
+		assertFalse(grid.checkPossibleMoveDiagonalLeft(new Point(0,0)));
 
     }
     
@@ -137,9 +137,9 @@ public class GridTest extends TestCase {
      */
     public void testcheckRight()
     {
-    	final Grid grid = new Grid(880,880,40);
-		assertTrue(grid.checkPossibleMoveDiagonaleRight(new Point(360,360)));
-		assertFalse(grid.checkPossibleMoveDiagonaleRight(new Point(0,0)));
+    	final Grid5D grid = new Grid5D(880,880,40);
+		assertTrue(grid.checkPossibleMoveDiagonalRight(new Point(360,360)));
+		assertFalse(grid.checkPossibleMoveDiagonalRight(new Point(0,0)));
 
     }
     
@@ -148,7 +148,7 @@ public class GridTest extends TestCase {
      */
     public void testpointAvailable()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	grid.pointAvailable();
 		assertTrue(grid.getPotentialMove().contains(new Point(360,360)));
 		assertTrue(grid.getPotentialMove().contains(new Point(560,360)));
@@ -162,7 +162,7 @@ public class GridTest extends TestCase {
      */
     public void test10NMCS()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	for(int i=0;i<1;i++) {
         	grid.pointAvailable();
     		while(!grid.getPotentialMove().isEmpty()) {
@@ -187,7 +187,7 @@ public class GridTest extends TestCase {
      */
     public void test10NMCS2()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	for(int i=0;i<1;i++) {
         	grid.pointAvailable();
     		while(!grid.getPotentialMove().isEmpty()) {
@@ -212,7 +212,7 @@ public class GridTest extends TestCase {
      */
     public void test10IA()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	for(int i=0;i<1;i++) {
         	grid.pointAvailable();
     		while(!grid.getPotentialMove().isEmpty()) {

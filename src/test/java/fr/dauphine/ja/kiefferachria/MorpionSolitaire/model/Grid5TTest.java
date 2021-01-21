@@ -102,8 +102,8 @@ public class Grid5TTest extends TestCase {
     public void testcheckHorizontal()
     {
     	final Grid5T grid = new Grid5T(880,880,40);
-		assertTrue(grid.checkPossibleMoveHorizontale(new Point(240,400)));
-		assertFalse(grid.checkPossibleMoveHorizontale(new Point(0,0)));
+		assertTrue(grid.checkPossibleMoveHorizontal(new Point(240,400)));
+		assertFalse(grid.checkPossibleMoveHorizontal(new Point(0,0)));
 
     }
     /**
@@ -112,8 +112,8 @@ public class Grid5TTest extends TestCase {
     public void testcheckVertical()
     {
     	final Grid5T grid = new Grid5T(880,880,40);
-		assertTrue(grid.checkPossibleMoveVerticale(new Point(400,240)));
-		assertFalse(grid.checkPossibleMoveVerticale(new Point(0,0)));
+		assertTrue(grid.checkPossibleMoveVertical(new Point(400,240)));
+		assertFalse(grid.checkPossibleMoveVertical(new Point(0,0)));
 
     }
     
@@ -123,8 +123,8 @@ public class Grid5TTest extends TestCase {
     public void testcheckLeft()
     {
     	final Grid5T grid = new Grid5T(880,880,40);
-		assertTrue(grid.checkPossibleMoveDiagonaleLeft(new Point(560,360)));
-		assertFalse(grid.checkPossibleMoveDiagonaleLeft(new Point(0,0)));
+		assertTrue(grid.checkPossibleMoveDiagonalLeft(new Point(560,360)));
+		assertFalse(grid.checkPossibleMoveDiagonalLeft(new Point(0,0)));
 
     }
     
@@ -134,8 +134,8 @@ public class Grid5TTest extends TestCase {
     public void testcheckRight()
     {
     	final Grid5T grid = new Grid5T(880,880,40);
-		assertTrue(grid.checkPossibleMoveDiagonaleRight(new Point(360,360)));
-		assertFalse(grid.checkPossibleMoveDiagonaleRight(new Point(0,0)));
+		assertTrue(grid.checkPossibleMoveDiagonalRight(new Point(360,360)));
+		assertFalse(grid.checkPossibleMoveDiagonalRight(new Point(0,0)));
 
     }
     /**

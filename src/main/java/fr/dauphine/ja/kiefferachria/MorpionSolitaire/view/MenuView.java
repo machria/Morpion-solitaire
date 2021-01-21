@@ -17,11 +17,11 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Score;
  * @author floryan
  *
  */
-public class ScoreView extends JPanel {
+public class MenuView extends JPanel {
 	
 	Score score;
 	private JLabel score_joueur;
-	private JLabel score_computeur;
+	private JLabel score_computer;
 	private JButton reset;
 	private JButton help;
 	private JButton solution;
@@ -35,7 +35,7 @@ public class ScoreView extends JPanel {
 	 * Creation of the JPanel scoreView.
 	 * @param score
 	 */
-	public ScoreView(Score score) {
+	public MenuView(Score score) {
 		super();
 		this.score=score;
 		this.setLayout(new GridBagLayout());
@@ -47,7 +47,7 @@ public class ScoreView extends JPanel {
 		JLabel computeur = new JLabel("Score du Computeur : ");
 		this.score_joueur = new JLabel(this.score.getScore_joueur()+"");
 		
-		this.score_computeur = new JLabel(this.score.getScore_computeur()+"");
+		this.score_computer = new JLabel(this.score.getScore_computeur()+"");
 		c.gridx=0;
 		c.gridy=0;
 		c.fill = GridBagConstraints.BOTH;
@@ -82,7 +82,7 @@ public class ScoreView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.add(score_computeur,c);
+		this.add(score_computer,c);
 		c.gridx=0;
 		c.gridy=5;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -172,7 +172,7 @@ public class ScoreView extends JPanel {
 	 * @return computer score
 	 */
 	public JLabel getScore_computeur() {
-		return score_computeur;
+		return score_computer;
 	}
 	
 	/**
@@ -180,7 +180,7 @@ public class ScoreView extends JPanel {
 	 * @param score computer
 	 */
 	public void setScore_computeur(JLabel score_computeur) {
-		this.score_computeur = score_computeur;
+		this.score_computer = score_computeur;
 	}
 	
 	/**

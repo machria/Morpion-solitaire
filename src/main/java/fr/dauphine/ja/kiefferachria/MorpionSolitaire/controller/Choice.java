@@ -52,7 +52,7 @@ public class Choice extends JFrame {
 		
 		this.five_d.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Game();
+				new Game5D();
 				
 			}
 			

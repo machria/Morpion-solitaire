@@ -113,9 +113,12 @@ public class Grid5T {
 		this.reset();
 
 	}
-/////////////////////
-//GETTER ET SETTERS//
-/////////////////////
+	
+/////////////////////////
+//					   //	
+// Getters and Setters //
+//					   //
+/////////////////////////
 	
 	public List<Line> getTabLine() {
 		return tabLine;
@@ -253,9 +256,11 @@ public class Grid5T {
 		this.score = score;
 	}
 
-/////////////////////////////////////
-//Fonctions de mise en place du jeu//
-/////////////////////////////////////
+////////////////////////
+//					  //
+// Game setup methods //
+//					  //
+////////////////////////
 	
 	/**
 	 * Initiate instance of class
@@ -441,7 +446,9 @@ public class Grid5T {
 	}
 
 ////////////////////
-//Fonctions UPDATE//
+//				  //
+// Update methods //
+//				  //
 ////////////////////
 	
 	/**
@@ -506,11 +513,11 @@ public class Grid5T {
 	 */
 	public void updateGrid(Point z, Direction d) {
 		if (d == Direction.VERTICAL_BOTTOM) {
-			drawMoveVerticale2(z);
+			drawMoveVertical2(z);
 			getPointUser().put(z, Direction.VERTICAL_BOTTOM);
 		}
 		if (d == Direction.HORIZONTAL_LEFT) {
-			drawMoveHorizontale(z);
+			drawMoveHorizontal(z);
 			getPointUser().put(z, Direction.HORIZONTAL_LEFT);
 
 		}
@@ -520,26 +527,26 @@ public class Grid5T {
 
 		}
 		if (d == Direction.DIAGRIGHT_TOPRIGHT) {
-			drawMoveDiagonaleRight(z);
+			drawMoveDiagonalRight(z);
 			getPointUser().put(z, Direction.DIAGRIGHT_TOPRIGHT);
 
 		}
 		if (d == Direction.VERTICAL_TOP) {
-			drawMoveVerticale(z);
+			drawMoveVertical(z);
 			getPointUser().put(z, Direction.VERTICAL_TOP);
 		}
 		if (d == Direction.HORIZONTAL_RIGHT) {
-			drawMoveHorizontale2(z);
+			drawMoveHorizontal2(z);
 			getPointUser().put(z, Direction.HORIZONTAL_RIGHT);
 
 		}
 		if (d == Direction.DIAGLEFT_TOPLEFT) {
-			drawMoveDiagonaleLeft(z);
+			drawMoveDiagonalLeft(z);
 			getPointUser().put(z, Direction.DIAGLEFT_TOPLEFT);
 
 		}
 		if (d == Direction.DIAGRIGHT_BOTTOMLEFT) {
-			drawMoveDiagonaleRight2(z);
+			drawMoveDiagonalRight2(z);
 			getPointUser().put(z, Direction.DIAGRIGHT_BOTTOMLEFT);
 
 		}
@@ -577,9 +584,11 @@ public class Grid5T {
 		}
 	}
 	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Fonctions qui permettent de capter les points possibles et de capter aussi les points possibles par rapport à un point//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//																													  //
+// Methods which allow to capture the possible points and also to capture the possible points with respect to a point //
+//																													  //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * This method able to fills the table of possible available points at time t.
@@ -590,8 +599,8 @@ public class Grid5T {
 			for (int j = 0; j < nbColumn; j++) {
 				Point z = new Point(i * this.step, j * this.step);
 				if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
-						&& (checkPossibleMoveVerticale(z) || checkPossibleMoveHorizontale(z)
-								|| checkPossibleMoveDiagonaleLeft(z) || checkPossibleMoveDiagonaleRight(z))) {
+						&& (checkPossibleMoveVertical(z) || checkPossibleMoveHorizontal(z)
+								|| checkPossibleMoveDiagonalLeft(z) || checkPossibleMoveDiagonalRight(z))) {
 					this.potentialMove.add(z);
 				}
 			}
@@ -614,8 +623,8 @@ public class Grid5T {
 			for (int j = 0; j < nbColumn; j++) {
 				Point z = new Point(i * this.step, j * this.step);
 				if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
-						&& (checkPossibleMoveDiagonaleRight(z) || checkPossibleMoveDiagonaleLeft(z)
-								|| checkPossibleMoveHorizontale(z) || checkPossibleMoveVerticale(z))) {
+						&& (checkPossibleMoveDiagonalRight(z) || checkPossibleMoveDiagonalLeft(z)
+								|| checkPossibleMoveHorizontal(z) || checkPossibleMoveVertical(z))) {
 					this.potentialMoveNext.add(z);
 				}
 			}
@@ -651,9 +660,12 @@ public class Grid5T {
 		}
 
 	}
-/////////////////////////////
-//Fonctions de vérification//
-/////////////////////////////
+	
+//////////////////////////
+// 						//
+// Verification methods //
+//						//
+//////////////////////////
 	
 	/**
 	 * This method allows to verify if an horizontal movement is possible when a player makes a choice.
@@ -661,7 +673,7 @@ public class Grid5T {
 	 * @param z (Point)
 	 * @return boolean
 	 */
-	public boolean checkPossibleMoveHorizontale(Point z) {
+	public boolean checkPossibleMoveHorizontal(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		int coordX = ((int) z.getX() / this.getStep());
@@ -718,7 +730,7 @@ public class Grid5T {
 	 * @param z (Point)
 	 * @return boolean
 	 */
-	public boolean checkPossibleMoveVerticale(Point z) {
+	public boolean checkPossibleMoveVertical(Point z) {
 		int cpt_haut = 0;
 		int cpt_bas = 0;
 		int coordX = ((int) z.getX() / this.getStep());
@@ -778,7 +790,7 @@ public class Grid5T {
 	 * @param z (Point)
 	 * @return boolean
 	 */
-	public boolean checkPossibleMoveDiagonaleLeft(Point z) {
+	public boolean checkPossibleMoveDiagonalLeft(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		int coordX = ((int) z.getX() / this.getStep());
@@ -839,7 +851,7 @@ public class Grid5T {
 	 * @param z (Point)
 	 * @return boolean
 	 */
-	public boolean checkPossibleMoveDiagonaleRight(Point z) {
+	public boolean checkPossibleMoveDiagonalRight(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		int coordX = ((int) z.getX() / this.getStep());
@@ -893,9 +905,11 @@ public class Grid5T {
 
 	}
 
-//////////////////////////////////////////////////////////////////////////////
-//Fonctions qui permettent de dessiner les lignes lorsqu'elle sont correctes//
-//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+//                                                                //
+// Methods that allow you to draw the lines when they are correct //
+//                                                                //
+////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * This method allows to fill tabLine with a start point and an end point (which represent a right diagonal line) 
@@ -903,7 +917,7 @@ public class Grid5T {
 	 * 
 	 * @param z (Point)
 	 */
-	public void drawMoveDiagonaleRight(Point z) {
+	public void drawMoveDiagonalRight(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		Line line = new Line(null, null, null, null, null);
@@ -1026,7 +1040,7 @@ public class Grid5T {
 	 * 
 	 * @param z (Point)
 	 */
-	public void drawMoveDiagonaleLeft(Point z) {
+	public void drawMoveDiagonalLeft(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		Line line = new Line(null, null, null, null, null);
@@ -1149,7 +1163,7 @@ public class Grid5T {
 	 * 
 	 * @param z (Point)
 	 */
-	public void drawMoveVerticale(Point z) {
+	public void drawMoveVertical(Point z) {
 		int cpt_haut = 0;
 		int cpt_bas = 0;
 		Line line = new Line(null, null, null, null, null);
@@ -1273,7 +1287,7 @@ public class Grid5T {
 	 * 
 	 * @param z (Point)
 	 */
-	public void drawMoveHorizontale(Point z) {
+	public void drawMoveHorizontal(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		int coordX = ((int) z.getX() / this.getStep());
@@ -1518,7 +1532,7 @@ public class Grid5T {
 	 * 
 	 * @param z (Point)
 	 */
-	public void drawMoveDiagonaleRight2(Point z) {
+	public void drawMoveDiagonalRight2(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		Line line = new Line(null, null, null, null, null);
@@ -1643,7 +1657,7 @@ public class Grid5T {
 	 * 
 	 * @param z
 	 */
-	public void drawMoveVerticale2(Point z) {
+	public void drawMoveVertical2(Point z) {
 		int cpt_haut = 0;
 		int cpt_bas = 0;
 		Line line = new Line(null, null, null, null, null);
@@ -1767,7 +1781,7 @@ public class Grid5T {
 	 * 
 	 * @param z (Point)
 	 */
-	public void drawMoveHorizontale2(Point z) {
+	public void drawMoveHorizontal2(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
 		int coordX = ((int) z.getX() / this.getStep());
@@ -1931,9 +1945,9 @@ public class Grid5T {
 
 		
 		  if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.
-		  getStep()] && checkPossibleMoveDiagonaleLeft(z)==true) {
+		  getStep()] && checkPossibleMoveDiagonalLeft(z)==true) {
 		  
-		  this.drawMoveDiagonaleLeft(z); Point p1=
+		  this.drawMoveDiagonalLeft(z); Point p1=
 		  this.tabLine.get(this.tabLine.size()-1).getP1(); Point p2=
 		  this.tabLine.get(this.tabLine.size()-1).getP5(); if(tabLine.size()>0)
 		  this.tabLine.remove(this.tabLine.size()-1); 
@@ -1951,14 +1965,14 @@ public class Grid5T {
 			this.setTabLine(t2);
 			this.tabUsed = new HashMap<>(shallowCopy2);		  
 		  } if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.
-		  getStep()] && checkPossibleMoveDiagonaleRight(z)==true) {
-		  this.drawMoveDiagonaleRight(z); Point p1=
+		  getStep()] && checkPossibleMoveDiagonalRight(z)==true) {
+		  this.drawMoveDiagonalRight(z); Point p1=
 		  this.tabLine.get(this.tabLine.size()-1).getP1(); Point p2=
 		  this.tabLine.get(this.tabLine.size()-1).getP5();
 		  this.tabLine.remove(this.tabLine.size()-1); 
 			this.setTabLine(t1);
 			this.tabUsed = new HashMap<>(shallowCopy1);
-		  this.drawMoveDiagonaleRight2(z);
+		  this.drawMoveDiagonalRight2(z);
 		  Point p12= this.tabLine.get(this.tabLine.size()-1).getP1(); Point p22=
 		  this.tabLine.get(this.tabLine.size()-1).getP5();
 		  this.tabLine.remove(this.tabLine.size()-1);
@@ -1971,8 +1985,8 @@ public class Grid5T {
 			}
 		 
 		if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
-				&& checkPossibleMoveHorizontale(z) == true) {
-			this.drawMoveHorizontale(z);
+				&& checkPossibleMoveHorizontal(z) == true) {
+			this.drawMoveHorizontal(z);
 			
 			Point p1 = null;
 			Point p2 = null;
@@ -1989,7 +2003,7 @@ public class Grid5T {
 			}
 			this.setTabLine(t1);
 			this.tabUsed = new HashMap<>(shallowCopy1);
-			this.drawMoveHorizontale2(z);
+			this.drawMoveHorizontal2(z);
 			System.out.println("---------------- P");
 			System.out.println(tabLine.size());
 			System.out.println(this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]);
@@ -2020,14 +2034,14 @@ public class Grid5T {
 
 		} 
 			  if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.
-			  getStep()] && checkPossibleMoveVerticale(z)==true) {
-			  this.drawMoveVerticale(z); Point p1=
+			  getStep()] && checkPossibleMoveVertical(z)==true) {
+			  this.drawMoveVertical(z); Point p1=
 			  this.tabLine.get(this.tabLine.size()-1).getP1(); Point p2=
 			  this.tabLine.get(this.tabLine.size()-1).getP5();
 			  this.tabLine.remove(this.tabLine.size()-1); 
 				this.setTabLine(t1);
 				this.tabUsed = new HashMap<>(shallowCopy1);
-			  this.drawMoveVerticale2(z); Point
+			  this.drawMoveVertical2(z); Point
 			  p12= this.tabLine.get(this.tabLine.size()-1).getP1(); Point p22=
 			  this.tabLine.get(this.tabLine.size()-1).getP5();
 			  this.tabLine.remove(this.tabLine.size()-1);

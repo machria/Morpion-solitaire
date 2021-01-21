@@ -30,7 +30,7 @@ public class ScoreTest extends TestCase {
      */
     public void testplayerIncrementTest()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	assertTrue(grid.getScore().getScore_joueur()==0);
     	grid.updateGrid(new Point(240,400), "player");
     	assertTrue(grid.getScore().getScore_joueur()==1);
@@ -40,7 +40,7 @@ public class ScoreTest extends TestCase {
      */
     public void testplayernoIncrement()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	assertTrue(grid.getScore().getScore_joueur()==0);
     	grid.updateGrid(new Point(0,0), "player");
     	assertTrue(grid.getScore().getScore_joueur()==0);
@@ -50,7 +50,7 @@ public class ScoreTest extends TestCase {
      */
     public void testcomputerIncrement()
     {
-    	final Grid grid = new Grid(880,880,40);
+    	final Grid5D grid = new Grid5D(880,880,40);
     	assertTrue(grid.getScore().getScore_computeur()==0);
     	grid.updateGrid(new Point(240,400), "player");
     	assertTrue(grid.getScore().getScore_computeur()==0);
