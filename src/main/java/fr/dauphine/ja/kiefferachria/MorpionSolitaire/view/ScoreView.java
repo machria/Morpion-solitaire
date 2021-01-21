@@ -2,21 +2,21 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Score;
 
+/**
+ * This class is used to create the score view. It will contain the player's score, the computer score 
+ * and the following buttons: Help, Solution, Distribution, Save and Import.
+ * @author floryan
+ *
+ */
 public class ScoreView extends JPanel {
 	
 	Score score;
@@ -30,6 +30,11 @@ public class ScoreView extends JPanel {
 	private JLabel title;
 	private JButton scoreDistrib;
 	
+	
+	/**
+	 * Creation of the JPanel scoreView.
+	 * @param score
+	 */
 	public ScoreView(Score score) {
 		super();
 		this.score=score;
@@ -130,75 +135,91 @@ public class ScoreView extends JPanel {
 		
 	}
 	
+	/**
+	 * Allows you to set the score of the player and the computer to 0.
+	 */
 	public void reset() {
 		this.score.setScore_computeur(0);
 		this.score.setScore_joueur(0);
 	}
 	
+	/**
+	 * Return the reset JButton.
+	 * @return JButton reset.
+	 */
 	public JButton getReset() {
 		return reset;
 	}
-	public void setReset(JButton reset) {
-		this.reset = reset;
-	}
 	
-	
+	/**
+	 * Return the player's score.
+	 * @return score player
+	 */
 	public JLabel getScore_joueur() {
 		return score_joueur;
 	}
+	
+	/**
+	 * Change the player's score.
+	 * @param score_joueur
+	 */
 	public void setScore_joueur(JLabel score_joueur) {
 		this.score_joueur = score_joueur;
 	}
+	
+	/**
+	 * Return the computer's score.
+	 * @return computer score
+	 */
 	public JLabel getScore_computeur() {
 		return score_computeur;
 	}
+	
+	/**
+	 * Change the computer's score.
+	 * @param score computer
+	 */
 	public void setScore_computeur(JLabel score_computeur) {
 		this.score_computeur = score_computeur;
 	}
-
+	
+	/**
+	 * Return the save JButton
+	 * @return JButton save
+	 */
 	public JButton getSauvegarder() {
 		return sauvegarder;
 	}
-
-	public void setSauvegarder(JButton sauvegarder) {
-		this.sauvegarder = sauvegarder;
-	}
-
+	
+	/**
+	 * Return the help JButton
+	 * @return JButton help
+	 */
 	public JButton getHelp() {
 		return help;
 	}
 
-	public void setHelp(JButton help) {
-		this.help = help;
-	}
-
+	/**
+	 * Return the solution JButton
+	 * @return JButton solution
+	 */
 	public JButton getSolution() {
 		return solution;
 	}
 
-	public void setSolution(JButton solution) {
-		this .solution = solution;
-	}
-
+	/**
+	 * Return the import JButton
+	 * @return JButton import
+	 */
 	public JButton getImporter() {
 		return importer;
 	}
 
-	public void setImporter(JButton importer) {
-		this.importer = importer;
-	}
-
+	/**
+	 * Return the score distribution JButton
+	 * @return JButton score distribution
+	 */
 	public JButton getScoreDistrib() {
 		return scoreDistrib;
 	}
-
-	public void setScoreDistrib(JButton scoreDistrib) {
-		this.scoreDistrib = scoreDistrib;
-	}
-	
-	
-	
-	
-	
-
 }

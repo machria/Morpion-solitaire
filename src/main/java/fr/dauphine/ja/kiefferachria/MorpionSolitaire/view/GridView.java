@@ -1,26 +1,29 @@
 package fr.dauphine.ja.kiefferachria.MorpionSolitaire.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Set;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
 
+/**
+ * This class is used to create the grid view 5D.
+ * @author floryan
+ *
+ */
 public class GridView extends JPanel {
 
+	/**
+	 * 5D game board instance.
+	 */
 	private Grid grid;
 	
+	/**
+	 * Constructor by copy.
+	 * @param grid
+	 */
 	public GridView(Grid grid) {
 		this.grid = grid;
 		

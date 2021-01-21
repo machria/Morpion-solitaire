@@ -5,20 +5,29 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5T;
 
+/**
+ * This class is used to create the grid view 5T.
+ * @author floryan
+ *
+ */
 public class GridView5T extends JPanel{
-private Grid5T grid;
 	
+	/**
+	 * 5T game board instance.
+	 */
+	private Grid5T grid;
+	
+	/**
+	 * Constructor by copy.
+	 * @param grid
+	 */
 	public GridView5T(Grid5T grid) {
 		this.grid = grid;
 		
 		}
-
 	
 	@Override
 	protected void paintComponent(Graphics g) {

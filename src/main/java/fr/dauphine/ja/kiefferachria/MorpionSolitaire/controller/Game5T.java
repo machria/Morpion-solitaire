@@ -8,36 +8,42 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
-
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Direction;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5T;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView5T;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.ScoreView;
 
-public class Game5T {
 
+/**
+ * This class is the game controller associated with the join five game 5T.
+ * @author floryan
+ *
+ */
+public class Game5T {
+	
+	/**
+	 * 5T game board instance.
+	 */
 	private Grid5T grid;
+	/**
+	 * View of the 5T grid.
+	 */
 	private GridView5T gridView;
+	/**
+	 * View of score (also contains buttons)
+	 */
 	private ScoreView scoreView;
 	
+	/**
+	 * Creation of the window that will allow you to play the game and use the associated features.
+	 */
 	public Game5T() {
 		final JFrame frame = new JFrame("Morpion Solitaire");
 		frame.setLayout(new GridBagLayout());

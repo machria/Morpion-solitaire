@@ -5,17 +5,28 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.SwingUtilities;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+
+/**
+ * This class allows to choose the 5T or 5D game engine.
+ * @author floryan
+ *
+ */
 public class Choice extends JFrame {
-	
+	/**
+	 * This button allows you to choose the 5D mode.
+	 */
 	private JButton five_d;
+	/**
+	 * This button allows you to choose the 5T mode.
+	 */
 	private JButton five_t;
-	 	
+	
+	/**
+	 * Window constructor which selects the game mode.
+	 */
 	public Choice() {
 		JFrame frame = new JFrame("Morpion Solitaire");
 		frame.setLayout(new GridBagLayout());
@@ -58,6 +69,10 @@ public class Choice extends JFrame {
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * Game launch.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Choice c = new Choice();
 	}

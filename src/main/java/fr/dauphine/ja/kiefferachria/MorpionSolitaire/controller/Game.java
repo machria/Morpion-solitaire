@@ -3,7 +3,6 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.controller;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,29 +13,37 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Direction;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Line;
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Score;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.ScoreView;
 
+
+/**
+ * This class is the game controller associated with the join five game 5D.
+ * @author floryan
+ *
+ */
 public class Game extends JFrame{
 
+	/**
+	 * 5D game board instance.
+	 */
 	private Grid grid;
+	/**
+	 * View of the 5T grid.
+	 */
 	private GridView gridView;
+	/**
+	 * View of score (also contains buttons)
+	 */
 	private ScoreView scoreView;
 	
+	/**
+	 * Creation of the window that will allow you to play the game and use the associated features.
+	 */
 	public Game() {
 		final JFrame frame = new JFrame("Morpion Solitaire");
 		frame.setLayout(new GridBagLayout());

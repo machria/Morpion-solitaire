@@ -8,41 +8,98 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-
+/**
+ * This class is the model of the game board associated with the game of join five 5D.
+ * 
+ * @author floryan
+ *
+ */
 public class Grid {
 
+	/**
+	 * Table of points validated by the model.
+	 */
 	private boolean[][] points;
+	/**
+	 * Table of coordinates of all intersections of the game grid.
+	 */
 	private ArrayList<Point> tabCoordonnee;
+	/**
+	 * Number of line of the grid.
+	 */
     private int nbLine;
+    /**
+	 * Number of column of the grid.
+	 */
     private int nbColumn;
+    /**
+	 * Grid size in pixel (height).
+	 */
     private int height;
+    /**
+	 * Grid size in pixel (width).
+	 */
     private int width;
+    /**
+	 * Distance between each intersection.
+	 */
     private int step;
+    /**
+	 * Point of grid center.
+	 */
     private int center;
+    /**
+	 * All the points of the starting cross.
+	 */
     private ArrayList<Point> tabCross;
+    /**
+	 * Table of each validate lines.
+	 */
     private ArrayList<Line> tabLine;
+    /**
+	 * HashMap of all possible movements for a given point.
+	 */
     private HashMap<Point, HashMap<Direction, Boolean>> tabUsed;
+    /**
+	 * ArrayList of all potential moves next (n+1).
+	 */
     private ArrayList<Point> potentialMoveNext;
+    /**
+	 * ArrayList of all potential moves.
+	 */
     private ArrayList<Point> potentialMove;
+    /**
+	 * HashMap of all validate points with associated direction.
+	 */
     private HashMap<Point,Direction> pointUser;
+    /**
+	 * ArrayList which keep an historic of all scores.
+	 */
     private ArrayList<Integer> scoreHistory;
+    /**
+	 * Object Score (computer and player)
+	 */
     private Score score;
+    /**
+	 * HashMap of all possible directions at a moment t.
+	 */
     private HashMap<Direction,Boolean> possibleDirection;
     
-    
+    /**
+     * Grid 5D constructor.
+     * 
+     * @param h (height)
+     * @param w (width)
+     * @param step (gap)
+     */
 	public Grid(int h,int w, int step){
     	
     	this.step=step;
@@ -52,8 +109,11 @@ public class Grid {
     	this.reset();
 
     }
+//////////////////////
+//GETTERS ET SETTERS//
+//////////////////////
 	
-//GETTERS ET SETTERS
+	
     public ArrayList<Line> getTabLine() {
 		return tabLine;
 	}
@@ -123,15 +183,19 @@ public class Grid {
 	public void setTabCoordonnee(ArrayList<Point> tabCoordonnee) {
 		this.tabCoordonnee = tabCoordonnee;
 	}
-	
 	public ArrayList<Integer> getScoreHistory() {
 		return scoreHistory;
 	}
-
 	public void setScoreHistory(ArrayList<Integer> scoreHistory) {
 		this.scoreHistory = scoreHistory;
 	}
-
+	/**
+	 * This method makes it possible to transform a position on the grid into a point.
+	 * 
+	 * @param x coordinate x
+	 * @param y coordinate y
+	 * @return Point
+	 */
 	public Point getNeigh(int x,int y) {
 		
     	Point t = new Point(x,y);
@@ -153,8 +217,13 @@ public class Grid {
 		return pointUser;
 	}
 	
-
-//Mise en place du jeu et gestion du jeu
+//////////////////////////////////////////
+//Mise en place du jeu et gestion du jeu//
+//////////////////////////////////////////
+	
+	/**
+	 * Initiate instance of class
+	 */
     private void initiatePoint() {
 		// TODO Auto-generated method stub
     	HashMap<Direction,Boolean> dir = new HashMap<Direction, Boolean>();
@@ -174,6 +243,9 @@ public class Grid {
 		}
 	}
 
+    /**
+	 * Add all starting point in tabCross and put at true this points in points.
+	 */
     public void generateCross() {
 		Point c = firstPoint();
 		Point temp=c;
@@ -273,12 +345,19 @@ public class Grid {
 		}
 	}
     
+    /**
+	 * This method is used to determine the point of the center
+	 * 
+	 * @return center point
+	 */
 	public Point firstPoint() {
     	return new Point((this.center-1)*this.step,(this.center-1)*this.step);
     }
 
+	/**
+	 * Reset all instances of Grid5T Object.
+	 */
 	public void reset() {
-		// TODO Auto-generated method stub
     	this.nbLine=(int)width/step;
     	this.nbColumn=(int)height/step;
     	if(!(this.pointUser==null))
@@ -300,6 +379,9 @@ public class Grid {
     	this.score = new Score();
 	}
 
+	/**
+	 * Catch all coordinates of the grid.
+	 */
 	public void catchCoordonnee() {
 		int x=0;
 		int y=0;
@@ -314,8 +396,16 @@ public class Grid {
 		}
 	}
 	
+////////////////////
+//Fonctions UPDATE//
+////////////////////
 	
-//Fonctions UPDATE
+	/**
+	 * Update the grid according to the choice of the players.
+	 * 
+	 * @param z (Point)
+	 * @param s (player or IA)
+	 */
 	public void updateGrid(Point z,String s) {
 		int coordX=((int)z.getX()/this.getStep());
 		int coordY=((int)z.getY()/this.getStep());
@@ -426,6 +516,12 @@ public class Grid {
 		
 	}
 	
+	/**
+	 * Update the grid according to a point and a direction.
+	 * 
+	 * @param z (Point)
+	 * @param d (Direction)
+	 */
 	public void updateGrid(Point z,Direction d) {
 		if(d==Direction.VERTICAL) {
 			this.drawMoveVerticale(z);
@@ -452,6 +548,9 @@ public class Grid {
 		this.incrementeScore("player");
 	}
 	
+	/**
+	 * Computer play and makes random choices.
+	 */
 	public void updateIANaive() {
 		Collections.shuffle(this.potentialMove);
 		if(!this.potentialMove.isEmpty()) {
@@ -463,6 +562,11 @@ public class Grid {
 		
 	}
 	
+	/**
+	 * This method able to increment score. 
+	 * 
+	 * @param s (player or IA)
+	 */
 	public void incrementeScore(String s) {
 		if(s.equals("IA")) {
 			this.score.setScore_computeur(this.score.getScore_computeur()+1);
@@ -474,24 +578,30 @@ public class Grid {
 		}
 	}
 
-// Fonctions qui permettent de capter les points possibles et de capter aussi les points possibles par rapport à un point
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Fonctions qui permettent de capter les points possibles et de capter aussi les points possibles par rapport à un point//
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * This method able to fills the table of possible available points at time t.
+	 */
 	public void pointAvailable() {
 		this.potentialMove.clear();
 		for(int i = 0;i<nbLine;i++) {
 			for(int j = 0;j<nbColumn;j++) {
 				Point z = new Point(i*this.step,j*this.step);
-				//try {
 					if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()] && (checkPossibleMoveDiagonaleRight(z)|| checkPossibleMoveDiagonaleLeft(z)|| checkPossibleMoveHorizontale(z)|| checkPossibleMoveVerticale(z))) {
 						this.potentialMove.add(z);
 					}
-				//}catch(ArrayIndexOutOfBoundsException e) {
-				//	System.out.println();
-				//}
-				
 			}
 		}
 	}
 	
+	/**
+	 * This method return the number of possible possibilities after adding the point passed in parameter.
+	 * @param b (Point)
+	 * @return number of available points.
+	 */
 	public int pointAvailableNext(Point b) {
 		this.potentialMoveNext.clear();
 		boolean test=false;
@@ -520,6 +630,9 @@ public class Grid {
 
 	}
 	
+	/**
+	 * This method able to found a solution (but not the best)
+	 */
 	public void NMCS() {
 		int max=-1;
 		int indice=-1;
@@ -570,6 +683,9 @@ public class Grid {
 		
 	}
 	
+	/**
+	 * This method able to found a solution (but not the best and better than NMCS)
+	 */
 	public void NMCS2() {
 		int max=-1;
 		int indice=-1;
@@ -591,8 +707,16 @@ public class Grid {
 		
 	}
 	
+/////////////////////////////
+//Fonctions de vérification//
+/////////////////////////////
 	
-//Fonctions de vérification
+	/**
+	 * This method allows to verify if an horizontal movement is possible when a player makes a choice.
+	 * 
+	 * @param z (Point)
+	 * @return boolean
+	 */
 	public boolean checkPossibleMoveHorizontale(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -641,6 +765,12 @@ public class Grid {
 		return false;	
 	}
 	
+	/**
+	 * This method allows to verify if a vertical movement is possible when a player makes a choice.
+	 * 
+	 * @param z (Point)
+	 * @return boolean
+	 */
 	public boolean checkPossibleMoveVerticale(Point z) {
 		int cpt_haut = 0;
 		int cpt_bas = 0;
@@ -695,6 +825,13 @@ public class Grid {
 		
 	}
 	
+	/**
+	 * This method allows to verify if a left diagonal movement is possible when a player makes a choice.
+	 * Left Diagonal movement : diagonal from the top left.
+	 * 
+	 * @param z (Point)
+	 * @return boolean
+	 */
 	public boolean checkPossibleMoveDiagonaleLeft(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -740,6 +877,13 @@ public class Grid {
 		return false;
 	}
 	
+	/**
+	 * This method allows to verify if a right diagonal movement is possible when a player makes a choice.
+	 * Right Diagonal movement : diagonal from the top right.
+	 *
+	 * @param z (Point)
+	 * @return boolean
+	 */
 	public boolean checkPossibleMoveDiagonaleRight(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -787,8 +931,17 @@ public class Grid {
 		}
 		return false;		
 	}
-    
-//Fonctions qui permettent de dessiner les lignes lorsqu'elle sont correctes	
+ 
+//////////////////////////////////////////////////////////////////////////////
+//Fonctions qui permettent de dessiner les lignes lorsqu'elle sont correctes//
+//////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * This method allows to fill tabLine with a start point and an end point (which represent a horizontal line) 
+	 * if the point chosen by the player is valid.
+	 * 
+	 * @param z (Point)
+	 */
 	public void drawMoveHorizontale(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -848,6 +1001,12 @@ public class Grid {
 		}
 	}
 	
+	/**
+	 * This method allows to fill tabLine with a start point and an end point (which represent a vertical line) 
+	 * if the point chosen by the player is valid.
+	 * 
+	 * @param z (Point)
+	 */
 	public void drawMoveVerticale(Point z) {
 		int cpt_haut = 0;
 		int cpt_bas = 0;
@@ -924,6 +1083,12 @@ public class Grid {
 		System.out.println("Bas"+cpt_bas);
 	}
 	
+	/**
+	 * This method allows to fill tabLine with a start point and an end point (which represent a left diagonal line) 
+	 * if the point chosen by the player is valid.
+	 * 
+	 * @param z (Point)
+	 */
 	public void drawMoveDiagonaleLeft(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -986,6 +1151,12 @@ public class Grid {
 		System.out.println(" Droite "+cpt_droite);
 	}
 	
+	/**
+	 * This method allows to fill tabLine with a start point and an end point (which represent a right diagonal line) 
+	 * if the point chosen by the player is valid.
+	 * 
+	 * @param z (Point)
+	 */
 	public void drawMoveDiagonaleRight(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -1048,265 +1219,12 @@ public class Grid {
 				
 	}
 	
-	public void drawMoveHorizontale2(Point z) {
-		int cpt_gauche = 0;
-		int cpt_droite = 0;
-		Line line = new Line(null,null,null,null,null);
-		Point fin = new Point();
-		Point debut = new Point();
-		int coordX=((int)z.getX()/this.getStep());
-		int coordY=((int)z.getY()/this.getStep());
-		for(int i =1; i<=4;i++) {
-			if(!this.getPoints()[coordX+i][coordY] || this.tabUsed.get(new Point((coordX+i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).equals(true)) {
-				for(int a = 1;a<=4-cpt_droite;a++) {
-					if(!this.getPoints()[coordX-a][coordY]) {
-						System.out.println("Pas de line possible sur l'horizontale");
-						return;
-					}
-					else{
-						cpt_gauche++;
-						if(cpt_gauche+cpt_droite==4) {
-							a=6;
-							i=6;
-						}
-					}
-				}
-			}
-			else {
-				cpt_droite++;
-				if(cpt_droite==4) {
-					i = 6;
-				}
-				
-			}
-		}
-		if(this.tabUsed.get(z).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false)) {
-
-			if(cpt_gauche+cpt_droite==4) {
-				System.out.println(this.tabUsed.get(z));
-					int tempLeft=1;
-					int tempRight=1;
-					for(int i =tempLeft;i<=cpt_gauche;i++) {
-						Point t= new Point((coordX-i)*this.step,(coordY*this.step));
-						this.tabUsed.get(t).replace(Direction.HORIZONTAL, false, true);
-					}
-					for(int i =tempRight;i<=cpt_droite;i++) {
-						Point t= new Point((coordX+i)*this.step,(coordY*this.step));
-						this.tabUsed.get(t).replace(Direction.HORIZONTAL, false, true);
-					}
-					this.tabUsed.get(z).replace(Direction.HORIZONTAL, false, true);
-					debut = new Point((coordX+cpt_droite)*this.step,(coordY*this.step));
-					fin = new Point((coordX-cpt_gauche)*this.step,(coordY*this.step));
-					line.setP1(debut);
-					line.setP5(fin);
-					this.tabLine.add(line);
-					System.out.println("Ajout");
-			}
-			
-			
-		}
-	}
-	
-	public void drawMoveVerticale2(Point z) {
-		int cpt_haut = 0;
-		int cpt_bas = 0;
-		Line line = new Line(null,null,null,null,null);
-		Point fin = new Point();
-		Point debut = new Point();
-		int coordX=((int)z.getX()/this.getStep());
-		int coordY=((int)z.getY()/this.getStep());
-		for(int i =1; i<=4;i++) {
-			System.out.println(this.getPoints()[coordX][coordY+i]);
-			if(!this.getPoints()[coordX][coordY+i] || this.tabUsed.get(new Point(coordX*this.step,(coordY+i)*this.step)).get(Direction.VERTICAL).equals(true)) {
-				for(int a = 1;a<=4-cpt_bas;a++) {
-					//System.out.println(a);
-					if(!this.getPoints()[coordX][coordY-a]) {
-						System.out.println("Pas de line possible sur la vertical");
-						return;
-					}
-					else{
-						cpt_haut++;
-						if(cpt_haut+cpt_bas==4) {
-							a=10;
-							i=10;
-							System.out.println("Je suis dans if");
-							System.out.println("Haut"+cpt_haut);
-							System.out.println("Bas"+cpt_bas);
-						}
-						System.out.println("cpt_bas++");
-						System.out.println(cpt_haut+cpt_bas);
-					}
-				}
-			}
-			else {
-				if(this.tabUsed.get(new Point(coordX*this.step,(coordY+i)*this.step)).get(Direction.VERTICAL).equals(false)) {
-					cpt_bas++;
-					System.out.println("cpt_haut++");
-					if(cpt_bas==4) {
-						i = 6;
-						System.out.println("Je suis dans else");
-						System.out.println("Haut"+cpt_haut);
-						System.out.println("Bas"+cpt_bas);
-					}
-				}
-				
-				
-			}
-				
-		}
-		if(this.tabUsed.get(z).get(Direction.VERTICAL).equals(false) && this.tabUsed.get(new Point((coordX*this.step),(coordY+cpt_bas)*this.step)).get(Direction.VERTICAL).equals(false) && this.tabUsed.get(new Point((coordX*this.step),(coordY-cpt_haut)*this.step)).get(Direction.VERTICAL).equals(false)) {
-			
-			System.out.println(this.tabUsed.get(z));
-
-			if(cpt_haut+cpt_bas==4) {
-
-				int tempHaut=1;
-				int tempBas=1;
-				for(int i =tempHaut;i<=cpt_haut;i++) {
-					Point t= new Point((coordX)*this.step,((coordY-i)*this.step));
-					this.tabUsed.get(t).replace(Direction.VERTICAL, false, true);
-				}
-				for(int i =tempBas;i<=cpt_bas;i++) {
-					Point t= new Point((coordX)*this.step,((coordY+i)*this.step));
-					this.tabUsed.get(t).replace(Direction.VERTICAL, false, true);
-				}
-				this.tabUsed.get(z).replace(Direction.VERTICAL, false, true);
-				debut = new Point((coordX*this.step),(coordY+cpt_bas)*this.step);
-				fin = new Point((coordX*this.step),(coordY-cpt_haut)*this.step);
-				line.setP1(debut);
-				line.setP5(fin);
-				this.tabLine.add(line);
-				System.out.println("Ajout");
-			}
-		}
-		System.out.println("Haut"+cpt_haut);
-		System.out.println("Bas"+cpt_bas);
-	}
-	
-	public void drawMoveDiagonaleLeft2(Point z) {
-		int cpt_gauche = 0;
-		int cpt_droite = 0;
-		Line line = new Line(null,null,null,null,null);
-		Point fin = new Point();
-		Point debut = new Point();
-		int coordX=((int)z.getX()/this.getStep());
-		int coordY=((int)z.getY()/this.getStep());
-		for(int i =1; i<=4;i++) {
-			if(!this.getPoints()[coordX+i][coordY+i] || this.tabUsed.get(new Point((coordX+i)*this.step,(coordY+i)*this.step)).get(Direction.DIAGLEFT).equals(true)) {
-				for(int a = 1;a<=4-cpt_droite;a++) {
-					if(!this.getPoints()[coordX-a][coordY-a]) {
-						System.out.println("Pas de line possible sur la diagonale gauche");
-						return;
-					}
-					else{
-						cpt_gauche++;
-						if(cpt_gauche+cpt_droite==4) {
-							a=6;
-							i=6;
-						}
-					}
-				}
-			}
-			else {
-				cpt_droite++;
-				if(cpt_droite==4) {
-					i = 6;
-				}
-				
-			}
-				
-			}
-		if(this.tabUsed.get(z).get(Direction.DIAGLEFT).equals(false) && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,((coordY+cpt_droite)*this.step))).get(Direction.DIAGLEFT).equals(false) && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step))).get(Direction.DIAGLEFT).equals(false)) {
-			System.out.println(this.tabUsed.get(z));
-			if(cpt_gauche+cpt_droite==4) {
-				int tempLeft=1;
-				int tempRight=1;
-				for(int i =tempLeft;i<=cpt_gauche;i++) {
-					Point t= new Point((coordX-i)*this.step,((coordY-i)*this.step));
-					this.tabUsed.get(t).replace(Direction.DIAGLEFT, false, true);
-				}
-				for(int i =tempRight;i<=cpt_droite;i++) {
-					Point t= new Point((coordX+i)*this.step,((coordY+i)*this.step));
-					this.tabUsed.get(t).replace(Direction.DIAGLEFT, false, true);
-				}
-				this.tabUsed.get(z).replace(Direction.DIAGLEFT, false, true);
-				debut = new Point((coordX+cpt_droite)*this.step,((coordY+cpt_droite)*this.step));
-				fin = new Point((coordX-cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step));
-				line.setP1(debut);
-				line.setP5(fin);
-				this.tabLine.add(line);
-				
-				System.out.println("Ajout");
-			}
-		}
-			
-		
-		System.out.println("Gauche "+cpt_gauche);
-		System.out.println(" Droite "+cpt_droite);
-	}
-	
-	public void drawMoveDiagonaleRight2(Point z) {
-		int cpt_gauche = 0;
-		int cpt_droite = 0;
-		Line line = new Line(null,null,null,null,null);
-		Point fin = new Point();
-		Point debut = new Point();
-		int coordX=((int)z.getX()/this.getStep());
-		int coordY=((int)z.getY()/this.getStep());
-		for(int i =1; i<=4;i++) {
-			if(!this.getPoints()[coordX-i][coordY+i] || this.tabUsed.get(new Point((coordX-i)*this.step,(coordY+i)*this.step)).get(Direction.DIAGRIGHT).equals(true)) {
-				for(int a = 1;a<=4-cpt_droite;a++) {
-					//System.out.println(a);
-					if(!this.getPoints()[coordX+a][coordY-a]) {
-						System.out.println("Pas de line possible sur la diagonale droite");
-						return;
-					}
-					else{
-						cpt_gauche++;
-						if(cpt_gauche+cpt_droite==4) {
-							a=6;
-							i=6;
-						}
-					}
-				}
-			}
-			else {
-				cpt_droite++;
-				if(cpt_droite==4) {
-					i = 6;
-				}
-				
-			}
-				
-			}
-		if(this.tabUsed.get(z).get(Direction.DIAGRIGHT).equals(false) && this.tabUsed.get(new Point((coordX-cpt_droite)*this.step,((coordY+cpt_droite)*this.step))).get(Direction.DIAGRIGHT).equals(false) && this.tabUsed.get(new Point((coordX+cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step))).get(Direction.DIAGRIGHT).equals(false)) {
-			System.out.println(this.tabUsed.get(z));
-			if(cpt_gauche+cpt_droite==4) {
-				int tempLeft=1;
-				int tempRight=1;
-				for(int i =tempLeft;i<=cpt_gauche;i++) {
-					Point t= new Point((coordX+i)*this.step,((coordY-i)*this.step));
-					this.tabUsed.get(t).replace(Direction.DIAGRIGHT, false, true);
-				}
-				for(int i =tempRight;i<=cpt_droite;i++) {
-					Point t= new Point((coordX-i)*this.step,((coordY+i)*this.step));
-					this.tabUsed.get(t).replace(Direction.DIAGRIGHT, false, true);
-				}
-				this.tabUsed.get(z).replace(Direction.DIAGRIGHT, false, true);
-				debut = new Point((coordX-cpt_droite)*this.step,((coordY+cpt_droite)*this.step));
-				fin = new Point((coordX+cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step));
-				line.setP1(debut);
-				line.setP5(fin);
-				this.tabLine.add(line);
-				System.out.println("Ajout");
-			}
-			
-		}
-		System.out.println(cpt_gauche);
-		System.out.println(cpt_droite);
-				
-	}
-	
+	/**
+	 * This method makes it possible to fill possibleDirection in order to determine, for a given point, which are the 
+	 * different possible directions.
+	 * 
+	 * @param z
+	 */
 	public void possibleDirectionOnClick(Point z) {
 		this.possibleDirection.replace(Direction.VERTICAL,false);
     	this.possibleDirection.replace(Direction.HORIZONTAL,false);
