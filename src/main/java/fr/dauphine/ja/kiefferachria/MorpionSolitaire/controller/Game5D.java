@@ -135,7 +135,7 @@ public class Game5D extends JFrame{
 				        Point x = new Point((int)Double.parseDouble(data.split(";")[0]),(int)Double.parseDouble(data.split(";")[1]));
 				        Direction d = Direction.valueOf(data.split(";")[2]);
 				        grid.pointAvailable();
-				        grid.updateGrid(x,d);
+				        grid.updateGrid(x,d,"player");
 				        scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
 		                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
 				    }

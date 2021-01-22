@@ -480,7 +480,7 @@ public class Grid5T {
 				JButton b = new JButton(tmp.get(i).toString());
 				b.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						updateGrid(z, tmp.get(a));
+						updateGrid(z, tmp.get(a),s);
 
 
 						choix.dispose();
@@ -494,9 +494,9 @@ public class Grid5T {
 			
 		} else if (tmp.size() > 1 && s == "IA") {
 			Collections.shuffle(tmp);
-			updateGrid(z, tmp.get(0));
+			updateGrid(z, tmp.get(0),s);
 		} else if (tmp.size() == 1) {
-			updateGrid(z, tmp.get(0));
+			updateGrid(z, tmp.get(0),s);
 
 		} else {
 
@@ -510,8 +510,9 @@ public class Grid5T {
 	 * 
 	 * @param z (Point)
 	 * @param d (Direction)
+	 * @param s (String) -> User
 	 */
-	public void updateGrid(Point z, Direction d) {
+	public void updateGrid(Point z, Direction d,String s) {
 		if (d == Direction.VERTICAL_BOTTOM) {
 			drawMoveVertical2(z);
 			getPointUser().put(z, Direction.VERTICAL_BOTTOM);
@@ -552,7 +553,7 @@ public class Grid5T {
 		}
 		this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()] = true;
 
-		this.incrementeScore("player");
+		this.incrementeScore(s);
 	}
 
 	/**

@@ -434,25 +434,8 @@ public class Grid5D {
 				JButton b = new JButton(tmp.get(i).toString());
 				b.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(tmp.get(a)==Direction.VERTICAL) {
-							drawMoveVertical(z);
-							getPointUser().put(z,Direction.VERTICAL);
-						}
-						if(tmp.get(a)==Direction.HORIZONTAL) {
-							drawMoveHorizontal(z);
-							getPointUser().put(z,Direction.HORIZONTAL);
-
-						}
-						if(tmp.get(a)==Direction.DIAGLEFT) {
-							drawMoveDiagonalLeft(z);
-							getPointUser().put(z,Direction.DIAGLEFT);
-
-						}
-						if(tmp.get(a)==Direction.DIAGRIGHT) {
-							drawMoveDiagonalRight(z);
-							getPointUser().put(z,Direction.DIAGRIGHT);
-
-						}
+						updateGrid(z, tmp.get(a), s);
+						
 						choix.dispose();
 					}
 					
@@ -461,58 +444,15 @@ public class Grid5D {
 			}
 			
 			choix.setVisible(true);
-			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
-			this.incrementeScore(s);
+			
 		}
 		else if(tmp.size()>1 && s == "IA") {
 			Collections.shuffle(tmp);
-			if(tmp.get(0)==Direction.VERTICAL) {
-				this.drawMoveVertical(z);
-				getPointUser().put(z,Direction.VERTICAL);
-
-			}
-			if(tmp.get(0)==Direction.HORIZONTAL) {
-				this.drawMoveHorizontal(z);
-				getPointUser().put(z,Direction.HORIZONTAL);
-
-			}
-			if(tmp.get(0)==Direction.DIAGLEFT) {
-				this.drawMoveDiagonalLeft(z);
-				getPointUser().put(z,Direction.DIAGLEFT);
-
-			}
-			if(tmp.get(0)==Direction.DIAGRIGHT) {
-				this.drawMoveDiagonalRight(z);
-				getPointUser().put(z,Direction.DIAGRIGHT);
-
-			}
-			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
-			this.incrementeScore(s);
+			updateGrid(z,tmp.get(0),s);
 		}
 		else if(tmp.size()==1) {
-			if(tmp.get(0)==Direction.VERTICAL) {
-				this.drawMoveVertical(z);
-				getPointUser().put(z,Direction.VERTICAL);
-
-			}
-			if(tmp.get(0)==Direction.HORIZONTAL) {
-				this.drawMoveHorizontal(z);
-				getPointUser().put(z,Direction.HORIZONTAL);
-
-			}
-			if(tmp.get(0)==Direction.DIAGLEFT) {
-				this.drawMoveDiagonalLeft(z);
-				getPointUser().put(z,Direction.DIAGLEFT);
-
-			}
-			if(tmp.get(0)==Direction.DIAGRIGHT) {
-				this.drawMoveDiagonalRight(z);
-				getPointUser().put(z,Direction.DIAGRIGHT);
-
-			}
-			this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
-
-			this.incrementeScore(s);
+			updateGrid(z,tmp.get(0),s);
+			
 			
 		}
 		else {
@@ -527,8 +467,9 @@ public class Grid5D {
 	 * 
 	 * @param z (Point)
 	 * @param d (Direction)
+	 * @param s (String) -> user
 	 */
-	public void updateGrid(Point z,Direction d) {
+	public void updateGrid(Point z,Direction d,String s) {
 		if(d==Direction.VERTICAL) {
 			this.drawMoveVertical(z);
 			getPointUser().put(z,Direction.VERTICAL);
@@ -551,7 +492,7 @@ public class Grid5D {
 		}
 		this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.getStep()]=true;	
 
-		this.incrementeScore("player");
+		this.incrementeScore(s);
 	}
 	
 	/**
