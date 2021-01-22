@@ -7,7 +7,11 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Graph;
-
+/**
+ * This class is the view of the concept Graph. It is linked to the class Graph. It draw a graph and show the best value.
+ * @author floryan/majid
+ *
+ */
 public class GraphView extends JPanel{
 	private Graph graph;
 

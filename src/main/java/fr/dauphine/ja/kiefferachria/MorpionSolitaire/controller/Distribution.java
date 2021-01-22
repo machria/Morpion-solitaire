@@ -8,7 +8,11 @@ import javax.swing.JFrame;
 
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Graph;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GraphView;
-
+/**
+ * This class display a window corresponding to the distribution by making the link between model and view
+ * @author floryan/majid
+ *
+ */
 public class Distribution extends JFrame{
 
 	public Distribution(ArrayList<Integer> toplot) {

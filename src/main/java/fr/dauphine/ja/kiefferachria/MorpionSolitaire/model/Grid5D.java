@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 /**
  * This class is the model of the game board associated with the game of join five 5D.
  * 
- * @author floryan
+ * @author floryan/majid
  *
  */
 public class Grid5D {

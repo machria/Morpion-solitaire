@@ -10,7 +10,7 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5D;
 
 /**
  * This class is used to create the grid view 5D.
- * @author floryan
+ * @author floryan/majid
  *
  */
 public class GridView5D extends JPanel {
@@ -21,7 +21,7 @@ public class GridView5D extends JPanel {
 	private Grid5D grid;
 	
 	/**
-	 * Constructor by copy.
+	 * Constructor which receive the model
 	 * @param grid
 	 */
 	public GridView5D(Grid5D grid) {

@@ -23,7 +23,7 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.MenuView;
 
 /**
  * This class is the game controller associated with the join five game 5D.
- * @author floryan
+ * @author floryan/majid
  *
  */
 public class Game5D extends JFrame{

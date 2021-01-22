@@ -2,7 +2,12 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
 import java.awt.Point;
 import java.util.ArrayList;
-
+/**
+ * This class is the model of a graph. It has been set up to receive the score history and show us the distribution.
+ * 
+ * @author floryan/majid
+ *
+ */
 public class Graph {
 	private ArrayList<Point> point;
 	private int m;
@@ -28,7 +33,10 @@ public class Graph {
 	public void setPoint(ArrayList<Point> point) {
 		this.point = point;
 	}
-	
+	/**
+	 * Return the max value in the graph
+	 * @return int value max before it is double to be print well on y-axis.
+	 */
 	public int max() {
 		
 		return m;

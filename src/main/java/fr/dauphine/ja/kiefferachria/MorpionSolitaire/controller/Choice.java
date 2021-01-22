@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 
 /**
  * This class allows to choose the 5T or 5D game engine.
- * @author floryan
+ * @author floryan/majid
  *
  */
 public class Choice extends JFrame {

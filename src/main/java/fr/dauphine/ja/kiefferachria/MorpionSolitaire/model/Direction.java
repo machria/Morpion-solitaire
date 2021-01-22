@@ -2,7 +2,7 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
 /**
  * All possible directions of a line.
- * @author floryan
+ * @author floryan/majid
  *
  */
 public enum Direction {

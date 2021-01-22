@@ -14,7 +14,7 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Score;
 /**
  * This class is used to create the score view. It will contain the player's score, the computer score 
  * and the following buttons: Help, Solution, Distribution, Save and Import.
- * @author floryan
+ * @author floryan/majid
  *
  */
 public class MenuView extends JPanel {

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * This class is the model of the game board associated with the game of join five 5T.
  * 
- * @author floryan
+ * @author floryan/majid
  *
  */
 public class Grid5T {

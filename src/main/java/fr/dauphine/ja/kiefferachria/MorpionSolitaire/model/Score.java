@@ -1,8 +1,8 @@
 package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
 /**
- * This class is the model for scores. There is player score and computer score.
- * @author floryan
+ * This class is the model for scores. There is player score and computer score because both can play.
+ * @author floryan/majid
  *
  */
 public class Score {
