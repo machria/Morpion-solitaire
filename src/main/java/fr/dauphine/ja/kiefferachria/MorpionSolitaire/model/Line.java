@@ -1,7 +1,11 @@
 package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
 import java.awt.Point;
-
+/**
+ * This class is the model of a line. A line is a set of five points.
+ * @author floryan
+ *
+ */
 public class Line {
 	private Point p1;
 	private Point p2;
