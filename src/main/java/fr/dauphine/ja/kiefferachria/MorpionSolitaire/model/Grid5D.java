@@ -212,8 +212,7 @@ public class Grid5D {
     			res = this.tabCoordonnee.get(i);
     		}
     	}
-    	System.out.println(t);
-    	System.out.println(res);
+    	
     	return res;
     }
 	public HashMap<Point, Direction> getPointUser() {
@@ -517,7 +516,7 @@ public class Grid5D {
 			
 		}
 		else {
-			System.out.println("Pas de mouvement possible");
+
 		}
 		
 		
@@ -564,7 +563,7 @@ public class Grid5D {
 			Point x = this.potentialMove.get(0);
 			this.updateGrid(x,"IA");
 		}else {
-			System.out.println("No solution");
+
 		}
 		
 	}
@@ -577,11 +576,11 @@ public class Grid5D {
 	public void incrementeScore(String s) {
 		if(s.equals("IA")) {
 			this.score.setScore_computeur(this.score.getScore_computeur()+1);
-			System.out.println("score ordi: "+this.score.getScore_computeur());
+
 		}
 		else {
 			this.score.setScore_joueur(this.score.getScore_joueur()+1);
-			System.out.println("score joueur: "+this.score.getScore_joueur());
+
 		}
 	}
 
@@ -682,7 +681,7 @@ public class Grid5D {
 		if(!this.potentialMove.isEmpty()) {
 			this.updateGrid(best,"IA");
 		}else {
-			System.out.println("No solution");
+
 		}
 		
 	}
@@ -706,7 +705,7 @@ public class Grid5D {
 			Point x = this.potentialMove.get(indice);
 			this.updateGrid(x,"IA");
 		}else {
-			System.out.println("No solution");
+
 		}
 		
 	}
@@ -734,7 +733,7 @@ public class Grid5D {
 					for(int a = 1;a<=4-cpt_gauche;a++) {
 						if(coordX+a<this.nbColumn&&coordY>=0) {
 							if(!this.getPoints()[coordX+a][coordY]) {
-								System.out.println("Pas de line possible sur l'horizontale");
+
 								return false;
 							}
 							else{
@@ -784,13 +783,10 @@ public class Grid5D {
 		int coordY=((int)z.getY()/this.getStep());
 		for(int i =1; i<=4;i++) {
 			if(coordX>=0&&coordY-i>=0) {
-				System.out.println(this.getPoints()[coordX][coordY-i]);
 				if(!this.getPoints()[coordX][coordY-i] || this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL).equals(true)) {
 					for(int a = 1;a<=4-cpt_haut;a++) {
-						//System.out.println(a);
 						if(coordX>=0&&coordY+a<this.nbColumn) {
 							if(!this.getPoints()[coordX][coordY+a]) {
-								System.out.println("Pas de line possible sur la vertical");
 								return false;
 							}
 							else{
@@ -808,7 +804,7 @@ public class Grid5D {
 				else {
 					if(this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL).equals(false)) {
 						cpt_haut++;
-						System.out.println("cpt_haut++");
+
 						if(cpt_haut==4) {
 							i = 6;
 						}
@@ -849,7 +845,7 @@ public class Grid5D {
 					for(int a = 1;a<=4-cpt_gauche;a++) {
 						if(coordX+a<this.nbColumn&&coordY+a<this.nbColumn) {
 							if(!this.getPoints()[coordX+a][coordY+a]) {
-								System.out.println("Pas de line possible sur la diagonale gauche");
+
 								return false;
 							}
 							else{
@@ -899,10 +895,10 @@ public class Grid5D {
 			if(coordX+i<this.nbColumn&&coordY-i>=0) {
 				if(!this.getPoints()[coordX+i][coordY-i] || this.tabUsed.get(new Point((coordX+i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGRIGHT).equals(true)) {
 					for(int a = 1;a<=4-cpt_gauche;a++) {
-						//System.out.println(a);
+
 						if(coordX-a>=0&&coordY+a<this.nbColumn) {
 							if(!this.getPoints()[coordX-a][coordY+a]) {
-								System.out.println("Pas de line possible sur la diagonale droite");
+
 								return false;
 							}
 							else{
@@ -962,7 +958,7 @@ public class Grid5D {
 			if(!this.getPoints()[coordX-i][coordY] || this.tabUsed.get(new Point((coordX-i)*this.step,coordY*this.step)).get(Direction.HORIZONTAL).equals(true)) {
 				for(int a = 1;a<=4-cpt_gauche;a++) {
 					if(!this.getPoints()[coordX+a][coordY]) {
-						System.out.println("Pas de line possible sur l'horizontale");
+
 						return;
 					}
 					else{
@@ -985,7 +981,7 @@ public class Grid5D {
 		if(this.tabUsed.get(z).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false) && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,(coordY*this.step))).get(Direction.HORIZONTAL).equals(false)) {
 
 			if(cpt_gauche+cpt_droite==4) {
-				System.out.println(this.tabUsed.get(z));
+
 					int tempLeft=1;
 					int tempRight=1;
 					for(int i =tempLeft;i<=cpt_gauche;i++) {
@@ -1002,7 +998,7 @@ public class Grid5D {
 					line.setP1(debut);
 					line.setP5(fin);
 					this.tabLine.add(line);
-					System.out.println("Ajout");
+
 			}
 			
 			
@@ -1024,12 +1020,12 @@ public class Grid5D {
 		int coordX=((int)z.getX()/this.getStep());
 		int coordY=((int)z.getY()/this.getStep());
 		for(int i =1; i<=4;i++) {
-			System.out.println(this.getPoints()[coordX][coordY-i]);
+
 			if(!this.getPoints()[coordX][coordY-i] || this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL).equals(true)) {
 				for(int a = 1;a<=4-cpt_haut;a++) {
-					//System.out.println(a);
+
 					if(!this.getPoints()[coordX][coordY+a]) {
-						System.out.println("Pas de line possible sur la vertical");
+
 						return;
 					}
 					else{
@@ -1037,24 +1033,24 @@ public class Grid5D {
 						if(cpt_haut+cpt_bas==4) {
 							a=10;
 							i=10;
-							System.out.println("Je suis dans if");
-							System.out.println("Haut"+cpt_haut);
-							System.out.println("Bas"+cpt_bas);
+
+
+
 						}
-						System.out.println("cpt_bas++");
-						System.out.println(cpt_haut+cpt_bas);
+
+
 					}
 				}
 			}
 			else {
 				if(this.tabUsed.get(new Point(coordX*this.step,(coordY-i)*this.step)).get(Direction.VERTICAL).equals(false)) {
 					cpt_haut++;
-					System.out.println("cpt_haut++");
+
 					if(cpt_haut==4) {
 						i = 6;
-						System.out.println("Je suis dans else");
-						System.out.println("Haut"+cpt_haut);
-						System.out.println("Bas"+cpt_bas);
+
+
+
 					}
 				}
 				
@@ -1064,7 +1060,7 @@ public class Grid5D {
 		}
 		if(this.tabUsed.get(z).get(Direction.VERTICAL).equals(false) && this.tabUsed.get(new Point((coordX*this.step),(coordY-cpt_haut)*this.step)).get(Direction.VERTICAL).equals(false) && this.tabUsed.get(new Point((coordX*this.step),(coordY+cpt_bas)*this.step)).get(Direction.VERTICAL).equals(false)) {
 			
-			System.out.println(this.tabUsed.get(z));
+
 
 			if(cpt_haut+cpt_bas==4) {
 
@@ -1084,11 +1080,11 @@ public class Grid5D {
 				line.setP1(debut);
 				line.setP5(fin);
 				this.tabLine.add(line);
-				System.out.println("Ajout");
+
 			}
 		}
-		System.out.println("Haut"+cpt_haut);
-		System.out.println("Bas"+cpt_bas);
+
+
 	}
 	
 	/**
@@ -1109,7 +1105,7 @@ public class Grid5D {
 			if(!this.getPoints()[coordX-i][coordY-i] || this.tabUsed.get(new Point((coordX-i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGLEFT).equals(true)) {
 				for(int a = 1;a<=4-cpt_gauche;a++) {
 					if(!this.getPoints()[coordX+a][coordY+a]) {
-						System.out.println("Pas de line possible sur la diagonale gauche");
+
 						return;
 					}
 					else{
@@ -1131,7 +1127,7 @@ public class Grid5D {
 				
 			}
 		if(this.tabUsed.get(z).get(Direction.DIAGLEFT).equals(false) && this.tabUsed.get(new Point((coordX-cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step))).get(Direction.DIAGLEFT).equals(false) && this.tabUsed.get(new Point((coordX+cpt_droite)*this.step,((coordY+cpt_droite)*this.step))).get(Direction.DIAGLEFT).equals(false)) {
-			System.out.println(this.tabUsed.get(z));
+
 			if(cpt_gauche+cpt_droite==4) {
 				int tempLeft=1;
 				int tempRight=1;
@@ -1150,13 +1146,13 @@ public class Grid5D {
 				line.setP5(fin);
 				this.tabLine.add(line);
 				
-				System.out.println("Ajout");
+
 			}
 		}
 			
 		
-		System.out.println("Gauche "+cpt_gauche);
-		System.out.println(" Droite "+cpt_droite);
+
+
 	}
 	
 	/**
@@ -1177,7 +1173,7 @@ public class Grid5D {
 			if(!this.getPoints()[coordX+i][coordY-i] || this.tabUsed.get(new Point((coordX+i)*this.step,(coordY-i)*this.step)).get(Direction.DIAGRIGHT).equals(true)) {
 				for(int a = 1;a<=4-cpt_gauche;a++) {
 					if(!this.getPoints()[coordX-a][coordY+a]) {
-						System.out.println("Pas de line possible sur la diagonale droite");
+
 						return;
 					}
 					else{
@@ -1199,7 +1195,7 @@ public class Grid5D {
 				
 			}
 		if(this.tabUsed.get(z).get(Direction.DIAGRIGHT).equals(false) && this.tabUsed.get(new Point((coordX+cpt_gauche)*this.step,((coordY-cpt_gauche)*this.step))).get(Direction.DIAGRIGHT).equals(false) && this.tabUsed.get(new Point((coordX-cpt_droite)*this.step,((coordY+cpt_droite)*this.step))).get(Direction.DIAGRIGHT).equals(false)) {
-			System.out.println(this.tabUsed.get(z));
+
 			if(cpt_gauche+cpt_droite==4) {
 				int tempLeft=1;
 				int tempRight=1;
@@ -1217,12 +1213,12 @@ public class Grid5D {
 				line.setP1(debut);
 				line.setP5(fin);
 				this.tabLine.add(line);
-				System.out.println("Ajout");
+
 			}
 			
 		}
-		System.out.println(cpt_gauche);
-		System.out.println(cpt_droite);
+
+
 				
 	}
 	

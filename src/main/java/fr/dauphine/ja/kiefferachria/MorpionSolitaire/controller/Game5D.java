@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Direction;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5D;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView5D;
@@ -52,10 +54,7 @@ public class Game5D extends JFrame{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		final Grid5D grid = new Grid5D(880,880,40);
 		grid.catchCoordonnee();
-		for(int i = 0 ; i<grid.getTabCoordonnee().size();i++) {
-			System.out.println(grid.getTabCoordonnee().get(i));
-		}
-		System.out.println((int)grid.getNbColumn()/2);
+		
 		GridView5D d = new GridView5D(grid);
 		this.gridView=d;	
 	
@@ -177,16 +176,18 @@ public class Game5D extends JFrame{
 			@Override
             public void mousePressed(MouseEvent e) {
 				grid.pointAvailable();
-                Point z=grid.getNeigh(e.getX(), e.getY());
-                grid.updateGrid(z, "player");
-                //grid.NMCS();
-                gridView.repaint();
+				if(grid.getPotentialMove().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "No point available");
+				}else {
+					 Point z=grid.getNeigh(e.getX(), e.getY());
+		                grid.updateGrid(z, "player");
+		                gridView.repaint();
+		                
+		                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
+		                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+				}
+               
                 
-                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
-                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
-                for(int i=0;i<grid.getScoreHistory().size();i++) {
-                	System.out.println(grid.getScoreHistory().get(i));
-                }
             }
 		});
 		

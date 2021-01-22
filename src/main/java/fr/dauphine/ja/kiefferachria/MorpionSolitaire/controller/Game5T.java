@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Direction;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5T;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.GridView5T;
@@ -52,10 +54,6 @@ public class Game5T {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		final Grid5T grid = new Grid5T(880,880,40);
 		grid.catchCoordonnee();
-		for(int i = 0 ; i<grid.getTabCoordonnee().size();i++) {
-			System.out.println(grid.getTabCoordonnee().get(i));
-		}
-		System.out.println((int)grid.getNbColumn()/2);
 		GridView5T d = new GridView5T(grid);
 		this.gridView=d;
 		
@@ -103,7 +101,6 @@ public class Game5T {
 	                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
 	                
 				}
-				System.out.println(grid.getTabLine().size());
 			}
 			
 		});
@@ -179,16 +176,16 @@ public class Game5T {
 			@Override
             public void mousePressed(MouseEvent e) {
 				grid.pointAvailable();
-                Point z=grid.getNeigh(e.getX(), e.getY());
-                grid.updateGrid(z,"player");
-                gridView.repaint();
-
-                //grid.NMCS();
-                //grid.updateIA();
-                gridView.repaint();
-                
-                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
-                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+				if(grid.getPotentialMove().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "No point available");
+				}else {
+					 Point z=grid.getNeigh(e.getX(), e.getY());
+		                grid.updateGrid(z, "player");
+		                gridView.repaint();
+		                
+		                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
+		                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+				}
                 
             }
 		});
