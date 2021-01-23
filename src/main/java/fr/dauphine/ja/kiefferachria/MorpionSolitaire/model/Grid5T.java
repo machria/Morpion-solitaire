@@ -510,7 +510,7 @@ public class Grid5T {
 	 * 
 	 * @param z (Point)
 	 * @param d (Direction)
-	 * @param s (String) -> User
+	 * @param s (String) User
 	 */
 	public void updateGrid(Point z, Direction d,String s) {
 		if (d == Direction.VERTICAL_BOTTOM) {
@@ -1586,7 +1586,7 @@ public class Grid5T {
 	 * This method allows to fill tabLine with a start point and an end point (which represent a vertical line) 
 	 * if the point chosen by the player is valid. The search begin by bottom.
 	 * 
-	 * @param z
+	 * @param z (Point)
 	 */
 	public void drawMoveVertical2(Point z) {
 		int cpt_haut = 0;

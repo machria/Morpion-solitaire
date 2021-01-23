@@ -37,7 +37,7 @@ public class Choice {
 
 	/**
 	 * Game launch.
-	 * @param args
+	 * @param args not used
 	 */
 	public static void main(String[] args) {
 		new Choice();

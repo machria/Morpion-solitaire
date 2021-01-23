@@ -26,7 +26,7 @@ public class GridView5D extends JPanel {
 	
 	/**
 	 * Constructor which receive the model
-	 * @param grid
+	 * @param grid represent grid5D
 	 */
 	public GridView5D(Grid5D grid) {
 		this.grid = grid;

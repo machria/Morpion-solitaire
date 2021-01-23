@@ -37,7 +37,7 @@ public class MenuView extends JPanel {
 	
 	/**
 	 * Creation of the JPanel scoreView.
-	 * @param score
+	 * @param score Object score
 	 */
 	public MenuView(Score score) {
 		super();
@@ -165,7 +165,7 @@ public class MenuView extends JPanel {
 	
 	/**
 	 * Change the player's score.
-	 * @param score_joueur
+	 * @param score_joueur score of the player
 	 */
 	public void setScore_joueur(JLabel score_joueur) {
 		this.score_joueur = score_joueur;
@@ -173,7 +173,7 @@ public class MenuView extends JPanel {
 	
 	/**
 	 * Return the computer's score.
-	 * @return computer score
+	 * @return score_computer
 	 */
 	public JLabel getScore_computeur() {
 		return score_computer;
@@ -181,10 +181,10 @@ public class MenuView extends JPanel {
 	
 	/**
 	 * Change the computer's score.
-	 * @param score computer
+	 * @param score_computer score of the computer
 	 */
-	public void setScore_computeur(JLabel score_computeur) {
-		this.score_computer = score_computeur;
+	public void setScore_computeur(JLabel score_computer) {
+		this.score_computer = score_computer;
 	}
 	
 	/**
