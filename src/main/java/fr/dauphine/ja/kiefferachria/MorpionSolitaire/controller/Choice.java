@@ -9,7 +9,7 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.ChoiceView;
 
 /**
  * This class allows to choose the 5T or 5D game engine.
- * @author floryan/majid
+ * @author floryan
  *
  */
 public class Choice {
