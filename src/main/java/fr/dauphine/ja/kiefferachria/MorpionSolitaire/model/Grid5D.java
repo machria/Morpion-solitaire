@@ -15,6 +15,15 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import fr.dauphine.ja.kiefferachria.MorpionSolitaire.controller.Game5D;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -113,6 +122,12 @@ public class Grid5D {
 
     }
 	
+	public Grid5D(Grid5D g){
+    	
+    	setGrid(g);
+
+    }
+	
 /////////////////////////
 //   				   //	
 // Getters and Setters //
@@ -120,7 +135,61 @@ public class Grid5D {
 /////////////////////////
 	
 	
-    public ArrayList<Line> getTabLine() {
+    private void setGrid(Grid5D g) {
+    	this.step=g.step;
+    	this.height=g.height;
+    	this.width=g.width;
+    	this.scoreHistory = new ArrayList<Integer>(g.scoreHistory);
+    	this.nbLine=(int)g.width/g.step;
+    	this.nbColumn=(int)g.height/g.step;
+    	this.center=(int) g.nbLine/2;//Same height and width
+    	
+    	this.potentialMove = new ArrayList<Point>();
+    	for(int i=0;i<g.potentialMove.size();i++) {
+    		this.potentialMove.add(g.potentialMove.get(i));
+    	}
+    	
+    	this.potentialMoveNext = new ArrayList<Point>(g.potentialMoveNext);
+    	for(int i=0;i<g.potentialMoveNext.size();i++) {
+    		this.potentialMoveNext.add(g.potentialMoveNext.get(i));
+    	}
+    	
+    	this.possibleDirection = new HashMap<Direction,Boolean>(g.possibleDirection);
+    	
+    	
+    	this.points = new boolean [nbLine][nbColumn];
+    	for(int i = 0;i<nbLine;i++) {
+			for(int j = 0;j<nbColumn;j++) {
+				this.points[i][j]=g.getPoints()[i][j];
+			}
+		}
+    	this.tabCoordonnee= new ArrayList<Point>(g.tabCoordonnee);
+    	this.tabCross=new ArrayList<Point>(g.tabCross);
+    	g.catchCoordonnee();
+    	
+    	this.tabLine=new ArrayList<Line>(g.tabLine);
+    	for(int i=0;i<g.tabLine.size();i++) {
+    		this.tabLine.add(g.tabLine.get(i));
+    	}
+    	
+    	this.tabUsed = new HashMap<Point, HashMap<Direction, Boolean>>(g.tabUsed);
+    	Set<Entry<Point, HashMap<Direction, Boolean>>> entries = g.tabUsed.entrySet();
+
+		for (Entry<Point, HashMap<Direction, Boolean>> p : entries) {
+			Set<Entry<Direction, Boolean>> b = p.getValue().entrySet();
+			HashMap<Direction, Boolean> a = new HashMap<>();
+			for (Entry<Direction, Boolean> c : b) {
+				a.put(c.getKey(), c.getValue());
+			}
+			this.tabUsed.put(p.getKey(), (HashMap<Direction, Boolean>) a.clone());
+
+		}
+    	this.pointUser= new LinkedHashMap<Point, Direction>(g.pointUser);
+    	this.score = new Score();
+		
+	}
+
+	public ArrayList<Line> getTabLine() {
 		return tabLine;
 	}
 	public void setTabLine(ArrayList<Line> tabLine) {
@@ -654,7 +723,7 @@ public class Grid5D {
 	}
 	
 	/**
-	 * This method able to found a solution (but not the best and better than NMCS)
+	 * This method able to found a solution (but not the best and weaker than NMCS)
 	 */
 	public void NMCS2() {
 		int max=-1;
@@ -676,6 +745,61 @@ public class Grid5D {
 		}
 		
 	}
+	
+	/**
+	 * Another try of implementation of IA algorithm
+	 */
+	public void NMCS3() {
+		this.pointAvailable();
+		int max=-1;
+		int indice=-1;
+		Collections.shuffle(this.potentialMove);
+		Grid5D g = new Grid5D(this);
+		System.out.println(this.potentialMove.size());
+		for (int i=0;i<this.potentialMove.size();i++) {
+			int x=this.pointAvailableNext(this.potentialMove.get(i))+this.simulation(this.potentialMove.get(i), this.pointUser.size(), g);
+			if(x>max) {
+				max=x;
+				indice = i;
+			}
+		}
+		
+		if(!this.potentialMove.isEmpty()) {
+			Point x = this.potentialMove.get(indice);
+			this.updateGrid(x,"IA");
+		}else {
+
+		}
+		
+	}
+	
+	/**
+	 * This method able to make a simulation and return the score of the simulation with this point
+	 */
+	public int simulation(Point z, int index, Grid5D g) {
+		g.pointAvailable();
+		if (g.potentialMove.size() == 0) {
+			return index;
+		}else {
+			int max = -1;
+			int indice = -1;
+			Point zz;
+			Collections.shuffle(g.potentialMove);
+			for (int i = 0; i < g.potentialMove.size(); i++) {
+				int x = g.pointAvailableNext(g.potentialMove.get(i));
+				if (x > max) {
+					max = x;
+					indice = i;
+				}
+			}
+
+			zz = g.potentialMove.get(indice);
+			g.updateGrid(zz, "IA");
+			return simulation(zz, index + 1, g);
+		}
+
+	}
+	
 	
 //////////////////////////
 //						//
@@ -1597,5 +1721,6 @@ public class Grid5D {
 			  }
 			 
 	}
+	
 	   
 }

@@ -208,6 +208,31 @@ public class GridTest extends TestCase {
     }
     
     /**
+     * Test our algorithm which generate solution ten times and print the best score
+     */
+    public void test10NMCS3()
+    {
+    	final Grid5D grid = new Grid5D(880,880,40);
+    	for(int i=0;i<1;i++) {
+        	grid.pointAvailable();
+    		while(!grid.getPotentialMove().isEmpty()) {
+
+    			grid.NMCS3();
+    			grid.pointAvailable();
+                
+    		}
+    		grid.reset();
+    	}
+    	int max=0;
+    	for(int i=0;i<grid.getScoreHistory().size();i++) {
+    		if(max<grid.getScoreHistory().get(i))
+    			max=grid.getScoreHistory().get(i);
+    	}
+    	System.out.println(max);
+
+    }
+    
+    /**
      * Test algorithm who take a random point which generate solution ten times and print the best score
      */
     public void test10IA()
