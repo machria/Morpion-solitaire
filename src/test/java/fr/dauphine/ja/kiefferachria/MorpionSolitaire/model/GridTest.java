@@ -200,8 +200,8 @@ public class GridTest extends TestCase {
     	}
     	int max=0;
     	for(int i=0;i<grid.getScoreHistory().size();i++) {
-    		if(max<grid.getScoreHistory().get(i))
-    			max=grid.getScoreHistory().get(i);
+    		if(max<grid.getScoreHistory().get(i).intValue())
+    			max=grid.getScoreHistory().get(i).intValue();
     	}
     	System.out.println(max);
 
@@ -225,8 +225,8 @@ public class GridTest extends TestCase {
     	}
     	int max=0;
     	for(int i=0;i<grid.getScoreHistory().size();i++) {
-    		if(max<grid.getScoreHistory().get(i))
-    			max=grid.getScoreHistory().get(i);
+    		if(max<grid.getScoreHistory().get(i).intValue())
+    			max=grid.getScoreHistory().get(i).intValue();
     	}
     	System.out.println(max);
 
@@ -250,8 +250,8 @@ public class GridTest extends TestCase {
     	}
     	int max=0;
     	for(int i=0;i<grid.getScoreHistory().size();i++) {
-    		if(max<grid.getScoreHistory().get(i))
-    			max=grid.getScoreHistory().get(i);
+    		if(max<grid.getScoreHistory().get(i).intValue())
+    			max=grid.getScoreHistory().get(i).intValue();
     	}
     	System.out.println(max);
 
