@@ -1814,7 +1814,8 @@ public class Grid5T {
 	 * This method makes it possible to fill possibleDirection in order to determine, for a given point, which are the 
 	 * different possible directions.
 	 * 
-	 * @param z
+	 * @param z 
+	 * (Point)
 	 */
 	public void possibleDirectionOnClick(Point z) {
 		this.possibleDirection.replace(Direction.VERTICAL_BOTTOM, false);

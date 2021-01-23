@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="compiltation des classes" default="compile" basedir=".">
+  <!-- Definition des proprietes du projet -->
+  <property name="projet.sources.dir" value="src"/>
+  <property name="projet.bin.dir" value="bin"/>
+  <property name="projet.lib.dir" value="lib"/>
+
+  <!-- Definition du classpath du projet -->
+  <path id="projet.classpath">
+    <fileset dir="${projet.lib.dir}">
+      <include name="*.jar"/>
+    </fileset>
+    <pathelement location="${projet.bin.dir}" />
+  </path>
+ 
+  <!-- Compilation des classes du projet -->
+  <target name="compile" description="Compilation des classes">
+    <javac srcdir="${projet.sources.dir}" 
+	          destdir="${projet.bin.dir}">
+    </javac>
+  </target>
+ 
+ <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="ACHRIAKIEFFER.jar" basedir="bin">
+            <manifest>
+                <attribute name="Main-Class" value="fr.dauphine.ja.kiefferachria.MorpionSolitaire.App"/>
+            </manifest>
+        </jar>
+    </target>
+  <!-- ================================================-->
+  <!-- Génération de la documentation Javadoc          -->
+  <!-- ================================================-->
+  <target name="javadoc">
+    <javadoc sourcepath="src"
+                destdir="javadoc" >
+      <fileset dir="src" defaultexcludes="yes">
+        <include name="**" />
+      </fileset>
+    </javadoc>
+  </target> 
+</project>
+
+
+

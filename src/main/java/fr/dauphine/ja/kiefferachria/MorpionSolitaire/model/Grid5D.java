@@ -477,7 +477,7 @@ public class Grid5D {
 	 * 
 	 * @param z (Point)
 	 * @param d (Direction)
-	 * @param s (String) -> user
+	 * @param s (String) which corresponds to the user
 	 */
 	public void updateGrid(Point z,Direction d,String s) {
 		if (d == Direction.VERTICAL_BOTTOM) {
@@ -1451,6 +1451,7 @@ public class Grid5D {
 	 * different possible directions.
 	 * 
 	 * @param z
+	 *  (Point)
 	 */
 	public void possibleDirectionOnClick(Point z) {
 		this.possibleDirection.replace(Direction.VERTICAL_BOTTOM, false);
