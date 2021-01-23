@@ -775,6 +775,10 @@ public class Grid5D {
 	
 	/**
 	 * This method able to make a simulation and return the score of the simulation with this point
+	 * @param z (Point)
+	 * @param index (int)
+	 * @param g (Grid5D)
+	 * @return int which represents the score with this point used
 	 */
 	public int simulation(Point z, int index, Grid5D g) {
 		g.pointAvailable();
