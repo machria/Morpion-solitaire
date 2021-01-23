@@ -16,6 +16,10 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Grid5D;
 public class GridView5D extends JPanel {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * 5D game board instance.
 	 */
 	private Grid5D grid;

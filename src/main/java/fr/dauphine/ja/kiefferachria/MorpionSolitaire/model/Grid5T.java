@@ -423,7 +423,7 @@ public class Grid5T {
 		this.initiatePoint();
 		this.generateCross();
 		this.catchCoordonnee();
-		this.pointUser = new LinkedHashMap();
+		this.pointUser = new LinkedHashMap<Point, Direction>();
 		this.score = new Score();
 		this.potentialMoveNext = new ArrayList<Point>();
 	}
@@ -470,7 +470,7 @@ public class Grid5T {
 			choix.setSize(new Dimension(200, 200));
 			choix.setLocationRelativeTo(null);
 			for (int i = 0; i < tmp.size(); i++) {
-				final int a = new Integer(i);
+				final int a = i;
 				c.gridx = 0;
 				c.gridy = i;
 				c.fill = GridBagConstraints.HORIZONTAL;

@@ -379,7 +379,7 @@ public class Grid5D {
     	this.initiatePoint();
     	this.generateCross();
     	this.catchCoordonnee();
-    	this.pointUser= new LinkedHashMap();
+    	this.pointUser= new LinkedHashMap<Point, Direction>();
     	this.score = new Score();
 	}
 
@@ -413,8 +413,6 @@ public class Grid5D {
 	 * @param s (player or IA)
 	 */
 	public void updateGrid(Point z,String s) {
-		int coordX=((int)z.getX()/this.getStep());
-		int coordY=((int)z.getY()/this.getStep());
 		this.possibleDirectionOnClick(z);
 		ArrayList<Direction> tmp = new ArrayList<Direction>(this.possibleDirection.entrySet().stream().filter(entry -> Objects.equals(entry.getValue(), true)).map(Map.Entry::getKey).collect(Collectors.toList())); 
 		if(tmp.size()>1 && s != "IA") {
@@ -424,7 +422,7 @@ public class Grid5D {
 			choix.setSize(new Dimension(200, 200));
 			choix.setLocationRelativeTo(null);
 			for(int i = 0 ; i<tmp.size();i++) {
-				final int a = new Integer(i);
+				final int a = i;
 				c.gridx=0;
 				c.gridy=i;
 				c.fill = GridBagConstraints.HORIZONTAL;
@@ -579,13 +577,11 @@ public class Grid5D {
 	 */
 	public void NMCS() {
 		int max=-1;
-		int indice=-1;
 		Collections.shuffle(this.potentialMove);
 		for (int i=0;i<this.potentialMove.size();i++) {
 			int x=this.pointAvailableNext(this.potentialMove.get(i));
 			if(x>max) {
 				max=x;
-				indice = i;
 			}
 		}
 		ArrayList<Point> tmp = new ArrayList<Point>();

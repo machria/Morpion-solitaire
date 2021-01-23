@@ -33,7 +33,7 @@ public class Game5T {
 	/**
 	 * 5T game board instance.
 	 */
-	private Grid5T grid;
+	private final Grid5T grid;
 	/**
 	 * View of the 5T grid.
 	 */
@@ -52,7 +52,7 @@ public class Game5T {
 		GridBagConstraints c = new GridBagConstraints();
 		frame.setSize(new Dimension(1000, 800));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		final Grid5T grid = new Grid5T(880,880,40);
+		this.grid = new Grid5T(880,880,40);
 		grid.catchCoordonnee();
 		GridView5T d = new GridView5T(grid);
 		this.gridView=d;

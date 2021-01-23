@@ -13,6 +13,10 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Graph;
  *
  */
 public class GraphView extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Graph graph;
 
 	public GraphView(Graph graph) {

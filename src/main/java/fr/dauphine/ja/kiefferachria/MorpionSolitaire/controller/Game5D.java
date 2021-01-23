@@ -31,9 +31,13 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.MenuView;
 public class Game5D extends JFrame{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * 5D game board instance.
 	 */
-	private Grid5D grid;
+	private final Grid5D grid;
 	/**
 	 * View of the 5T grid.
 	 */
@@ -52,7 +56,7 @@ public class Game5D extends JFrame{
 		GridBagConstraints c = new GridBagConstraints();
 		frame.setSize(new Dimension(1000, 800));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		final Grid5D grid = new Grid5D(880,880,40);
+		this.grid = new Grid5D(880,880,40);
 		grid.catchCoordonnee();
 		
 		GridView5D d = new GridView5D(grid);

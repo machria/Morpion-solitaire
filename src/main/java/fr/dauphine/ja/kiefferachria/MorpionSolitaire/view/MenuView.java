@@ -12,13 +12,17 @@ import javax.swing.SwingConstants;
 import fr.dauphine.ja.kiefferachria.MorpionSolitaire.model.Score;
 
 /**
- * This class is used to create the score view. It will contain the player's score, the computer score 
+ * This class is used to create the Menu view. It will contain the player's score, the computer score 
  * and the following buttons: Help, Solution, Distribution, Save and Import.
  * @author floryan/majid
  *
  */
 public class MenuView extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Score score;
 	private JLabel score_joueur;
 	private JLabel score_computer;
@@ -129,7 +133,7 @@ public class MenuView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.scoreDistrib = new JButton("DISTRIBUTION" );
+		this.scoreDistrib = new JButton("DISTRIBUTION", new ImageIcon("distribution.png"));
 		this.add(this.scoreDistrib,c);
 		this.setBackground(Color.CYAN);
 		

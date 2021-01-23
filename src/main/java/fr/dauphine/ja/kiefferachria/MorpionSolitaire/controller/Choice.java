@@ -16,6 +16,10 @@ import javax.swing.JFrame;
  */
 public class Choice extends JFrame {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * This button allows you to choose the 5D mode.
 	 */
 	private JButton five_d;
@@ -74,7 +78,7 @@ public class Choice extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Choice c = new Choice();
+		new Choice();
 	}
 	
 }
