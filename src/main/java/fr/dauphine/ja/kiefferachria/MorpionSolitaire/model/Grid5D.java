@@ -1188,6 +1188,12 @@ public class Grid5D {
 
 				
 	}
+	/**
+	 * This method allows to fill tabLine with a start point and an end point (which represent a horizontal line) 
+	 * if the point chosen by the player is valid.
+	 * 
+	 * @param z (Point)
+	 */
 	public void drawMoveHorizontal2(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -1243,7 +1249,12 @@ public class Grid5D {
 			
 		}
 	}
-	
+	/**
+	 * This method allows to fill tabLine with a start point and an end point (which represent a vertical line) 
+	 * if the point chosen by the player is valid. The search begin by bottom.
+	 * 
+	 * @param z
+	 */
 	public void drawMoveVertical2(Point z) {
 		int cpt_haut = 0;
 		int cpt_bas = 0;
@@ -1307,7 +1318,12 @@ public class Grid5D {
 		}
 		
 	}
-	
+	/**
+	 * This method allows to fill tabLine with a start point and an end point (which represent a left diagonal line) 
+	 * if the point chosen by the player is valid. It begin search at right.
+	 * 
+	 * @param z (Point)
+	 */
 	public void drawMoveDiagonalLeft2(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;
@@ -1366,6 +1382,12 @@ public class Grid5D {
 		
 	}
 	
+	/**
+	 * This method allows to fill tabLine with a start point and an end point (which represent a right diagonal line) 
+	 * if the point chosen by the player is valid. The search begin at right.
+	 * 
+	 * @param z (Point)
+	 */
 	public void drawMoveDiagonalRight2(Point z) {
 		int cpt_gauche = 0;
 		int cpt_droite = 0;

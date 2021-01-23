@@ -1350,8 +1350,8 @@ public class Grid5T {
 	}
 
 	/**
-	 * This method allows to fill tabLine with a start point and an end point (which represent a right diagonal line) 
-	 * if the point chosen by the player is valid.
+	 * This method allows to fill tabLine with a start point and an end point (which represent a left diagonal line) 
+	 * if the point chosen by the player is valid. It begins the search at right.
 	 * 
 	 * @param z (Point)
 	 */
@@ -1466,8 +1466,8 @@ public class Grid5T {
 	}
 
 	/**
-	 * This method allows to fill tabLine with a start point and an end point (which represent a left diagonal line) 
-	 * if the point chosen by the player is valid.
+	 * This method allows to fill tabLine with a start point and an end point (which represent a right diagonal line) 
+	 * if the point chosen by the player is valid. The search begin at right.
 	 * 
 	 * @param z (Point)
 	 */
@@ -1584,7 +1584,7 @@ public class Grid5T {
 
 	/**
 	 * This method allows to fill tabLine with a start point and an end point (which represent a vertical line) 
-	 * if the point chosen by the player is valid.
+	 * if the point chosen by the player is valid. The search begin by bottom.
 	 * 
 	 * @param z
 	 */
@@ -1699,7 +1699,7 @@ public class Grid5T {
 
 	/**
 	 * This method allows to fill tabLine with a start point and an end point (which represent a horizontal line) 
-	 * if the point chosen by the player is valid.
+	 * if the point chosen by the player is valid. The search begins at right.
 	 * 
 	 * @param z (Point)
 	 */
