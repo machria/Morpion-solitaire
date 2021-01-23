@@ -2,7 +2,7 @@
 
 <project name="compiltation des classes" default="compile" basedir=".">
   <!-- Definition des proprietes du projet -->
-  <property name="projet.sources.dir" value="src"/>
+  <property name="projet.sources.dir" value="src/main"/>
   <property name="projet.bin.dir" value="bin"/>
   <property name="projet.lib.dir" value="lib"/>
 
