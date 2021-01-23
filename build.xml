@@ -30,12 +30,12 @@
         </jar>
     </target>
   <!-- ================================================-->
-  <!-- GÃ©nÃ©ration de la documentation Javadoc          -->
+  <!-- Génération de la documentation Javadoc          -->
   <!-- ================================================-->
   <target name="javadoc">
-    <javadoc sourcepath="src"
+    <javadoc sourcepath="src/main/fr"
                 destdir="javadoc" >
-      <fileset dir="src" defaultexcludes="yes">
+      <fileset dir="src/main" defaultexcludes="yes">
         <include name="**" />
       </fileset>
     </javadoc>
