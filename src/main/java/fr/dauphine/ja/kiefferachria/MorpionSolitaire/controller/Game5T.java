@@ -28,7 +28,8 @@ import fr.dauphine.ja.kiefferachria.MorpionSolitaire.view.MenuView;
  * @author floryan/majid
  *
  */
-public class Game5T {
+public class Game5T{
+	
 	
 	/**
 	 * 5T game board instance.
@@ -51,7 +52,6 @@ public class Game5T {
 		frame.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		frame.setSize(new Dimension(1000, 800));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.grid = new Grid5T(880,880,40);
 		grid.catchCoordonnee();
 		GridView5T d = new GridView5T(grid);
