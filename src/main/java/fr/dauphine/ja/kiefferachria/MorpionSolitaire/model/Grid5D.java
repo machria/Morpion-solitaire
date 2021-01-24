@@ -16,17 +16,9 @@ import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.controller.Game5D;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * This class is the model of the game board associated with the game of join five 5D.
@@ -106,6 +98,11 @@ public class Grid5D {
     private HashMap<Direction,Boolean> possibleDirection;
     
     /**
+   	 * Keep in memory the best score simulated.
+   	 */
+     private int simBestScore;
+    
+    /**
      * Grid 5D constructor.
      * 
      * @param h (height)
@@ -119,7 +116,7 @@ public class Grid5D {
     	this.width=w;
     	this.scoreHistory = new ArrayList<Integer>();
     	this.reset();
-
+    	this.simBestScore=0;
     }
 	
 	public Grid5D(Grid5D g){
@@ -751,17 +748,18 @@ public class Grid5D {
 	 */
 	public void NMCS3() {
 		this.pointAvailable();
-		int max=-1;
+		double max=-1;
 		int indice=-1;
 		Collections.shuffle(this.potentialMove);
 		Grid5D g = new Grid5D(this);
-		System.out.println(this.potentialMove.size());
 		for (int i=0;i<this.potentialMove.size();i++) {
-			int x=this.pointAvailableNext(this.potentialMove.get(i))+this.simulation(this.potentialMove.get(i), this.pointUser.size(), g);
+			double x=this.pointAvailableNext(this.potentialMove.get(i))+.8*this.simulation(this.potentialMove.get(i), this.pointUser.size(), g);
 			if(x>max) {
 				max=x;
 				indice = i;
 			}
+			g = new Grid5D(this);
+
 		}
 		
 		if(!this.potentialMove.isEmpty()) {
@@ -774,6 +772,46 @@ public class Grid5D {
 	}
 	
 	/**
+	 * Another try of implementation of IA algorithm
+	 */
+	public void NMCS4() {
+		long endTimeMillis = System.currentTimeMillis() + 10000;
+		this.pointAvailable();
+		int max = -1;
+		int indice = -1;
+		Collections.shuffle(this.potentialMove);
+		Grid5D g = new Grid5D(this);
+		int simtemp = 1;
+
+		int maxlocal = -1;
+
+		do {
+			maxlocal = 0;
+			for (int i = 0; i < this.potentialMove.size(); i++) {
+				simtemp = this.simulation(this.potentialMove.get(i), this.pointUser.size(), g);
+
+				if (simtemp > max) {
+					max = simtemp;
+					if (maxlocal < max) {
+						maxlocal = max;
+						indice = i;
+					}
+				}
+				g = new Grid5D(this);
+			}
+		} while (max < this.simBestScore && System.currentTimeMillis() > endTimeMillis);
+		this.simBestScore = maxlocal;
+
+		if (!this.potentialMove.isEmpty()) {
+			Point x = this.potentialMove.get(indice);
+			this.updateGrid(x, "IA");
+		} else {
+
+		}
+
+	}
+	
+	/**
 	 * This method able to make a simulation and return the score of the simulation with this point
 	 * @param z (Point)
 	 * @param index (int)
@@ -783,6 +821,7 @@ public class Grid5D {
 	public int simulation(Point z, int index, Grid5D g) {
 		g.pointAvailable();
 		if (g.potentialMove.size() == 0) {
+			System.out.println(index);
 			return index;
 		}else {
 			int max = -1;
