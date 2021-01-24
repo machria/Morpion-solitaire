@@ -187,7 +187,7 @@ public class Grid5D extends Grid {
 	/**
 	 * Another try of implementation of IA algorithm
 	 */
-	public void NMCS3() {
+	public void updateIA3() {
 		this.pointAvailable();
 		double max=-1;
 		int indice=-1;
@@ -215,7 +215,7 @@ public class Grid5D extends Grid {
 	/**
 	 * Another try of implementation of IA algorithm
 	 */
-	public void NMCS4() {
+	public void updateIA4() {
 		
 		long endTimeMillis = System.currentTimeMillis() + 10000;
 		this.pointAvailable();

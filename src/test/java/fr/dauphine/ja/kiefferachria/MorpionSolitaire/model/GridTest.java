@@ -148,128 +148,18 @@ public class GridTest extends TestCase {
     }
     
     /**
-     * Test our algorithm which generate solution ten times and print the best score
+     * Test our IA algorithm which set a point
      */
-    public void testNMCS()
+    public void testupdateIA()
     {
     	final Grid5D grid = new Grid5D(880,880,40);
     	for(int i=0;i<1;i++) {
         	grid.pointAvailable();
-    		while(!grid.getPotentialMove().isEmpty()) {
-
-    			grid.NMCS();
-    			grid.pointAvailable();
-                
-    		}
-    		grid.reset();
-    	}
-    	int max=0;
-    	for(int i=0;i<grid.getScoreHistory().size();i++) {
-    		if(max<grid.getScoreHistory().get(i))
-    			max=grid.getScoreHistory().get(i);
-    	}
-    	int count=0;
-		for(int i = 0;i<grid.getNbLine();i++) {
-			for(int j = 0;j<grid.getNbColumn();j++) {
-				Point z = new Point(i*grid.getStep(),j*grid.getStep());
-					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
-						count++;
-					}
-				
-				
-			}
-		}
-		assertTrue(count==37);
-
-    }
-    
-    /**
-     * Test our algorithm which generate solution ten times and print the best score
-     */
-    public void testNMCS2()
-    {
-    	final Grid5D grid = new Grid5D(880,880,40);
-    	for(int i=0;i<1;i++) {
-        	grid.pointAvailable();
-    		while(!grid.getPotentialMove().isEmpty()) {
-
-    			grid.NMCS2();
-    			grid.pointAvailable();
-                
-    		}
-    		grid.reset();
-    	}
-    	int max=0;
-    	for(int i=0;i<grid.getScoreHistory().size();i++) {
-    		if(max<grid.getScoreHistory().get(i).intValue())
-    			max=grid.getScoreHistory().get(i).intValue();
-    	}
-    	int count=0;
-		for(int i = 0;i<grid.getNbLine();i++) {
-			for(int j = 0;j<grid.getNbColumn();j++) {
-				Point z = new Point(i*grid.getStep(),j*grid.getStep());
-					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
-						count++;
-					}
-				
-				
-			}
-		}
-		assertTrue(count==37);
-
-    }
-    
-    /**
-     * Test our algorithm which generate solution ten times and print the best score
-     */
-    public void testNMCS3()
-    {
-    	final Grid5D grid = new Grid5D(880,880,40);
-    	for(int i=0;i<1;i++) {
-        	grid.pointAvailable();
-    		while(!grid.getPotentialMove().isEmpty()) {
-
-    			grid.NMCS3();
-    			grid.pointAvailable();
-                
-    		}
-    		grid.reset();
-    	}
-    	int max=0;
-    	for(int i=0;i<grid.getScoreHistory().size();i++) {
-    		if(max<grid.getScoreHistory().get(i).intValue())
-    			max=grid.getScoreHistory().get(i).intValue();
-    	}
-    	int count=0;
-		for(int i = 0;i<grid.getNbLine();i++) {
-			for(int j = 0;j<grid.getNbColumn();j++) {
-				Point z = new Point(i*grid.getStep(),j*grid.getStep());
-					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
-						count++;
-					}
-				
-				
-			}
-		}
-		assertTrue(count==37);
-
-    }
-    
-    /**
-     * Test algorithm who take a random point which generate solution ten times and print the best score
-     */
-    public void testIA()
-    {
-    	final Grid5D grid = new Grid5D(880,880,40);
-    	for(int i=0;i<1;i++) {
-        	grid.pointAvailable();
-    		while(!grid.getPotentialMove().isEmpty()) {
 
     			grid.updateIA();
     			grid.pointAvailable();
                 
-    		}
-    		grid.reset();
+    		
     	}
     	int max=0;
     	for(int i=0;i<grid.getScoreHistory().size();i++) {
@@ -291,4 +181,139 @@ public class GridTest extends TestCase {
 		assertTrue(count==37);
     }
     
+    /**
+     * Test our IA algorithm which set a point
+     */
+    public void testupdateIA1()
+    {
+    	final Grid5D grid = new Grid5D(880,880,40);
+		grid.pointAvailable();
+
+
+    			grid.updateIA1();
+                
+    		
+    	
+    	
+    	int count=0;
+		for(int i = 0;i<grid.getNbLine();i++) {
+			for(int j = 0;j<grid.getNbColumn();j++) {
+				Point z = new Point(i*grid.getStep(),j*grid.getStep());
+					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
+						count++;
+					}
+				
+				
+			}
+		}
+		assertTrue(count==37);
+
+    }
+    
+    /**
+     * Test our IA algorithm which set a point
+     */
+    public void testUpdateIA2()
+    {
+    	final Grid5D grid = new Grid5D(880,880,40);
+    	for(int i=0;i<1;i++) {
+        	grid.pointAvailable();
+
+    			grid.updateIA2();
+    			grid.pointAvailable();
+                
+    		
+    	}
+    	int max=0;
+    	for(int i=0;i<grid.getScoreHistory().size();i++) {
+    		if(max<grid.getScoreHistory().get(i).intValue())
+    			max=grid.getScoreHistory().get(i).intValue();
+    	}
+    	int count=0;
+		for(int i = 0;i<grid.getNbLine();i++) {
+			for(int j = 0;j<grid.getNbColumn();j++) {
+				Point z = new Point(i*grid.getStep(),j*grid.getStep());
+					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
+						count++;
+					}
+				
+				
+			}
+		}
+		assertTrue(count==37);
+
+    }
+    
+    /**
+     * Test our IA algorithm which set a point
+     */
+    public void testUpdateIA3()
+    {
+    	final Grid5D grid = new Grid5D(880,880,40);
+    	for(int i=0;i<1;i++) {
+        	grid.pointAvailable();
+
+    			grid.updateIA3();
+    			grid.pointAvailable();
+                
+    		
+    	}
+    	int max=0;
+    	for(int i=0;i<grid.getScoreHistory().size();i++) {
+    		if(max<grid.getScoreHistory().get(i).intValue())
+    			max=grid.getScoreHistory().get(i).intValue();
+    	}
+    	int count=0;
+		for(int i = 0;i<grid.getNbLine();i++) {
+			for(int j = 0;j<grid.getNbColumn();j++) {
+				Point z = new Point(i*grid.getStep(),j*grid.getStep());
+					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
+						count++;
+					}
+				
+				
+			}
+		}
+		assertTrue(count==37);
+
+    }
+    
+    /**
+     * Test our IA algorithm which set a point
+     */
+    public void testUpdateIA4()
+    {
+    	final Grid5D grid = new Grid5D(880,880,40);
+    	for(int i=0;i<1;i++) {
+        	grid.pointAvailable();
+
+    			grid.updateIA4();
+    			grid.pointAvailable();
+                
+    		
+    	}
+    	int max=0;
+    	for(int i=0;i<grid.getScoreHistory().size();i++) {
+    		if(max<grid.getScoreHistory().get(i).intValue())
+    			max=grid.getScoreHistory().get(i).intValue();
+    	}
+    	int count=0;
+		for(int i = 0;i<grid.getNbLine();i++) {
+			for(int j = 0;j<grid.getNbColumn();j++) {
+				Point z = new Point(i*grid.getStep(),j*grid.getStep());
+					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
+						count++;
+					}
+				
+				
+			}
+		}
+		assertTrue(count==37);
+
+    }
+    
+    
+    
 }
+    
+

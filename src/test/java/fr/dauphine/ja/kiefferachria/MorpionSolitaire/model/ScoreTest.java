@@ -58,7 +58,7 @@ public class ScoreTest extends TestCase {
     	grid.updateIA();
     	assertTrue(grid.getScore().getScore_computeur()==1);
     	grid.pointAvailable();
-    	grid.NMCS();
+    	grid.updateIA();
     	assertTrue(grid.getScore().getScore_computeur()==2);
 
     }
@@ -95,7 +95,7 @@ public class ScoreTest extends TestCase {
     	grid.updateIA();
     	assertTrue(grid.getScore().getScore_computeur()==1);
     	grid.pointAvailable();
-    	grid.NMCS();
+    	grid.updateIA();
     	assertTrue(grid.getScore().getScore_computeur()==2);
     }
 }

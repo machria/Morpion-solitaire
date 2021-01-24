@@ -575,7 +575,7 @@ public abstract class Grid {
 	/**
 	 * This method able to found a solution (but not the best)
 	 */
-	public void NMCS() {
+	public void updateIA2() {
 		int max=-1;
 		Collections.shuffle(this.potentialMove);
 		for (int i=0;i<this.potentialMove.size();i++) {
@@ -626,7 +626,7 @@ public abstract class Grid {
 	/**
 	 * This method able to found a solution (but not the best and weaker than NMCS)
 	 */
-	public void NMCS2() {
+	public void updateIA1() {
 		int max=-1;
 		int indice=-1;
 		Collections.shuffle(this.potentialMove);

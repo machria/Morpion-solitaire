@@ -161,7 +161,7 @@ public class Grid5TTest extends TestCase {
         	grid.pointAvailable();
     		while(!grid.getPotentialMove().isEmpty()) {
 
-    			grid.NMCS();
+    			grid.updateIA();
     			grid.pointAvailable();
                 
     		}

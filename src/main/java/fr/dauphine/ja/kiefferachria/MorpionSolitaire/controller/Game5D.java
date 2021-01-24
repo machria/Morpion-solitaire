@@ -77,7 +77,7 @@ public class Game5D extends JFrame{
 		this.scoreView.getHelp().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				grid.pointAvailable();
-				grid.NMCS4();
+				grid.updateIA3();
                 gridView.repaint();
                 scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
                 scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
@@ -90,7 +90,7 @@ public class Game5D extends JFrame{
 				grid.pointAvailable();
 				while(!grid.getPotentialMove().isEmpty()) {
 
-					grid.NMCS3();
+					grid.updateIA2();
 					grid.pointAvailable();
 
 	                gridView.repaint();

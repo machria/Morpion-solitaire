@@ -82,7 +82,7 @@ public class Game5T {
 		this.scoreView.getHelp().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				grid.pointAvailable();
-				grid.NMCS();
+				grid.updateIA();
                 gridView.repaint();
                 scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
                 scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
@@ -96,7 +96,7 @@ public class Game5T {
 				while(grid.getPointUser().size()<20) {
 					grid.reset();
 					while(!grid.getPotentialMove().isEmpty()) {
-						grid.updateIA();
+						grid.updateIA1();
 						grid.pointAvailable();
 		                gridView.repaint();
 		                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
