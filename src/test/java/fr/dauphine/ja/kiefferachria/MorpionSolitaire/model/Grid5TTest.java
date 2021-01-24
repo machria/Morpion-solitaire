@@ -152,9 +152,9 @@ public class Grid5TTest extends TestCase {
     }
     
     /**
-     * Test our algorithm which generate solution ten times and print the best score
+     * Test algorithm who take a random point which generate solution ten times and print the best score
      */
-    public void test10NMCS()
+    public void updateIA()
     {
     	final Grid5T grid = new Grid5T(880,880,40);
     	for(int i=0;i<10;i++) {
@@ -177,16 +177,16 @@ public class Grid5TTest extends TestCase {
     }
     
     /**
-     * Test algorithm who take a random point which generate solution ten times and print the best score
+     * Test our algorithm which generate solution ten times and print the best score
      */
-    public void test10IA()
+    public void updateIA1()
     {
     	final Grid5T grid = new Grid5T(880,880,40);
     	for(int i=0;i<10;i++) {
         	grid.pointAvailable();
     		while(!grid.getPotentialMove().isEmpty()) {
 
-    			grid.updateIA();
+    			grid.updateIA1();
     			grid.pointAvailable();
                 
     		}
@@ -200,4 +200,6 @@ public class Grid5TTest extends TestCase {
     	System.out.println(max);
 
     }
+    
+    
 }
