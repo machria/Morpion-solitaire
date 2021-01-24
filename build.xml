@@ -69,8 +69,8 @@
       </src>
       <classpath refid="build.classpath"/>
     </javac>
-	<copy todir="target/img/" >
-      <fileset dir="img" >
+	<copy todir="target/src/main/img/" >
+      <fileset dir="src/main/img" >
         <include name="*.*"/>
       </fileset>
     </copy>
