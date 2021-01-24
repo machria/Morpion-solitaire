@@ -265,7 +265,7 @@ public class GridTest extends TestCase {
         	grid.pointAvailable();
     		while(!grid.getPotentialMove().isEmpty()) {
 
-    			grid.updateIANaive();
+    			grid.updateIA();
     			grid.pointAvailable();
                 
     		}

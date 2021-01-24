@@ -55,7 +55,7 @@ public class ScoreTest extends TestCase {
     	grid.updateGrid(new Point(240,400), "player");
     	assertTrue(grid.getScore().getScore_computeur()==0);
     	grid.pointAvailable();
-    	grid.updateIANaive();
+    	grid.updateIA();
     	assertTrue(grid.getScore().getScore_computeur()==1);
     	grid.pointAvailable();
     	grid.NMCS();

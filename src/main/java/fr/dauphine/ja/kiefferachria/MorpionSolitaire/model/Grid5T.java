@@ -26,76 +26,14 @@ import java.util.List;
  * @author floryan/majid
  *
  */
-public class Grid5T {
+public class Grid5T extends Grid {
 
-	/**
-	 * Table of points validated by the model.
-	 */
-	private boolean[][] points;
-	/**
-	 * Table of coordinates of all intersections of the game grid.
-	 */
-	private ArrayList<Point> tabCoordonnee;
-	/**
-	 * Number of line of the grid.
-	 */
-	private int nbLine;
-	/**
-	 * Number of column of the grid.
-	 */
-	private int nbColumn;
-	/**
-	 * Grid size in pixel (height).
-	 */
-	private int height;
-	/**
-	 * Grid size in pixel (width).
-	 */
-	private int width;
-	/**
-	 * Distance between each intersection.
-	 */
-	private int step;
-	/**
-	 * Point of grid center.
-	 */
-	private int center;
-	/**
-	 * All the points of the starting cross.
-	 */
-	private ArrayList<Point> tabCross;
-	/**
-	 * Table of each validate lines.
-	 */
-	private List<Line> tabLine;
+	
 	/**
 	 * HashMap of all possible movements for a given point.
 	 */
 	private HashMap<Point, HashMap<Direction, Integer>> tabUsed;
-	/**
-	 * ArrayList of all potential moves next (n+1).
-	 */
-	private ArrayList<Point> potentialMoveNext;
-	/**
-	 * ArrayList of all potential moves.
-	 */
-	private ArrayList<Point> potentialMove;
-	/**
-	 * HashMap of all validate points with associated direction.
-	 */
-	private HashMap<Point, Direction> pointUser;
-	/**
-	 * ArrayList which keep an historic of all scores.
-	 */
-	private ArrayList<Integer> scoreHistory;
-	/**
-	 * HashMap of all possible directions at a moment t.
-	 */
-	private HashMap<Direction, Boolean> possibleDirection;
-	/**
-	 * Object Score (computer and player)
-	 */
-	private Score score;
+
 
 	/**
 	 * 5T grid constructor.
@@ -105,11 +43,7 @@ public class Grid5T {
 	 * @param step (gap)
 	 */
 	public Grid5T(int h, int w, int step) {
-
-		this.step = step;
-		this.height = h;
-		this.width = w;
-		this.scoreHistory = new ArrayList<Integer>();
+		super(h,w,step);
 		this.reset();
 
 	}
@@ -120,140 +54,12 @@ public class Grid5T {
 //					   //
 /////////////////////////
 	
-	public List<Line> getTabLine() {
-		return tabLine;
+	public HashMap<Point, HashMap<Direction, Integer>> getTabUsed() {
+		return tabUsed;
 	}
 
-	public void setTabLine(List<Line> tabLine) {
-		this.tabLine = tabLine;
-	}
-
-	public ArrayList<Point> getPotentialMove() {
-		return potentialMove;
-	}
-
-	public void setPotentialMove(ArrayList<Point> potentialMove) {
-		this.potentialMove = potentialMove;
-	}
-
-	public ArrayList<Point> getTabCross() {
-		return tabCross;
-	}
-
-	public void setTabCross(ArrayList<Point> tabCross) {
-		this.tabCross = tabCross;
-	}
-
-	public int getCenter() {
-		return center;
-	}
-
-	public void setCenter(int center) {
-		this.center = center;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public boolean[][] getPoints() {
-		return points;
-	}
-
-	public void setPoints(boolean[][] points) {
-		this.points = points;
-	}
-
-	public int getNbLine() {
-		return nbLine;
-	}
-
-	public void setNbLine(int nbLine) {
-		this.nbLine = nbLine;
-	}
-
-	public int getNbColumn() {
-		return nbColumn;
-	}
-
-	public void setNbColumn(int nbColumn) {
-		this.nbColumn = nbColumn;
-	}
-
-	public int getStep() {
-		return step;
-	}
-
-	public void setStep(int step) {
-		this.step = step;
-	}
-
-	public ArrayList<Point> getTabCoordonnee() {
-		return tabCoordonnee;
-	}
-
-	public void setTabCoordonnee(ArrayList<Point> tabCoordonnee) {
-		this.tabCoordonnee = tabCoordonnee;
-	}
-
-	public HashMap<Point, Direction> getPointUser() {
-		return pointUser;
-	}
-
-	public ArrayList<Integer> getScoreHistory() {
-		return scoreHistory;
-	}
-
-	public void setScoreHistory(ArrayList<Integer> scoreHistory) {
-		this.scoreHistory = scoreHistory;
-	}
-	
-	/**
-	 * This method makes it possible to transform a position on the grid into a point.
-	 * 
-	 * @param x coordinate x
-	 * @param y coordinate y
-	 * @return Point
-	 */
-	public Point getNeigh(int x, int y) {
-
-		Point t = new Point(x, y);
-		Point res = t;
-		double dist = Point.distanceSq(t.getX(), t.getY() - this.step / 2, this.tabCoordonnee.get(0).getX(),
-				this.tabCoordonnee.get(0).getY());
-		;
-		double min = dist;
-		for (int i = 1; i < this.tabCoordonnee.size(); i++) {
-			dist = Point.distanceSq(t.getX(), t.getY() - this.step / 2, this.tabCoordonnee.get(i).getX(),
-					this.tabCoordonnee.get(i).getY());
-			if (dist < min) {
-				min = dist;
-				res = this.tabCoordonnee.get(i);
-			}
-		}
-
-
-		return res;
-	}
-
-	public Score getScore() {
-		return score;
-	}
-
-	public void setScore(Score score) {
-		this.score = score;
+	public void setTabUsed(HashMap<Point, HashMap<Direction, Integer>> tabUsed) {
+		this.tabUsed = tabUsed;
 	}
 
 ////////////////////////
@@ -265,402 +71,60 @@ public class Grid5T {
 	/**
 	 * Initiate instance of class
 	 */
-	private void initiatePoint() {
+	public void initiatePoint() {
 		HashMap<Direction, Integer> dir = new HashMap<Direction, Integer>();
 		dir.put(Direction.VERTICAL, 0);
 		dir.put(Direction.HORIZONTAL, 0);
 		dir.put(Direction.DIAGLEFT, 0);
 		dir.put(Direction.DIAGRIGHT, 0);
-		this.possibleDirection.put(Direction.VERTICAL_BOTTOM, false);
-		this.possibleDirection.put(Direction.VERTICAL_TOP, false);
+		getPossibleDirection().put(Direction.VERTICAL_BOTTOM, false);
+		getPossibleDirection().put(Direction.VERTICAL_TOP, false);
 
-		this.possibleDirection.put(Direction.HORIZONTAL_LEFT, false);
-		this.possibleDirection.put(Direction.HORIZONTAL_RIGHT, false);
+		getPossibleDirection().put(Direction.HORIZONTAL_LEFT, false);
+		getPossibleDirection().put(Direction.HORIZONTAL_RIGHT, false);
 
-		this.possibleDirection.put(Direction.DIAGLEFT_TOPLEFT, false);
-		this.possibleDirection.put(Direction.DIAGLEFT_BOTTOMRIGHT, false);
+		getPossibleDirection().put(Direction.DIAGLEFT_TOPLEFT, false);
+		getPossibleDirection().put(Direction.DIAGLEFT_BOTTOMRIGHT, false);
 
-		this.possibleDirection.put(Direction.DIAGRIGHT_BOTTOMLEFT, false);
-		this.possibleDirection.put(Direction.DIAGRIGHT_TOPRIGHT, false);
+		getPossibleDirection().put(Direction.DIAGRIGHT_BOTTOMLEFT, false);
+		getPossibleDirection().put(Direction.DIAGRIGHT_TOPRIGHT, false);
 
-		for (int i = 0; i < nbLine; i++) {
-			for (int j = 0; j < nbColumn; j++) {
-				this.points[i][j] = false;
-				this.tabUsed.put(new Point(i * this.step, j * this.step), (HashMap<Direction, Integer>) dir.clone());
+		for (int i = 0; i < getNbLine(); i++) {
+			for (int j = 0; j < getNbColumn(); j++) {
+				this.getPoints()[i][j] = false;
+				this.tabUsed.put(new Point(i * getStep(), j * getStep()), (HashMap<Direction, Integer>) dir.clone());
 			}
 		}
 
-	}
+	}	
 
-	/**
-	 * Add all starting point in tabCross and put at true this points in points.
-	 */
-	public void generateCross() {
-		Point c = firstPoint();
-		Point temp = c;
-		for (int i = 0; i < 4; i++) {
-			c = new Point((int) c.getX(), (int) (c.getY() - (this.step * i)));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX() + (this.step * i), (int) (c.getY()));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX(), (int) (c.getY() + (this.step * i)));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX() + (this.step * i), (int) (c.getY()));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX(), (int) (c.getY() + (this.step * i)));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX() - (this.step * i), (int) (c.getY()));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX(), (int) (c.getY() + (this.step * i)));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX() - (this.step * i), (int) (c.getY()));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX(), (int) (c.getY() - (this.step * i)));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX() - (this.step * i), (int) (c.getY()));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 4; i++) {
-			c = new Point((int) c.getX(), (int) (c.getY() - (this.step * i)));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-		c = this.tabCross.get(this.tabCross.size() - 1);
-		temp = c;
-		for (int i = 1; i < 3; i++) {
-			c = new Point((int) c.getX() + (this.step * i), (int) (c.getY()));
-			this.tabCross.add(c);
-			this.points[((int) c.getY() / this.step)][((int) c.getX() / this.step)] = true;
-			c = temp;
-		}
-	}
-	
-	/**
-	 * This method is used to determine the point of the center
-	 * 
-	 * @return center point
-	 */
-	public Point firstPoint() {
-		return new Point((this.center - 1) * this.step, (this.center - 1) * this.step);
-	}
-	
+
 	/**
 	 * Reset all instances of Grid5T Object.
 	 */
 	public void reset() {
-		// TODO Auto-generated method stub
-		this.tabLine = new ArrayList<Line>();
-		this.nbLine = (int) width / step;
-		this.nbColumn = (int) height / step;
-		if (!(this.pointUser == null))
-			this.scoreHistory.add(this.pointUser.size());
-		this.possibleDirection = new HashMap<Direction, Boolean>();
-		this.potentialMove = new ArrayList<Point>();
-		this.points = new boolean[nbLine][nbColumn];
-		this.tabCoordonnee = new ArrayList<Point>();
-		this.center = (int) nbLine / 2;// Same height and width
-		this.tabCross = new ArrayList<Point>();
-		this.tabUsed = new HashMap<Point, HashMap<Direction, Integer>>();
-		this.initiatePoint();
-		this.generateCross();
-		this.catchCoordonnee();
-		this.pointUser = new LinkedHashMap<Point, Direction>();
-		this.score = new Score();
-		this.potentialMoveNext = new ArrayList<Point>();
+    	this.setNbLine((int)getWidth()/getStep());
+    	this.setNbColumn((int)getHeight()/getStep());
+    	if(!(this.getPointUser()==null))
+    		this.getScoreHistory().add(this.getPointUser().size());
+    	this.setPotentialMove(new ArrayList<Point>());
+    	this.setPotentialMoveNext(new ArrayList<Point>());
+    	this.setPossibleDirection(new HashMap<Direction,Boolean>(4));
+
+    	this.setPoints(new boolean [getNbLine()][getNbColumn()]);
+    	this.setTabCoordonnee(new ArrayList<Point>());
+    	this.setCenter((int) getNbLine()/2);//Same height and width
+    	this.setTabCross(new ArrayList<Point>());
+    	this.setTabLine(new ArrayList<Line>());
+    	this.tabUsed = new HashMap<Point, HashMap<Direction, Integer>>();
+    	this.initiatePoint();
+    	this.generateCross();
+    	this.catchCoordonnee();
+    	this.setPointUser(new LinkedHashMap<Point, Direction>());
+    	this.setScore(new Score());
 	}
 	
-	/**
-	 * Catch all coordinates of the grid.
-	 */
-	public void catchCoordonnee() {
-		int x = 0;
-		int y = 0;
-		for (int i = 0; i < this.nbLine - 1; i++) {
-			y = y + step;
-			for (int j = 0; j < this.nbColumn - 1; j++) {
-				x = x + step;
-				this.tabCoordonnee.add(new Point(x, y));
-			}
-			x = 0;
 
-		}
-	}
-
-////////////////////
-//				  //
-// Update methods //
-//				  //
-////////////////////
-	
-	/**
-	 * Update the grid according to the choice of the players.
-	 * 
-	 * @param z (Point)
-	 * @param s (player or IA)
-	 */
-	public void updateGrid(Point z, String s) {
-		
-		this.possibleDirectionOnClick(z);
-		ArrayList<Direction> tmp = new ArrayList<Direction>(
-				this.possibleDirection.entrySet().stream().filter(entry -> Objects.equals(entry.getValue(), true))
-						.map(Map.Entry::getKey).collect(Collectors.toList()));
-		if (tmp.size() > 1 && s != "IA") {
-			JFrame choix = new JFrame("Choix direction");
-			choix.setLayout(new GridBagLayout());
-			GridBagConstraints c = new GridBagConstraints();
-			choix.setSize(new Dimension(200, 200));
-			choix.setLocationRelativeTo(null);
-			for (int i = 0; i < tmp.size(); i++) {
-				final int a = i;
-				c.gridx = 0;
-				c.gridy = i;
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.gridwidth = 1;
-				c.weightx = 1 / tmp.size();
-				c.weighty = 1 / tmp.size();
-				JButton b = new JButton(tmp.get(i).toString());
-				b.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						updateGrid(z, tmp.get(a),s);
-
-
-						choix.dispose();
-					}
-
-				});
-				choix.add(b, c);
-			}
-
-			choix.setVisible(true);
-			
-		} else if (tmp.size() > 1 && s == "IA") {
-			Collections.shuffle(tmp);
-			updateGrid(z, tmp.get(0),s);
-		} else if (tmp.size() == 1) {
-			updateGrid(z, tmp.get(0),s);
-
-		} else {
-
-
-		}
-
-	}
-
-	/**
-	 * Update the grid according to a point and a direction.
-	 * 
-	 * @param z (Point)
-	 * @param d (Direction)
-	 * @param s (String) User
-	 */
-	public void updateGrid(Point z, Direction d,String s) {
-		if (d == Direction.VERTICAL_BOTTOM) {
-			drawMoveVertical2(z);
-			getPointUser().put(z, Direction.VERTICAL_BOTTOM);
-		}
-		if (d == Direction.HORIZONTAL_LEFT) {
-			drawMoveHorizontal(z);
-			getPointUser().put(z, Direction.HORIZONTAL_LEFT);
-
-		}
-		if (d == Direction.DIAGLEFT_BOTTOMRIGHT) {
-			drawMoveDiagonalLeft2(z);
-			getPointUser().put(z, Direction.DIAGLEFT_BOTTOMRIGHT);
-
-		}
-		if (d == Direction.DIAGRIGHT_TOPRIGHT) {
-			drawMoveDiagonalRight(z);
-			getPointUser().put(z, Direction.DIAGRIGHT_TOPRIGHT);
-
-		}
-		if (d == Direction.VERTICAL_TOP) {
-			drawMoveVertical(z);
-			getPointUser().put(z, Direction.VERTICAL_TOP);
-		}
-		if (d == Direction.HORIZONTAL_RIGHT) {
-			drawMoveHorizontal2(z);
-			getPointUser().put(z, Direction.HORIZONTAL_RIGHT);
-
-		}
-		if (d == Direction.DIAGLEFT_TOPLEFT) {
-			drawMoveDiagonalLeft(z);
-			getPointUser().put(z, Direction.DIAGLEFT_TOPLEFT);
-
-		}
-		if (d == Direction.DIAGRIGHT_BOTTOMLEFT) {
-			drawMoveDiagonalRight2(z);
-			getPointUser().put(z, Direction.DIAGRIGHT_BOTTOMLEFT);
-
-		}
-		this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()] = true;
-
-		this.incrementeScore(s);
-	}
-
-	/**
-	 * Computer play and makes random choices.
-	 */
-	public void updateIA() {
-		Collections.shuffle(this.potentialMove);
-		if (!this.potentialMove.isEmpty()) {
-			Point x = this.potentialMove.get(0);
-			this.updateGrid(x, "IA");
-		} else {
-
-		}
-
-	}
-	
-	/**
-	 * This method able to increment score. 
-	 * 
-	 * @param s (player or IA)
-	 */
-	public void incrementeScore(String s) {
-		if (s.equals("IA")) {
-			this.score.setScore_computeur(this.score.getScore_computeur() + 1);
-
-		} else {
-			this.score.setScore_joueur(this.score.getScore_joueur() + 1);
-
-		}
-	}
-	
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//																													  //
-// Methods which allow to capture the possible points and also to capture the possible points with respect to a point //
-//																													  //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * This method able to fills the table of possible available points at time t.
-	 */
-	public void pointAvailable() {
-		this.potentialMove.clear();
-		for (int i = 0; i < nbLine; i++) {
-			for (int j = 0; j < nbColumn; j++) {
-				Point z = new Point(i * this.step, j * this.step);
-				if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
-						&& (checkPossibleMoveVertical(z) || checkPossibleMoveHorizontal(z)
-								|| checkPossibleMoveDiagonalLeft(z) || checkPossibleMoveDiagonalRight(z))) {
-					this.potentialMove.add(z);
-				}
-			}
-		}
-	}
-	
-	/**
-	 * This method return the number of possible possibilities after adding the point passed in parameter.
-	 * @param b (Point)
-	 * @return number of available points.
-	 */
-	public int pointAvailableNext(Point b) {
-		this.potentialMoveNext.clear();
-		boolean test = false;
-		if (this.getPoints()[((int) b.getX() / this.getStep())][(int) b.getY() / this.getStep()] == false) {
-			this.getPoints()[((int) b.getX() / this.getStep())][(int) b.getY() / this.getStep()] = true;
-			test = true;
-		}
-		for (int i = 0; i < nbLine; i++) {
-			for (int j = 0; j < nbColumn; j++) {
-				Point z = new Point(i * this.step, j * this.step);
-				if (!this.getPoints()[((int) z.getX() / this.getStep())][(int) z.getY() / this.getStep()]
-						&& (checkPossibleMoveDiagonalRight(z) || checkPossibleMoveDiagonalLeft(z)
-								|| checkPossibleMoveHorizontal(z) || checkPossibleMoveVertical(z))) {
-					this.potentialMoveNext.add(z);
-				}
-			}
-
-		}
-		if (test) {
-			this.getPoints()[((int) b.getX() / this.getStep())][(int) b.getY() / this.getStep()] = false;
-		}
-		return this.potentialMoveNext.size();
-
-	}
-	
-	/**
-	 * This method able to found a solution (but not the best)
-	 */
-	public void NMCS() {
-		int max = -1;
-		int indice = -1;
-		Collections.shuffle(this.potentialMove);
-		for (int i = 0; i < this.potentialMove.size(); i++) {
-			int x = this.pointAvailableNext(this.potentialMove.get(i));
-			if (x > max) {
-				max = x;
-				indice = i;
-			}
-		}
-
-		if (!this.potentialMove.isEmpty()) {
-			Point x = this.potentialMove.get(indice);
-			this.updateGrid(x, "IA");
-		} else {
-
-		}
-
-	}
 	
 //////////////////////////
 // 						//
@@ -682,11 +146,11 @@ public class Grid5T {
 		for (int i = 1; i <= 4; i++) {
 			if (coordX - i >= 0 && coordY >= 0) {
 				if (!this.getPoints()[coordX - i][coordY] || this.tabUsed
-						.get(new Point((coordX - i) * this.step, coordY * this.step)).get(Direction.HORIZONTAL) == 2) {
+						.get(new Point((coordX - i) * getStep(), coordY * getStep())).get(Direction.HORIZONTAL) == 2) {
 					for (int a = 1; a <= 4 - cpt_gauche; a++) {
-						if (coordX + a < this.nbColumn && coordY >= 0) {
+						if (coordX + a < getNbColumn() && coordY >= 0) {
 							if (!this.getPoints()[coordX + a][coordY]
-									|| this.tabUsed.get(new Point((coordX + a) * this.step, coordY * this.step))
+									|| this.tabUsed.get(new Point((coordX + a) * getStep(), coordY * getStep()))
 											.get(Direction.HORIZONTAL) == 2) {
 
 								return false;
@@ -711,9 +175,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.HORIZONTAL) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY * this.step)))
+				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * getStep(), (coordY * getStep())))
 						.get(Direction.HORIZONTAL) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY * this.step)))
+				&& this.tabUsed.get(new Point((coordX + cpt_droite) * getStep(), (coordY * getStep())))
 						.get(Direction.HORIZONTAL) < 2) {
 
 			if (cpt_gauche + cpt_droite == 4) {
@@ -740,9 +204,9 @@ public class Grid5T {
 			if (coordX >= 0 && coordY - i >= 0) {
 
 				if (!this.getPoints()[coordX][coordY - i] || this.tabUsed
-						.get(new Point(coordX * this.step, (coordY - i) * this.step)).get(Direction.VERTICAL) == 2) {
+						.get(new Point(coordX * getStep(), (coordY - i) * getStep())).get(Direction.VERTICAL) == 2) {
 					for (int a = 1; a <= 4 - cpt_haut; a++) {
-						if (coordX >= 0 && coordY + a < this.nbColumn) {
+						if (coordX >= 0 && coordY + a < getNbColumn()) {
 							if (!this.getPoints()[coordX][coordY + a]) {
 
 								return false;
@@ -757,7 +221,7 @@ public class Grid5T {
 
 					}
 				} else {
-					if (this.tabUsed.get(new Point(coordX * this.step, (coordY - i) * this.step))
+					if (this.tabUsed.get(new Point(coordX * getStep(), (coordY - i) * getStep()))
 							.get(Direction.VERTICAL) < 2) {
 						cpt_haut++;
 
@@ -771,9 +235,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.VERTICAL) < 2
-				&& this.tabUsed.get(new Point((coordX * this.step), (coordY - cpt_haut) * this.step))
+				&& this.tabUsed.get(new Point((coordX * getStep()), (coordY - cpt_haut) * getStep()))
 						.get(Direction.VERTICAL) < 2
-				&& this.tabUsed.get(new Point((coordX * this.step), (coordY + cpt_bas) * this.step))
+				&& this.tabUsed.get(new Point((coordX * getStep()), (coordY + cpt_bas) * getStep()))
 						.get(Direction.VERTICAL) < 2) {
 			if (cpt_haut + cpt_bas == 4) {
 				return true;
@@ -799,11 +263,11 @@ public class Grid5T {
 			if (coordX - i >= 0 && coordY - i >= 0) {
 
 				if (!this.getPoints()[coordX - i][coordY - i]
-						|| this.tabUsed.get(new Point((coordX - i) * this.step, (coordY - i) * this.step))
+						|| this.tabUsed.get(new Point((coordX - i) * getStep(), (coordY - i) * getStep()))
 								.get(Direction.DIAGLEFT) == 2) {
 					for (int a = 1; a <= 4 - cpt_gauche; a++) {
 
-						if (coordX + a < this.nbColumn && coordY + a < this.nbColumn) {
+						if (coordX + a < getNbColumn() && coordY + a < getNbColumn()) {
 							if (!this.getPoints()[coordX + a][coordY + a]) {
 
 								return false;
@@ -818,7 +282,7 @@ public class Grid5T {
 
 					}
 				} else {
-					if (this.tabUsed.get(new Point((coordX - i) * this.step, (coordY - i) * this.step))
+					if (this.tabUsed.get(new Point((coordX - i) * getStep(), (coordY - i) * getStep()))
 							.get(Direction.DIAGLEFT) < 2) {
 						cpt_gauche++;
 
@@ -832,9 +296,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.DIAGLEFT) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step))
+				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep()))
 						.get(Direction.DIAGLEFT) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY + cpt_droite) * this.step))
+				&& this.tabUsed.get(new Point((coordX + cpt_droite) * getStep(), (coordY + cpt_droite) * getStep()))
 						.get(Direction.DIAGLEFT) < 2) {
 			if (cpt_gauche + cpt_droite == 4) {
 				return true;
@@ -857,14 +321,14 @@ public class Grid5T {
 		int coordX = ((int) z.getX() / this.getStep());
 		int coordY = ((int) z.getY() / this.getStep());
 		for (int i = 1; i <= 4; i++) {
-			if (coordX + i < this.nbColumn && coordY - i >= 0) {
+			if (coordX + i < getNbColumn() && coordY - i >= 0) {
 
 				if (!this.getPoints()[coordX + i][coordY - i]
-						|| this.tabUsed.get(new Point((coordX + i) * this.step, (coordY - i) * this.step))
+						|| this.tabUsed.get(new Point((coordX + i) * getStep(), (coordY - i) * getStep()))
 								.get(Direction.DIAGRIGHT) == 2) {
 					for (int a = 1; a <= 4 - cpt_gauche; a++) {
 
-						if (coordX - a >= 0 && coordY + a < this.nbColumn) {
+						if (coordX - a >= 0 && coordY + a < getNbColumn()) {
 							if (!this.getPoints()[coordX - a][coordY + a]) {
 
 								return false;
@@ -879,7 +343,7 @@ public class Grid5T {
 
 					}
 				} else {
-					if (this.tabUsed.get(new Point((coordX + i) * this.step, (coordY - i) * this.step))
+					if (this.tabUsed.get(new Point((coordX + i) * getStep(), (coordY - i) * getStep()))
 							.get(Direction.DIAGRIGHT) < 2) {
 						cpt_gauche++;
 
@@ -893,9 +357,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.DIAGRIGHT) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step))
+				&& this.tabUsed.get(new Point((coordX + cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep()))
 						.get(Direction.DIAGRIGHT) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_droite) * this.step, (coordY + cpt_droite) * this.step))
+				&& this.tabUsed.get(new Point((coordX - cpt_droite) * getStep(), (coordY + cpt_droite) * getStep()))
 						.get(Direction.DIAGRIGHT) < 2) {
 			if (cpt_gauche + cpt_droite == 4) {
 				return true;
@@ -928,7 +392,7 @@ public class Grid5T {
 		for (int i = 1; i <= 4; i++) {
 
 			if (!this.getPoints()[coordX + i][coordY - i] || this.tabUsed
-					.get(new Point((coordX + i) * this.step, (coordY - i) * this.step)).get(Direction.DIAGRIGHT) == 2) {
+					.get(new Point((coordX + i) * getStep(), (coordY - i) * getStep())).get(Direction.DIAGRIGHT) == 2) {
 				for (int a = 1; a <= 4 - cpt_gauche; a++) {
 
 					if (!this.getPoints()[coordX - a][coordY + a]) {
@@ -947,7 +411,7 @@ public class Grid5T {
 					}
 				}
 			} else {
-				if (this.tabUsed.get(new Point((coordX + i) * this.step, (coordY - i) * this.step))
+				if (this.tabUsed.get(new Point((coordX + i) * getStep(), (coordY - i) * getStep()))
 						.get(Direction.DIAGRIGHT) < 2) {
 					cpt_gauche++;
 
@@ -963,9 +427,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.DIAGRIGHT) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step))
+				&& this.tabUsed.get(new Point((coordX + cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep()))
 						.get(Direction.DIAGRIGHT) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_droite) * this.step, (coordY + cpt_droite) * this.step))
+				&& this.tabUsed.get(new Point((coordX - cpt_droite) * getStep(), (coordY + cpt_droite) * getStep()))
 						.get(Direction.DIAGRIGHT) < 2) {
 
 
@@ -973,8 +437,8 @@ public class Grid5T {
 
 				int tempHaut = 1;
 				int tempBas = 1;
-				debut = new Point((coordX + cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step);
-				fin = new Point((coordX - cpt_droite) * this.step, (coordY + cpt_droite) * this.step);
+				debut = new Point((coordX + cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep());
+				fin = new Point((coordX - cpt_droite) * getStep(), (coordY + cpt_droite) * getStep());
 
 
 
@@ -994,7 +458,7 @@ public class Grid5T {
 
 
 				for (int i = tempHaut; i <= cpt_gauche; i++) {
-					Point t = new Point((coordX + i) * this.step, ((coordY - i) * this.step));
+					Point t = new Point((coordX + i) * getStep(), ((coordY - i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1004,7 +468,7 @@ public class Grid5T {
 					}
 				}
 				for (int i = tempBas; i <= cpt_droite; i++) {
-					Point t = new Point((coordX - i) * this.step, ((coordY + i) * this.step));
+					Point t = new Point((coordX - i) * getStep(), ((coordY + i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1020,7 +484,7 @@ public class Grid5T {
 				}
 				line.setP1(debut);
 				line.setP5(fin);
-				this.tabLine.add(line);
+				getTabLine().add(line);
 				
 
 			}
@@ -1046,7 +510,7 @@ public class Grid5T {
 		for (int i = 1; i <= 4; i++) {
 
 			if (!this.getPoints()[coordX - i][coordY - i] || this.tabUsed
-					.get(new Point((coordX - i) * this.step, (coordY - i) * this.step)).get(Direction.DIAGLEFT) == 2) {
+					.get(new Point((coordX - i) * getStep(), (coordY - i) * getStep())).get(Direction.DIAGLEFT) == 2) {
 				for (int a = 1; a <= 4 - cpt_gauche; a++) {
 
 					if (!this.getPoints()[coordX + a][coordY + a]) {
@@ -1065,7 +529,7 @@ public class Grid5T {
 					}
 				}
 			} else {
-				if (this.tabUsed.get(new Point((coordX - i) * this.step, (coordY - i) * this.step))
+				if (this.tabUsed.get(new Point((coordX - i) * getStep(), (coordY - i) * getStep()))
 						.get(Direction.DIAGLEFT) < 2) {
 					cpt_gauche++;
 
@@ -1080,9 +544,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.DIAGLEFT) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step))
+				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep()))
 						.get(Direction.DIAGLEFT) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY + cpt_droite) * this.step))
+				&& this.tabUsed.get(new Point((coordX + cpt_droite) * getStep(), (coordY + cpt_droite) * getStep()))
 						.get(Direction.DIAGLEFT) < 2) {
 
 
@@ -1090,8 +554,8 @@ public class Grid5T {
 
 				int tempHaut = 1;
 				int tempBas = 1;
-				debut = new Point((coordX - cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step);
-				fin = new Point((coordX + cpt_droite) * this.step, (coordY + cpt_droite) * this.step);
+				debut = new Point((coordX - cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep());
+				fin = new Point((coordX + cpt_droite) * getStep(), (coordY + cpt_droite) * getStep());
 				
 
 				if (this.tabUsed.get(debut).get(Direction.DIAGLEFT) == 1) {
@@ -1109,7 +573,7 @@ public class Grid5T {
 				
 
 				for (int i = tempHaut; i <= cpt_gauche; i++) {
-					Point t = new Point((coordX - i) * this.step, ((coordY - i) * this.step));
+					Point t = new Point((coordX - i) * getStep(), ((coordY - i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1119,7 +583,7 @@ public class Grid5T {
 					}
 				}
 				for (int i = tempBas; i <= cpt_droite; i++) {
-					Point t = new Point((coordX + i) * this.step, ((coordY + i) * this.step));
+					Point t = new Point((coordX + i) * getStep(), ((coordY + i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1134,7 +598,7 @@ public class Grid5T {
 				}
 				line.setP1(debut);
 				line.setP5(fin);
-				this.tabLine.add(line);
+				getTabLine().add(line);
 				
 			}
 		}
@@ -1157,7 +621,7 @@ public class Grid5T {
 		int coordY = ((int) z.getY() / this.getStep());
 		for (int i = 1; i <= 4; i++) {
 			if (!this.getPoints()[coordX][coordY - i] || this.tabUsed
-					.get(new Point(coordX * this.step, (coordY - i) * this.step)).get(Direction.VERTICAL) == 2) {
+					.get(new Point(coordX * getStep(), (coordY - i) * getStep())).get(Direction.VERTICAL) == 2) {
 				for (int a = 1; a <= 4 - cpt_haut; a++) {
 					if (!this.getPoints()[coordX][coordY + a]) {
 						return;
@@ -1172,7 +636,7 @@ public class Grid5T {
 					}
 				}
 			} else {
-				if (this.tabUsed.get(new Point(coordX * this.step, (coordY - i) * this.step))
+				if (this.tabUsed.get(new Point(coordX * getStep(), (coordY - i) * getStep()))
 						.get(Direction.VERTICAL) < 2) {
 					cpt_haut++;
 					if (cpt_haut == 4) {
@@ -1185,9 +649,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.VERTICAL) < 2
-				&& this.tabUsed.get(new Point((coordX * this.step), (coordY - cpt_haut) * this.step))
+				&& this.tabUsed.get(new Point((coordX * getStep()), (coordY - cpt_haut) * getStep()))
 						.get(Direction.VERTICAL) < 2
-				&& this.tabUsed.get(new Point((coordX * this.step), (coordY + cpt_bas) * this.step))
+				&& this.tabUsed.get(new Point((coordX * getStep()), (coordY + cpt_bas) * getStep()))
 						.get(Direction.VERTICAL) < 2) {
 
 
@@ -1195,8 +659,8 @@ public class Grid5T {
 
 				int tempHaut = 1;
 				int tempBas = 1;
-				debut = new Point((coordX * this.step), (coordY - cpt_haut) * this.step);
-				fin = new Point((coordX * this.step), (coordY + cpt_bas) * this.step);
+				debut = new Point((coordX * getStep()), (coordY - cpt_haut) * getStep());
+				fin = new Point((coordX * getStep()), (coordY + cpt_bas) * getStep());
 				
 				if (this.tabUsed.get(debut).get(Direction.VERTICAL) == 1) {
 					this.tabUsed.get(debut).replace(Direction.VERTICAL, 1, 2);
@@ -1212,7 +676,7 @@ public class Grid5T {
 				}
 				
 				for (int i = tempHaut; i <= cpt_haut; i++) {
-					Point t = new Point((coordX) * this.step, ((coordY - i) * this.step));
+					Point t = new Point((coordX) * getStep(), ((coordY - i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 						this.tabUsed.get(t).replace(Direction.VERTICAL, 0, 2);
@@ -1220,7 +684,7 @@ public class Grid5T {
 					}
 				}
 				for (int i = tempBas; i <= cpt_bas; i++) {
-					Point t = new Point((coordX) * this.step, ((coordY + i) * this.step));
+					Point t = new Point((coordX) * getStep(), ((coordY + i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 						this.tabUsed.get(t).replace(Direction.VERTICAL, 0, 2);
@@ -1233,7 +697,7 @@ public class Grid5T {
 				}
 				line.setP1(debut);
 				line.setP5(fin);
-				this.tabLine.add(line);
+				getTabLine().add(line);
 				
 			}
 		}
@@ -1258,11 +722,11 @@ public class Grid5T {
 		for (int i = 1; i <= 4; i++) {
 			if (coordX - i >= 0 && coordY >= 0) {
 				if (!this.getPoints()[coordX - i][coordY] || this.tabUsed
-						.get(new Point((coordX - i) * this.step, coordY * this.step)).get(Direction.HORIZONTAL) == 2) {
+						.get(new Point((coordX - i) * getStep(), coordY * getStep())).get(Direction.HORIZONTAL) == 2) {
 					for (int a = 1; a <= 4 - cpt_gauche; a++) {
-						if (coordX + a < this.nbColumn && coordY >= 0) {
+						if (coordX + a < this.getNbColumn() && coordY >= 0) {
 							if (!this.getPoints()[coordX + a][coordY]
-									|| this.tabUsed.get(new Point((coordX + a) * this.step, coordY * this.step))
+									|| this.tabUsed.get(new Point((coordX + a) * getStep(), coordY * getStep()))
 											.get(Direction.HORIZONTAL) == 2) {
 								return;
 							} else {
@@ -1286,16 +750,16 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.HORIZONTAL) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY * this.step)))
+				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * getStep(), (coordY * getStep())))
 						.get(Direction.HORIZONTAL) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY * this.step)))
+				&& this.tabUsed.get(new Point((coordX + cpt_droite) * getStep(), (coordY * getStep())))
 						.get(Direction.HORIZONTAL) < 2) {
 
 			if (cpt_gauche + cpt_droite == 4) {
 				int tempLeft = 1;
 				int tempRight = 1;
-				debut = new Point((coordX - cpt_gauche) * this.step, (coordY * this.step));
-				fin = new Point((coordX + cpt_droite) * this.step, (coordY * this.step));
+				debut = new Point((coordX - cpt_gauche) * getStep(), (coordY * getStep()));
+				fin = new Point((coordX + cpt_droite) * getStep(), (coordY * getStep()));
 				
 
 				if (this.tabUsed.get(debut).get(Direction.HORIZONTAL) == 1) {
@@ -1313,7 +777,7 @@ public class Grid5T {
 				
 
 				for (int i = tempLeft; i <= cpt_gauche; i++) {
-					Point t = new Point((coordX - i) * this.step, (coordY * this.step));
+					Point t = new Point((coordX - i) * getStep(), (coordY * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1325,7 +789,7 @@ public class Grid5T {
 				
 
 				for (int i = tempRight; i <= cpt_droite; i++) {
-					Point t = new Point((coordX + i) * this.step, (coordY * this.step));
+					Point t = new Point((coordX + i) * getStep(), (coordY * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1342,7 +806,7 @@ public class Grid5T {
 
 				line.setP1(debut);
 				line.setP5(fin);
-				this.tabLine.add(line);
+				getTabLine().add(line);
 				
 			}
 		}
@@ -1365,7 +829,7 @@ public class Grid5T {
 		int coordY = ((int) z.getY() / this.getStep());
 		for (int i = 1; i <= 4; i++) {
 			if (!this.getPoints()[coordX + i][coordY + i] || this.tabUsed
-					.get(new Point((coordX + i) * this.step, (coordY + i) * this.step)).get(Direction.DIAGLEFT) == 2) {
+					.get(new Point((coordX + i) * getStep(), (coordY + i) * getStep())).get(Direction.DIAGLEFT) == 2) {
 				for (int a = 1; a <= 4 - cpt_droite; a++) {
 
 					if (!this.getPoints()[coordX - a][coordY - a]) {
@@ -1384,7 +848,7 @@ public class Grid5T {
 					}
 				}
 			} else {
-				if (this.tabUsed.get(new Point((coordX + i) * this.step, (coordY + i) * this.step))
+				if (this.tabUsed.get(new Point((coordX + i) * getStep(), (coordY + i) * getStep()))
 						.get(Direction.DIAGLEFT) < 2) {
 					cpt_droite++;
 
@@ -1399,9 +863,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.DIAGLEFT) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY + cpt_droite) * this.step))
+				&& this.tabUsed.get(new Point((coordX + cpt_droite) * getStep(), (coordY + cpt_droite) * getStep()))
 						.get(Direction.DIAGLEFT) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step))
+				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep()))
 						.get(Direction.DIAGLEFT) < 2) {
 
 
@@ -1410,8 +874,8 @@ public class Grid5T {
 
 				int tempHaut = 1;
 				int tempBas = 1;
-				debut = new Point((coordX + cpt_droite) * this.step, (coordY + cpt_droite) * this.step);
-				fin = new Point((coordX - cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step);
+				debut = new Point((coordX + cpt_droite) * getStep(), (coordY + cpt_droite) * getStep());
+				fin = new Point((coordX - cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep());
 				
 
 				if (this.tabUsed.get(debut).get(Direction.DIAGLEFT) == 1) {
@@ -1429,7 +893,7 @@ public class Grid5T {
 				
 
 				for (int i = tempHaut; i <= cpt_gauche; i++) {
-					Point t = new Point((coordX - i) * this.step, ((coordY - i) * this.step));
+					Point t = new Point((coordX - i) * getStep(), ((coordY - i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1439,7 +903,7 @@ public class Grid5T {
 					}
 				}
 				for (int i = tempBas; i <= cpt_droite; i++) {
-					Point t = new Point((coordX + i) * this.step, ((coordY + i) * this.step));
+					Point t = new Point((coordX + i) * getStep(), ((coordY + i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1455,7 +919,7 @@ public class Grid5T {
 				}
 				line.setP1(debut);
 				line.setP5(fin);
-				this.tabLine.add(line);
+				getTabLine().add(line);
 				
 
 			}
@@ -1467,7 +931,7 @@ public class Grid5T {
 
 	/**
 	 * This method allows to fill tabLine with a start point and an end point (which represent a right diagonal line) 
-	 * if the point chosen by the player is valid. The search begin at right.
+	 * if the point chosen by the player is valid. The search begin at left.
 	 * 
 	 * @param z (Point)
 	 */
@@ -1482,7 +946,7 @@ public class Grid5T {
 		for (int i = 1; i <= 4; i++) {
 
 			if (!this.getPoints()[coordX - i][coordY + i] || this.tabUsed
-					.get(new Point((coordX - i) * this.step, (coordY + i) * this.step)).get(Direction.DIAGRIGHT) == 2) {
+					.get(new Point((coordX - i) * getStep(), (coordY + i) * getStep())).get(Direction.DIAGRIGHT) == 2) {
 				for (int a = 1; a <= 4 - cpt_droite; a++) {
 
 					if (!this.getPoints()[coordX + a][coordY - a]) {
@@ -1501,7 +965,7 @@ public class Grid5T {
 					}
 				}
 			} else {
-				if (this.tabUsed.get(new Point((coordX - i) * this.step, (coordY + i) * this.step))
+				if (this.tabUsed.get(new Point((coordX - i) * getStep(), (coordY + i) * getStep()))
 						.get(Direction.DIAGRIGHT) < 2) {
 					cpt_droite++;
 
@@ -1516,9 +980,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.DIAGRIGHT) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_droite) * this.step, (coordY + cpt_droite) * this.step))
+				&& this.tabUsed.get(new Point((coordX - cpt_droite) * getStep(), (coordY + cpt_droite) * getStep()))
 						.get(Direction.DIAGRIGHT) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step))
+				&& this.tabUsed.get(new Point((coordX + cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep()))
 						.get(Direction.DIAGRIGHT) < 2) {
 
 
@@ -1527,8 +991,8 @@ public class Grid5T {
 
 				int tempHaut = 1;
 				int tempBas = 1;
-				debut = new Point((coordX - cpt_droite) * this.step, (coordY + cpt_droite) * this.step);
-				fin = new Point((coordX + cpt_gauche) * this.step, (coordY - cpt_gauche) * this.step);
+				debut = new Point((coordX - cpt_droite) * getStep(), (coordY + cpt_droite) * getStep());
+				fin = new Point((coordX + cpt_gauche) * getStep(), (coordY - cpt_gauche) * getStep());
 				
 
 				if (this.tabUsed.get(debut).get(Direction.DIAGRIGHT) == 1) {
@@ -1546,7 +1010,7 @@ public class Grid5T {
 				
 
 				for (int i = tempHaut; i <= cpt_gauche; i++) {
-					Point t = new Point((coordX + i) * this.step, ((coordY - i) * this.step));
+					Point t = new Point((coordX + i) * getStep(), ((coordY - i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1556,7 +1020,7 @@ public class Grid5T {
 					}
 				}
 				for (int i = tempBas; i <= cpt_droite; i++) {
-					Point t = new Point((coordX - i) * this.step, ((coordY + i) * this.step));
+					Point t = new Point((coordX - i) * getStep(), ((coordY + i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1572,7 +1036,7 @@ public class Grid5T {
 				}
 				line.setP1(debut);
 				line.setP5(fin);
-				this.tabLine.add(line);
+				getTabLine().add(line);
 				
 
 			}
@@ -1599,7 +1063,7 @@ public class Grid5T {
 		for (int i = 1; i <= 4; i++) {
 
 			if (!this.getPoints()[coordX][coordY + i] || this.tabUsed
-					.get(new Point(coordX * this.step, (coordY + i) * this.step)).get(Direction.VERTICAL) == 2) {
+					.get(new Point(coordX * getStep(), (coordY + i) * getStep())).get(Direction.VERTICAL) == 2) {
 				for (int a = 1; a <= 4 - cpt_bas; a++) {
 
 					if (!this.getPoints()[coordX][coordY - a]) {
@@ -1618,7 +1082,7 @@ public class Grid5T {
 					}
 				}
 			} else {
-				if (this.tabUsed.get(new Point(coordX * this.step, (coordY + i) * this.step))
+				if (this.tabUsed.get(new Point(coordX * getStep(), (coordY + i) * getStep()))
 						.get(Direction.VERTICAL) < 2) {
 					cpt_bas++;
 
@@ -1633,9 +1097,9 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.VERTICAL) < 2
-				&& this.tabUsed.get(new Point((coordX * this.step), (coordY + cpt_bas) * this.step))
+				&& this.tabUsed.get(new Point((coordX * getStep()), (coordY + cpt_bas) * getStep()))
 						.get(Direction.VERTICAL) < 2
-				&& this.tabUsed.get(new Point((coordX * this.step), (coordY - cpt_haut) * this.step))
+				&& this.tabUsed.get(new Point((coordX * getStep()), (coordY - cpt_haut) * getStep()))
 						.get(Direction.VERTICAL) < 2) {
 
 
@@ -1644,8 +1108,8 @@ public class Grid5T {
 
 				int tempHaut = 1;
 				int tempBas = 1;
-				debut = new Point((coordX * this.step), (coordY + cpt_bas) * this.step);
-				fin = new Point((coordX * this.step), (coordY - cpt_haut) * this.step);
+				debut = new Point((coordX * getStep()), (coordY + cpt_bas) * getStep());
+				fin = new Point((coordX * getStep()), (coordY - cpt_haut) * getStep());
 				
 
 				if (this.tabUsed.get(debut).get(Direction.VERTICAL) == 1) {
@@ -1663,7 +1127,7 @@ public class Grid5T {
 				
 
 				for (int i = tempHaut; i <= cpt_haut; i++) {
-					Point t = new Point((coordX) * this.step, ((coordY - i) * this.step));
+					Point t = new Point((coordX) * getStep(), ((coordY - i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1673,7 +1137,7 @@ public class Grid5T {
 					}
 				}
 				for (int i = tempBas; i <= cpt_bas; i++) {
-					Point t = new Point((coordX) * this.step, ((coordY + i) * this.step));
+					Point t = new Point((coordX) * getStep(), ((coordY + i) * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1689,7 +1153,7 @@ public class Grid5T {
 				}
 				line.setP1(debut);
 				line.setP5(fin);
-				this.tabLine.add(line);
+				getTabLine().add(line);
 				
 
 			}
@@ -1713,13 +1177,13 @@ public class Grid5T {
 		Line line = new Line(null, null, null, null, null);
 
 		for (int i = 1; i <= 4; i++) {
-			if (coordX + i < this.nbColumn && coordY >= 0) {
+			if (coordX + i < this.getNbColumn() && coordY >= 0) {
 				if (!this.getPoints()[coordX + i][coordY] || this.tabUsed
-						.get(new Point((coordX + i) * this.step, coordY * this.step)).get(Direction.HORIZONTAL) == 2) {
+						.get(new Point((coordX + i) * getStep(), coordY * getStep())).get(Direction.HORIZONTAL) == 2) {
 					for (int a = 1; a <= 4 - cpt_droite; a++) {
-						if (coordX + a < this.nbColumn && coordY >= 0) {
+						if (coordX + a < this.getNbColumn() && coordY >= 0) {
 							if (!this.getPoints()[coordX - a][coordY]
-									|| this.tabUsed.get(new Point((coordX - a) * this.step, coordY * this.step))
+									|| this.tabUsed.get(new Point((coordX - a) * getStep(), coordY * getStep()))
 											.get(Direction.HORIZONTAL) == 2) {
 
 								return;
@@ -1744,17 +1208,17 @@ public class Grid5T {
 
 		}
 		if (this.tabUsed.get(z).get(Direction.HORIZONTAL) < 2
-				&& this.tabUsed.get(new Point((coordX + cpt_droite) * this.step, (coordY * this.step)))
+				&& this.tabUsed.get(new Point((coordX + cpt_droite) * getStep(), (coordY * getStep())))
 						.get(Direction.HORIZONTAL) < 2
-				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * this.step, (coordY * this.step)))
+				&& this.tabUsed.get(new Point((coordX - cpt_gauche) * getStep(), (coordY * getStep())))
 						.get(Direction.HORIZONTAL) < 2) {
 
 			if (cpt_gauche + cpt_droite == 4) {
 
 				int tempLeft = 1;
 				int tempRight = 1;
-				debut = new Point((coordX + cpt_droite) * this.step, (coordY * this.step));
-				fin = new Point((coordX - cpt_gauche) * this.step, (coordY * this.step));
+				debut = new Point((coordX + cpt_droite) * getStep(), (coordY * getStep()));
+				fin = new Point((coordX - cpt_gauche) * getStep(), (coordY * getStep()));
 				
 
 				if (this.tabUsed.get(debut).get(Direction.HORIZONTAL) == 1) {
@@ -1772,7 +1236,7 @@ public class Grid5T {
 				
 
 				for (int i = tempLeft; i <= cpt_gauche; i++) {
-					Point t = new Point((coordX - i) * this.step, (coordY * this.step));
+					Point t = new Point((coordX - i) * getStep(), (coordY * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1784,7 +1248,7 @@ public class Grid5T {
 				
 
 				for (int i = tempRight; i <= cpt_droite; i++) {
-					Point t = new Point((coordX + i) * this.step, (coordY * this.step));
+					Point t = new Point((coordX + i) * getStep(), (coordY * getStep()));
 					if ((!t.equals(debut) && !t.equals(fin))) {
 						
 
@@ -1801,7 +1265,7 @@ public class Grid5T {
 
 				line.setP1(debut);
 				line.setP5(fin);
-				this.tabLine.add(line);
+				getTabLine().add(line);
 				
 
 			}
@@ -1818,17 +1282,17 @@ public class Grid5T {
 	 * (Point)
 	 */
 	public void possibleDirectionOnClick(Point z) {
-		this.possibleDirection.replace(Direction.VERTICAL_BOTTOM, false);
-		this.possibleDirection.replace(Direction.VERTICAL_TOP, false);
+		getPossibleDirection().replace(Direction.VERTICAL_BOTTOM, false);
+		getPossibleDirection().replace(Direction.VERTICAL_TOP, false);
 
-		this.possibleDirection.replace(Direction.HORIZONTAL_LEFT, false);
-		this.possibleDirection.replace(Direction.HORIZONTAL_RIGHT, false);
+		getPossibleDirection().replace(Direction.HORIZONTAL_LEFT, false);
+		getPossibleDirection().replace(Direction.HORIZONTAL_RIGHT, false);
 
-		this.possibleDirection.replace(Direction.DIAGLEFT_TOPLEFT, false);
-		this.possibleDirection.replace(Direction.DIAGLEFT_BOTTOMRIGHT, false);
+		getPossibleDirection().replace(Direction.DIAGLEFT_TOPLEFT, false);
+		getPossibleDirection().replace(Direction.DIAGLEFT_BOTTOMRIGHT, false);
 
-		this.possibleDirection.replace(Direction.DIAGRIGHT_BOTTOMLEFT, false);
-		this.possibleDirection.replace(Direction.DIAGRIGHT_TOPRIGHT, false);
+		getPossibleDirection().replace(Direction.DIAGRIGHT_BOTTOMLEFT, false);
+		getPossibleDirection().replace(Direction.DIAGRIGHT_TOPRIGHT, false);
 
 		
 
@@ -1847,10 +1311,10 @@ public class Grid5T {
 
 		}
 
-		List<Line> t1 = new ArrayList<Line>();
-		List<Line> t2 = new ArrayList<Line>();
+		ArrayList<Line> t1 = new ArrayList<Line>();
+		ArrayList<Line> t2 = new ArrayList<Line>();
 
-		for(Line a:this.tabLine) {
+		for(Line a:getTabLine()) {
 			t1.add(a);
 			t2.add(a);
 		}
@@ -1861,38 +1325,38 @@ public class Grid5T {
 		  getStep()] && checkPossibleMoveDiagonalLeft(z)==true) {
 		  
 		  this.drawMoveDiagonalLeft(z); Point p1=
-		  this.tabLine.get(this.tabLine.size()-1).getP1(); Point p2=
-		  this.tabLine.get(this.tabLine.size()-1).getP5(); if(tabLine.size()>0)
-		  this.tabLine.remove(this.tabLine.size()-1); 
+		  getTabLine().get(getTabLine().size()-1).getP1(); Point p2=
+		  getTabLine().get(getTabLine().size()-1).getP5(); if(getTabLine().size()>0)
+		  getTabLine().remove(getTabLine().size()-1); 
 			this.setTabLine(t1);
 			this.tabUsed = new HashMap<>(shallowCopy1);
 		  
 		  this.drawMoveDiagonalLeft2(z); Point p12=
-		  this.tabLine.get(this.tabLine.size()-1).getP1(); Point p22=
-		  this.tabLine.get(this.tabLine.size()-1).getP5(); if(tabLine.size()>0)
-		  this.tabLine.remove(this.tabLine.size()-1);
+		  getTabLine().get(getTabLine().size()-1).getP1(); Point p22=
+		  getTabLine().get(getTabLine().size()-1).getP5(); if(getTabLine().size()>0)
+		  getTabLine().remove(getTabLine().size()-1);
 		  if(!((p1.equals(p12)||p1.equals(p22))&&(p2.equals(p12)||p2.equals(p22)))) {
-		  this.possibleDirection.replace(Direction.DIAGLEFT_BOTTOMRIGHT, true);
-		  this.possibleDirection.replace(Direction.DIAGLEFT_TOPLEFT, true); }else {
-		  this.possibleDirection.replace(Direction.DIAGLEFT_BOTTOMRIGHT, true); }
+		  getPossibleDirection().replace(Direction.DIAGLEFT_BOTTOMRIGHT, true);
+		  getPossibleDirection().replace(Direction.DIAGLEFT_TOPLEFT, true); }else {
+		  getPossibleDirection().replace(Direction.DIAGLEFT_BOTTOMRIGHT, true); }
 			this.setTabLine(t2);
 			this.tabUsed = new HashMap<>(shallowCopy2);		  
 		  } if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.
 		  getStep()] && checkPossibleMoveDiagonalRight(z)==true) {
 		  this.drawMoveDiagonalRight(z); Point p1=
-		  this.tabLine.get(this.tabLine.size()-1).getP1(); Point p2=
-		  this.tabLine.get(this.tabLine.size()-1).getP5();
-		  this.tabLine.remove(this.tabLine.size()-1); 
+		  getTabLine().get(getTabLine().size()-1).getP1(); Point p2=
+		  getTabLine().get(getTabLine().size()-1).getP5();
+		  getTabLine().remove(getTabLine().size()-1); 
 			this.setTabLine(t1);
 			this.tabUsed = new HashMap<>(shallowCopy1);
 		  this.drawMoveDiagonalRight2(z);
-		  Point p12= this.tabLine.get(this.tabLine.size()-1).getP1(); Point p22=
-		  this.tabLine.get(this.tabLine.size()-1).getP5();
-		  this.tabLine.remove(this.tabLine.size()-1);
+		  Point p12= getTabLine().get(getTabLine().size()-1).getP1(); Point p22=
+		  getTabLine().get(getTabLine().size()-1).getP5();
+		  getTabLine().remove(getTabLine().size()-1);
 		  if(!((p1.equals(p12)||p1.equals(p22))&&(p2.equals(p12)||p2.equals(p22)))) {
-		  this.possibleDirection.replace(Direction.DIAGRIGHT_BOTTOMLEFT, true);
-		  this.possibleDirection.replace(Direction.DIAGRIGHT_TOPRIGHT, true); }else {
-		  this.possibleDirection.replace(Direction.DIAGRIGHT_BOTTOMLEFT, true); }
+		  getPossibleDirection().replace(Direction.DIAGRIGHT_BOTTOMLEFT, true);
+		  getPossibleDirection().replace(Direction.DIAGRIGHT_TOPRIGHT, true); }else {
+		  getPossibleDirection().replace(Direction.DIAGRIGHT_BOTTOMLEFT, true); }
 			this.setTabLine(t2);
 			this.tabUsed = new HashMap<>(shallowCopy2);
 			}
@@ -1907,10 +1371,10 @@ public class Grid5T {
 			Point p22 = null;
 			
 
-			if (this.tabLine.size() > 0) {
-				p1 = this.tabLine.get(this.tabLine.size() - 1).getP1();
-				p2 = this.tabLine.get(this.tabLine.size() - 1).getP5();
-				this.tabLine.remove(this.tabLine.size() - 1);
+			if (getTabLine().size() > 0) {
+				p1 = getTabLine().get(getTabLine().size() - 1).getP1();
+				p2 = getTabLine().get(getTabLine().size() - 1).getP5();
+				getTabLine().remove(getTabLine().size() - 1);
 
 			}
 			this.setTabLine(t1);
@@ -1918,20 +1382,20 @@ public class Grid5T {
 			this.drawMoveHorizontal2(z);
 			
 
-			if (this.tabLine.size() > 0) {
-				p12 = this.tabLine.get(this.tabLine.size() - 1).getP1();
-				p22 = this.tabLine.get(this.tabLine.size() - 1).getP5();
-				this.tabLine.remove(this.tabLine.size() - 1);
+			if (getTabLine().size() > 0) {
+				p12 = getTabLine().get(getTabLine().size() - 1).getP1();
+				p22 = getTabLine().get(getTabLine().size() - 1).getP5();
+				getTabLine().remove(getTabLine().size() - 1);
 			}
 			
 
 			if (!((p1.equals(p12) || p1.equals(p22)) && (p2.equals(p12) || p2.equals(p22)))) {
-				this.possibleDirection.replace(Direction.HORIZONTAL_LEFT, true);
-				this.possibleDirection.replace(Direction.HORIZONTAL_RIGHT, true);
+				getPossibleDirection().replace(Direction.HORIZONTAL_LEFT, true);
+				getPossibleDirection().replace(Direction.HORIZONTAL_RIGHT, true);
 			}
 
 			else {
-				this.possibleDirection.replace(Direction.HORIZONTAL_LEFT, true);
+				getPossibleDirection().replace(Direction.HORIZONTAL_LEFT, true);
 			}
 			this.setTabLine(t2);
 			this.tabUsed = new HashMap<>(shallowCopy2);
@@ -1941,20 +1405,20 @@ public class Grid5T {
 			  if(!this.getPoints()[((int)z.getX()/this.getStep())][(int)z.getY()/this.
 			  getStep()] && checkPossibleMoveVertical(z)==true) {
 			  this.drawMoveVertical(z); Point p1=
-			  this.tabLine.get(this.tabLine.size()-1).getP1(); Point p2=
-			  this.tabLine.get(this.tabLine.size()-1).getP5();
-			  this.tabLine.remove(this.tabLine.size()-1); 
+			  getTabLine().get(getTabLine().size()-1).getP1(); Point p2=
+			  getTabLine().get(getTabLine().size()-1).getP5();
+			  getTabLine().remove(getTabLine().size()-1); 
 				this.setTabLine(t1);
 				this.tabUsed = new HashMap<>(shallowCopy1);
 			  this.drawMoveVertical2(z); Point
-			  p12= this.tabLine.get(this.tabLine.size()-1).getP1(); Point p22=
-			  this.tabLine.get(this.tabLine.size()-1).getP5();
-			  this.tabLine.remove(this.tabLine.size()-1);
+			  p12= getTabLine().get(getTabLine().size()-1).getP1(); Point p22=
+			  getTabLine().get(getTabLine().size()-1).getP5();
+			  getTabLine().remove(getTabLine().size()-1);
 			  if(!((p1.equals(p12)||p1.equals(p22))&&(p2.equals(p12)||p2.equals(p22)))) {
-			  this.possibleDirection.replace(Direction.VERTICAL_BOTTOM, true);
-			  this.possibleDirection.replace(Direction.VERTICAL_TOP, true); }
+			  getPossibleDirection().replace(Direction.VERTICAL_BOTTOM, true);
+			  getPossibleDirection().replace(Direction.VERTICAL_TOP, true); }
 			  else {
-			  this.possibleDirection.replace(Direction.VERTICAL_BOTTOM, true);
+			  getPossibleDirection().replace(Direction.VERTICAL_BOTTOM, true);
 			  } 
 				this.setTabLine(t2);
 				this.tabUsed = new HashMap<>(shallowCopy2);
