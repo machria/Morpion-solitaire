@@ -93,14 +93,18 @@ public class Game5T {
 		this.scoreView.getSolution().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				grid.pointAvailable();
-				while(!grid.getPotentialMove().isEmpty()) {
-					grid.NMCS();
-					grid.pointAvailable();
-	                gridView.repaint();
-	                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
-	                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
-	                
+				while(grid.getPointUser().size()<20) {
+					grid.reset();
+					while(!grid.getPotentialMove().isEmpty()) {
+						grid.updateIA();
+						grid.pointAvailable();
+		                gridView.repaint();
+		                scoreView.getScore_computeur().setText(grid.getScore().getScore_computeur()+"");
+		                scoreView.getScore_joueur().setText(grid.getScore().getScore_joueur()+"");
+		                
+					}
 				}
+				
 			}
 			
 		});

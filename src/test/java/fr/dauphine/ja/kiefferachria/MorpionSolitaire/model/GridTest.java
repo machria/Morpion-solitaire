@@ -2,7 +2,6 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
 import java.awt.Point;
 
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.AppTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -36,13 +35,10 @@ public class GridTest extends TestCase {
 		for(int i = 0;i<grid.getNbLine();i++) {
 			for(int j = 0;j<grid.getNbColumn();j++) {
 				Point z = new Point(i*grid.getStep(),j*grid.getStep());
-				//try {
 					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
 						count++;
 					}
-				//}catch(ArrayIndexOutOfBoundsException e) {
-				//	System.out.println();
-				//}
+				
 				
 			}
 		}
@@ -61,13 +57,10 @@ public class GridTest extends TestCase {
 		for(int i = 0;i<grid.getNbLine();i++) {
 			for(int j = 0;j<grid.getNbColumn();j++) {
 				Point z = new Point(i*grid.getStep(),j*grid.getStep());
-				//try {
 					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
 						count++;
 					}
-				//}catch(ArrayIndexOutOfBoundsException e) {
-				//	System.out.println();
-				//}
+				
 				
 			}
 		}
@@ -86,13 +79,10 @@ public class GridTest extends TestCase {
 		for(int i = 0;i<grid.getNbLine();i++) {
 			for(int j = 0;j<grid.getNbColumn();j++) {
 				Point z = new Point(i*grid.getStep(),j*grid.getStep());
-				//try {
 					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
 						count++;
 					}
-				//}catch(ArrayIndexOutOfBoundsException e) {
-				//	System.out.println();
-				//}
+				
 				
 			}
 		}
@@ -160,7 +150,7 @@ public class GridTest extends TestCase {
     /**
      * Test our algorithm which generate solution ten times and print the best score
      */
-    public void test10NMCS()
+    public void testNMCS()
     {
     	final Grid5D grid = new Grid5D(880,880,40);
     	for(int i=0;i<1;i++) {
@@ -178,14 +168,25 @@ public class GridTest extends TestCase {
     		if(max<grid.getScoreHistory().get(i))
     			max=grid.getScoreHistory().get(i);
     	}
-    	System.out.println(max);
+    	int count=0;
+		for(int i = 0;i<grid.getNbLine();i++) {
+			for(int j = 0;j<grid.getNbColumn();j++) {
+				Point z = new Point(i*grid.getStep(),j*grid.getStep());
+					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
+						count++;
+					}
+				
+				
+			}
+		}
+		assertTrue(count==37);
 
     }
     
     /**
      * Test our algorithm which generate solution ten times and print the best score
      */
-    public void test10NMCS2()
+    public void testNMCS2()
     {
     	final Grid5D grid = new Grid5D(880,880,40);
     	for(int i=0;i<1;i++) {
@@ -203,14 +204,25 @@ public class GridTest extends TestCase {
     		if(max<grid.getScoreHistory().get(i).intValue())
     			max=grid.getScoreHistory().get(i).intValue();
     	}
-    	System.out.println(max);
+    	int count=0;
+		for(int i = 0;i<grid.getNbLine();i++) {
+			for(int j = 0;j<grid.getNbColumn();j++) {
+				Point z = new Point(i*grid.getStep(),j*grid.getStep());
+					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
+						count++;
+					}
+				
+				
+			}
+		}
+		assertTrue(count==37);
 
     }
     
     /**
      * Test our algorithm which generate solution ten times and print the best score
      */
-    public void test10NMCS3()
+    public void testNMCS3()
     {
     	final Grid5D grid = new Grid5D(880,880,40);
     	for(int i=0;i<1;i++) {
@@ -228,14 +240,25 @@ public class GridTest extends TestCase {
     		if(max<grid.getScoreHistory().get(i).intValue())
     			max=grid.getScoreHistory().get(i).intValue();
     	}
-    	System.out.println(max);
+    	int count=0;
+		for(int i = 0;i<grid.getNbLine();i++) {
+			for(int j = 0;j<grid.getNbColumn();j++) {
+				Point z = new Point(i*grid.getStep(),j*grid.getStep());
+					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
+						count++;
+					}
+				
+				
+			}
+		}
+		assertTrue(count==37);
 
     }
     
     /**
      * Test algorithm who take a random point which generate solution ten times and print the best score
      */
-    public void test10IA()
+    public void testIA()
     {
     	final Grid5D grid = new Grid5D(880,880,40);
     	for(int i=0;i<1;i++) {
@@ -254,7 +277,18 @@ public class GridTest extends TestCase {
     			max=grid.getScoreHistory().get(i).intValue();
     	}
     	System.out.println(max);
-
+    	int count=0;
+		for(int i = 0;i<grid.getNbLine();i++) {
+			for(int j = 0;j<grid.getNbColumn();j++) {
+				Point z = new Point(i*grid.getStep(),j*grid.getStep());
+					if(grid.getPoints()[((int)z.getX()/grid.getStep())][(int)z.getY()/grid.getStep()] ) {
+						count++;
+					}
+				
+				
+			}
+		}
+		assertTrue(count==37);
     }
     
 }

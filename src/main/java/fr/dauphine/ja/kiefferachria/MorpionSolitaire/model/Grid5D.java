@@ -775,6 +775,7 @@ public class Grid5D {
 	 * Another try of implementation of IA algorithm
 	 */
 	public void NMCS4() {
+		
 		long endTimeMillis = System.currentTimeMillis() + 10000;
 		this.pointAvailable();
 		int max = -1;
@@ -802,6 +803,9 @@ public class Grid5D {
 		} while (max < this.simBestScore && System.currentTimeMillis() > endTimeMillis);
 		this.simBestScore = maxlocal;
 
+		
+		
+		
 		if (!this.potentialMove.isEmpty()) {
 			Point x = this.potentialMove.get(indice);
 			this.updateGrid(x, "IA");

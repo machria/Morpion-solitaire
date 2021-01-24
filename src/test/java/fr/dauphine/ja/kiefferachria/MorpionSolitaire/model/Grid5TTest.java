@@ -2,7 +2,6 @@ package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
 import java.awt.Point;
 
-import fr.dauphine.ja.kiefferachria.MorpionSolitaire.AppTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
