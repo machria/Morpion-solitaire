@@ -93,14 +93,14 @@ public class MenuView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.add(this.reset = new JButton("RESET",new ImageIcon(this.getClass().getResource("src/main/img/reset.png"))),c);
+		this.add(this.reset = new JButton("RESET",new ImageIcon("src/main/img/reset.png")),c);
 		c.gridx=0;
 		c.gridy=6;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.help = new JButton("HELP",new ImageIcon(this.getClass().getResource("src/main/img/help.png")));
+		this.help = new JButton("HELP",new ImageIcon("src/main/img/help.png"));
 		this.add(this.help ,c);
 		c.gridx=0;
 		c.gridy=7;
@@ -108,7 +108,7 @@ public class MenuView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.solution = new JButton("SOLUTION",new ImageIcon(this.getClass().getResource("src/main/img/solution.png")));
+		this.solution = new JButton("SOLUTION",new ImageIcon("src/main/img/solution.png"));
 		this.add(this.solution ,c);
 		c.gridx=0;
 		c.gridy=8;
@@ -116,7 +116,7 @@ public class MenuView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.sauvegarder = new JButton("SAVE",new ImageIcon(this.getClass().getResource("src/main/img/save2.png")));
+		this.sauvegarder = new JButton("SAVE",new ImageIcon("src/main/img/save2.png"));
 		this.add(this.sauvegarder  ,c);
 		c.gridx=0;
 		c.gridy=9;
@@ -124,7 +124,7 @@ public class MenuView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.importer = new JButton("IMPORT",new ImageIcon(this.getClass().getResource("src/main/img/import.png")) );
+		this.importer = new JButton("IMPORT",new ImageIcon("src/main/img/import.png") );
 		this.add(this.importer ,c);
 
 		c.gridx=0;
@@ -133,7 +133,7 @@ public class MenuView extends JPanel {
 		c.gridwidth=1;
 		c.weightx = 0.1;
 		c.weighty = 0.1;
-		this.scoreDistrib = new JButton("DISTRIBUTION", new ImageIcon(this.getClass().getResource("src/main/img/distribution.png")));
+		this.scoreDistrib = new JButton("DISTRIBUTION", new ImageIcon("src/main/img/distribution.png"));
 		this.add(this.scoreDistrib,c);
 		this.setBackground(Color.CYAN);
 		
