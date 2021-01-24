@@ -169,7 +169,7 @@
   <target name="javadoc" description="Generates the Javadoc of the application">
     <javadoc sourcepath="${maven.build.srcDir.0}" 
              packagenames="*" 
-             destdir="javadoc" 
+             destdir="docs/doc" 
              access="protected" 
              old="false" 
              verbose="false" 
