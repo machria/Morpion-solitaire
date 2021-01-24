@@ -378,9 +378,9 @@ public abstract class Grid {
 	}
 
 ////////////////////
-//		  //
-//Update methods //
-//		  //
+//		  		  //
+// Update methods //
+//		  		  //
 ////////////////////
 
 	/**
@@ -516,9 +516,9 @@ public abstract class Grid {
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	  //
-//Methods which allow to capture the possible points and also to capture the possible points with respect to a point //
-//	  //
+//	  																												  //
+// Methods which allow to capture the possible points and also to capture the possible points with respect to a point //
+//	  																												  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

@@ -1,20 +1,11 @@
 package fr.dauphine.ja.kiefferachria.MorpionSolitaire.model;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+
 
 
 import java.util.HashMap;
