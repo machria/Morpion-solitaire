@@ -69,7 +69,15 @@
       </src>
       <classpath refid="build.classpath"/>
     </javac>
+	<copy todir="target/img/" >
+      <fileset dir="img" >
+        <include name="*.*"/>
+      </fileset>
+    </copy>
   </target>
+
+
+
 
   <!-- ====================================================================== -->
   <!-- Test-compilation target                                                -->
